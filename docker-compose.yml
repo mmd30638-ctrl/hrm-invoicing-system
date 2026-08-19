@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: hrm-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: aponshop_hrm
+      MYSQL_USER: Adminmamun
+      MYSQL_PASSWORD: Mdmamun@221
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - hrm-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: hrm-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - hrm-network
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: hrm-app
+    environment:
+      NODE_ENV: development
+      DB_HOST: mysql
+      DB_USER: Adminmamun
+      DB_PASSWORD: Mdmamun@221
+      DB_NAME: aponshop_hrm
+      REDIS_HOST: redis
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mysql
+      - redis
+    volumes:
+      - .:/app
+      - /app/node_modules
+    networks:
+      - hrm-network
+    command: npm run dev
+
+volumes:
+  mysql_data:
+
+networks:
+  hrm-network:
+    driver: bridge
