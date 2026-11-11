@@ -1,0 +1,59 @@
+/* মেমোর উপরের লাইন: সোনালি ছায়া বাদ, এক রঙের স্পষ্ট অক্ষর। টাকার অঙ্ক বদলায় না। */
+.ame-logo-eid,
+.ame-memo-side,
+.memo-shop-name,
+.memo-shop-desc {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    white-space: normal !important;
+    overflow: visible !important;
+    word-break: break-word !important;
+}
+.ame-logo-eid {
+    color: #9B1C1C !important;
+    -webkit-text-fill-color: #9B1C1C !important;
+    -webkit-text-stroke: 0 !important;
+    paint-order: normal !important;
+    text-shadow: none !important;
+    font-weight: 900 !important;
+    letter-spacing: 0 !important;
+    line-height: 1.5 !important;
+}
+
+@media screen {
+    .ame-logo-eid {
+        font-size: 18px !important;
+    }
+    .ame-memo-side {
+        color: #0B3A82 !important;
+        -webkit-text-fill-color: #0B3A82 !important;
+        text-shadow: none !important;
+        font-size: 16px !important;
+        font-weight: 800 !important;
+        line-height: 1.5 !important;
+        letter-spacing: 0 !important;
+    }
+    .memo-shop-desc,
+    .memo-shop-phone {
+        color: #111827 !important;
+        -webkit-text-fill-color: #111827 !important;
+        text-shadow: none !important;
+        font-size: 15px !important;
+        font-weight: 800 !important;
+        line-height: 1.45 !important;
+    }
+    .memo-meta-item .lbl,
+    .memo-table .sku-text,
+    .memo-foot,
+    .ame-op-stamp,
+    .ame-op-stamp p {
+        color: #0B1E4D !important;
+        -webkit-text-fill-color: #0B1E4D !important;
+        text-shadow: none !important;
+        font-size: 14px !important;
+        font-weight: 800 !important;
+        line-height: 1.45 !important;
+    }
+}
