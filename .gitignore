@@ -41,5 +41,9 @@ logs/
 /ecosystem.config.js
 .pm2/
 
+# Memo return local secrets and runtime
+/memo-return/config.local.php
+/memo-return/storage/
+
 # OS
 Thumbs.db
