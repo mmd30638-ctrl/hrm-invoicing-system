@@ -1,0 +1,108 @@
+:root {
+    --desk-navy: #003f8f;
+    --desk-blue: #0057b8;
+    --desk-green: #04933a;
+    --desk-line: #d7dee8;
+    --desk-text: #111827;
+    --desk-muted: #667085;
+    --desk-canvas: #f4f7fb;
+}
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    background: var(--desk-canvas);
+    color: var(--desk-text);
+    font-family: "Noto Sans Bengali", "Segoe UI", sans-serif;
+}
+.desk { max-width: 920px; margin: 0 auto; padding: 20px 16px 40px; }
+.desk h1 { margin: 0 0 6px; font-size: 22px; color: var(--desk-navy); }
+.desk p.lead { margin: 0 0 16px; color: var(--desk-muted); }
+.panel, .sheet-wrap {
+    background: #fff;
+    border: 1px solid var(--desk-line);
+    border-radius: 12px;
+    padding: 16px;
+}
+label { display: block; font-size: 13px; margin-bottom: 6px; }
+input[type="text"], input[type="password"], input[type="number"] {
+    width: 100%;
+    border: 1px solid var(--desk-line);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font: inherit;
+}
+button, .share-bar a, .share-bar button {
+    border: 0;
+    background: var(--desk-navy);
+    color: #fff;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font: inherit;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+}
+.alert { background: #fff4f4; color: #9f1239; border-radius: 8px; padding: 10px 12px; margin-bottom: 12px; }
+.lines { width: 100%; border-collapse: collapse; margin: 12px 0; }
+.lines th, .lines td { border-bottom: 1px solid var(--desk-line); padding: 8px; text-align: left; }
+.num { text-align: right; font-variant-numeric: tabular-nums; }
+.totals { margin-top: 8px; }
+.totals div { display: flex; justify-content: space-between; padding: 4px 0; }
+.totals .grand { font-weight: 700; color: var(--desk-navy); border-top: 2px solid var(--desk-navy); margin-top: 4px; padding-top: 8px; }
+
+.sheet-wrap { max-width: 860px; margin: 16px auto; padding: 18px; }
+#memo-container {
+    position: relative;
+    background: #fff;
+    color: #111;
+    border: 1px solid #111;
+    padding: 16px 16px 8px;
+}
+.header-table, .party-table, .memo-table, .summary-table, .sign-table { width: 100%; border-collapse: collapse; }
+.header-table td { vertical-align: top; }
+.logo-cell { width: 88px; }
+.ame-print-logo { width: 72px; height: 72px; object-fit: contain; }
+.shop-cell { text-align: center; }
+.shop-name { font-size: 26px; font-weight: 800; color: var(--desk-navy); letter-spacing: 0; }
+.shop-tag { color: var(--desk-green); font-weight: 700; margin: 2px 0 4px; }
+.meta-cell { width: 210px; text-align: right; font-size: 13px; line-height: 1.45; }
+.doc-kind {
+    display: inline-block;
+    background: var(--desk-navy);
+    color: #fff;
+    font-weight: 800;
+    padding: 4px 8px;
+    margin-bottom: 6px;
+}
+.party-table { margin: 10px 0; }
+.party-table td { border: 1px solid #111; padding: 6px 8px; }
+.memo-table th, .memo-table td { border: 1px solid #111; padding: 6px 8px; }
+.memo-table th { background: #e8eef8; color: var(--desk-navy); }
+.summary-table { width: 320px; margin-left: auto; margin-top: 10px; }
+.summary-table td { border: 1px solid #111; padding: 6px 8px; }
+.summary-table .total-row td { background: var(--desk-navy); color: #fff; font-weight: 800; font-size: 16px; }
+.memo-note { font-size: 12px; color: #333; }
+.sign-table { margin-top: 28px; }
+.sign-table td { width: 50%; text-align: center; padding-top: 28px; }
+.void-stamp {
+    position: absolute;
+    top: 42%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-18deg);
+    border: 4px solid #b91c1c;
+    color: #b91c1c;
+    font-size: 42px;
+    font-weight: 800;
+    padding: 4px 16px;
+    opacity: 0.8;
+}
+.share-bar { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; align-items: center; }
+.share-bar a, .share-bar button { background: var(--desk-green); }
+.share-bar [data-act="print"] { background: var(--desk-navy); }
+.share-link { flex-basis: 100%; margin: 0; color: var(--desk-muted); font-size: 12px; word-break: break-all; }
+@media print {
+    body { background: #fff; }
+    .no-print, .desk-nav { display: none !important; }
+    .sheet-wrap { border: 0; margin: 0; padding: 0; max-width: none; }
+    #memo-container { border: 1px solid #000; }
+}
