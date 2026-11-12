@@ -1185,124 +1185,354 @@ html body.ame-customer-payment-page #main-content .ame-pay-sec .ame-pay-sec-inpu
   box-shadow: 0 0 0 3px rgba(15, 118, 110, .12);
 }
 
-/* Customer payment desk — same books, the receive screen layout. */
+/* Customer payment desk — full-width receive form, books underneath. */
+html body.ame-customer-payment-page,
+html body.ame-customer-payment-page #main-content {
+  background: #f4f7fb !important;
+  background-color: #f4f7fb !important;
+}
 .cpd-desk {
-  display: grid;
-  grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
-  gap: 16px;
-  align-items: start;
-  padding: 12px 16px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  max-width: 100%;
+  padding: 4px 2px 28px;
+  box-sizing: border-box;
+}
+.cpd-panel,
+.cpd-balbox,
+.cpd-preview,
+.cpd-input,
+.cpd-readonly,
+.cpd-balance,
+.cpd .method-trigger,
+.cpd .method-panel,
+.cpd .method-option,
+.cpd .cpay-badge,
+.cpd .cpay-avatar,
+.cpd .cpay-results {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  background-image: none !important;
 }
 .cpd-panel {
-  background: #fff;
-  border: 1px solid #d7dee8;
-  border-radius: 6px;
-  padding: 14px;
+  border: 1px solid #e3eaf3;
+  border-radius: 14px;
+  padding: 16px 18px 18px;
+  box-shadow: 0 8px 24px rgba(15, 35, 80, 0.05);
 }
-.cpd-form h1,
-.cpd-books h2 {
-  margin: 0 0 10px;
-  font-size: 16px;
-  color: #0f172a;
+.cpd-form h1 {
+  margin: 0 0 14px;
+  font-size: clamp(22px, 2vw, 30px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #0b3d91;
+  -webkit-text-fill-color: #0b3d91;
+  line-height: 1.2;
 }
-.cpd-books h2 {
-  margin-top: 16px;
-  font-size: 15px;
+.cpd-h-pay,
+.cpd-h-due {
+  margin: 0 0 12px;
+  font-size: clamp(18px, 1.5vw, 22px);
+  font-weight: 800;
 }
-.cpd-books h2:first-child { margin-top: 0; }
+.cpd-h-pay { color: #0b3d91; -webkit-text-fill-color: #0b3d91; }
+.cpd-h-due { color: #0f766e; -webkit-text-fill-color: #0f766e; }
+.cpd-top {
+  display: grid;
+  grid-template-columns: minmax(240px, 340px) minmax(0, 1fr) minmax(190px, 250px);
+  gap: 14px;
+  align-items: stretch;
+}
 .cpd-search {
   display: flex;
   gap: 8px;
   position: relative;
-  margin-bottom: 12px;
+  align-items: flex-start;
 }
-.cpd-search input {
-  flex: 1;
-  min-width: 0;
-  border: 1px solid #cbd5e1;
-  border-radius: 4px;
-  padding: 8px 10px;
-}
-.cpd-search button,
-.cpd-submit {
-  background: #1565c0;
-  color: #fff;
-  border: 0;
-  border-radius: 4px;
-  padding: 8px 14px;
-  font-weight: 700;
-  cursor: pointer;
-}
-.cpd-who {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 10px;
-}
-.cpd-name { margin: 0; font-weight: 800; }
-.cpd-meta { margin: 2px 0; color: #334155; font-size: 13px; }
-.cpd-label {
-  display: block;
-  margin: 8px 0 4px;
-  font-size: 13px;
-  color: #334155;
-}
+.cpd-search input,
 .cpd-input,
 .cpd-readonly,
 .cpd-balance {
   width: 100%;
   box-sizing: border-box;
-  border: 1px solid #cbd5e1;
-  border-radius: 4px;
-  padding: 8px 10px;
-  background: #fff;
-  color: #0f172a;
+  border: 1px solid #d5deea;
+  border-radius: 10px;
+  padding: 10px 12px;
+  min-height: 44px;
+  color: #111827;
+  -webkit-text-fill-color: #111827;
+  font-size: 15px;
 }
-.cpd-balance,
-.cpd-readonly {
-  font-variant-numeric: tabular-nums;
-  font-weight: 700;
+.cpd-search input { flex: 1; min-width: 0; }
+.cpd-search button,
+.cpd-submit {
+  background: #0b3d91;
+  color: #fff;
+  -webkit-text-fill-color: #fff;
+  border: 0;
+  border-radius: 10px;
+  padding: 10px 16px;
+  min-height: 44px;
+  font-weight: 800;
+  cursor: pointer;
 }
-.cpd-quiet { margin: 4px 0; color: #64748b; font-size: 12px; }
-.cpd-warn { color: #b91c1c; font-weight: 700; font-size: 13px; }
-.cpd-check { display: flex; gap: 8px; align-items: flex-start; margin: 10px 0; font-size: 13px; }
-.cpd-preview {
+.cpd-who {
   display: flex;
-  flex-wrap: wrap;
-  gap: 6px 8px;
-  margin: 10px 0;
-  padding: 8px;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  font-size: 13px;
+  gap: 12px;
+  align-items: center;
+  min-width: 0;
+  background: #ffffff;
+  border: 1px solid #e3eaf3;
+  border-radius: 12px;
+  padding: 10px 12px;
 }
-.cpd-actions {
+.cpd .cpay-avatar {
+  width: 56px !important;
+  height: 56px !important;
+  min-width: 56px;
+  font-size: 22px !important;
+  border: 2px solid #dbeafe !important;
+  box-shadow: none !important;
+  color: #1d4ed8 !important;
+  -webkit-text-fill-color: #1d4ed8 !important;
+}
+.cpd-name {
+  margin: 0 0 2px;
+  font-weight: 800;
+  color: #0f766e;
+  -webkit-text-fill-color: #0f766e;
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
   align-items: center;
-  margin-top: 10px;
 }
-.cpd-link,
-.cpd-cancel { font-size: 13px; }
-.cpd-table-wrap { overflow-x: auto; }
+.cpd-name #cpayName { color: #0f766e; -webkit-text-fill-color: #0f766e; }
+.cpd .cpay-badge {
+  color: #047857 !important;
+  -webkit-text-fill-color: #047857 !important;
+  border: 1px solid #a7f3d0 !important;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+}
+.cpd .cpay-badge.is-empty {
+  color: #b45309 !important;
+  -webkit-text-fill-color: #b45309 !important;
+  border-color: #fcd34d !important;
+}
+.cpd-meta { margin: 1px 0; font-size: 13px; font-weight: 700; line-height: 1.35; }
+.cpd-meta a { color: inherit; -webkit-text-fill-color: inherit; font-weight: 800; }
+.cpd-balbox {
+  border: 1px solid #fecdd3;
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+.cpd-fields,
+.cpd-due {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px 14px;
+  margin-top: 14px;
+}
+.cpd-due { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.cpd-field { min-width: 0; }
+.cpd-span-2 { grid-column: 1 / -1; }
+.cpd-label {
+  display: block;
+  margin: 0 0 6px;
+  font-size: 13px;
+  font-weight: 800;
+}
+.cpd-c-navy { color: #0b3d91; -webkit-text-fill-color: #0b3d91; }
+.cpd-c-teal { color: #0f766e; -webkit-text-fill-color: #0f766e; }
+.cpd-c-green { color: #047857; -webkit-text-fill-color: #047857; }
+.cpd-c-orange { color: #c2410c; -webkit-text-fill-color: #c2410c; }
+.cpd-c-blue { color: #1d4ed8; -webkit-text-fill-color: #1d4ed8; }
+.cpd-c-violet { color: #6d28d9; -webkit-text-fill-color: #6d28d9; }
+.cpd-c-rose { color: #be123c; -webkit-text-fill-color: #be123c; }
+.cpd-c-amber { color: #b45309; -webkit-text-fill-color: #b45309; }
+.cpd-balance,
+.cpd-readonly {
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+}
+.cpd-balance {
+  font-size: 22px;
+  color: #0b3d91;
+  -webkit-text-fill-color: #0b3d91;
+}
+.cpd-balance.is-due { color: #be123c; -webkit-text-fill-color: #be123c; }
+.cpd-balance.is-deposit { color: #047857; -webkit-text-fill-color: #047857; }
+.cpd-quiet { margin: 4px 0 0; color: #475569; -webkit-text-fill-color: #475569; font-size: 12px; font-weight: 700; }
+.cpd-warn { color: #be123c; -webkit-text-fill-color: #be123c; font-weight: 800; font-size: 13px; margin: 6px 0 0; }
+.cpd-check {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  margin: 14px 0 6px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #7c3aed;
+  -webkit-text-fill-color: #7c3aed;
+}
+.cpd-preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  align-items: baseline;
+  margin: 12px 0;
+  padding: 12px 14px;
+  border: 1px solid #e3eaf3;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+}
+.cpd-preview #calcBeforeLabel { color: #1d4ed8; -webkit-text-fill-color: #1d4ed8; }
+.cpd-preview #calcBefore { color: #0b3d91; -webkit-text-fill-color: #0b3d91; }
+.cpd-preview #calcOp,
+.cpd-preview span:nth-of-type(3) { color: #64748b; -webkit-text-fill-color: #64748b; }
+.cpd-preview #calcNow { color: #047857; -webkit-text-fill-color: #047857; }
+.cpd-preview #calcAfterLabel { color: #c2410c; -webkit-text-fill-color: #c2410c; }
+.cpd-preview #calcAfter { color: #be123c; -webkit-text-fill-color: #be123c; }
+.cpd-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin-top: 12px;
+}
+.cpd-link { color: #1d4ed8; -webkit-text-fill-color: #1d4ed8; font-weight: 800; font-size: 14px; }
+.cpd-cancel { color: #be123c; -webkit-text-fill-color: #be123c; font-weight: 800; font-size: 14px; }
+.cpd #qaWhatsapp { color: #047857; -webkit-text-fill-color: #047857; font-weight: 800; }
+.cpd-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .cpd-table {
   width: 100%;
+  min-width: 720px;
   border-collapse: collapse;
-  font-size: 13px;
+  font-size: 14px;
+  background: #ffffff;
 }
+.cpd-due-table { min-width: 560px; }
 .cpd-table th,
 .cpd-table td {
-  border: 1px solid #e2e8f0;
-  padding: 6px 8px;
+  border: 1px solid #e7eef6;
+  padding: 9px 10px;
   text-align: left;
-  vertical-align: top;
+  vertical-align: middle;
+  background: #ffffff;
+  color: #1f2937;
+  -webkit-text-fill-color: #1f2937;
 }
-.cpd-table th { background: #f8fafc; font-weight: 700; }
-.cpd-num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.cpd-table th {
+  font-weight: 800;
+  white-space: nowrap;
+  border-bottom-width: 2px;
+}
+.cpd-pay-table th:nth-child(1),
+.cpd-due-table th:nth-child(1) { color: #0b3d91; -webkit-text-fill-color: #0b3d91; border-bottom-color: #0b3d91; }
+.cpd-pay-table th:nth-child(2),
+.cpd-due-table th:nth-child(2) { color: #6d28d9; -webkit-text-fill-color: #6d28d9; border-bottom-color: #6d28d9; }
+.cpd-pay-table th:nth-child(3) { color: #1d4ed8; -webkit-text-fill-color: #1d4ed8; border-bottom-color: #1d4ed8; }
+.cpd-pay-table th:nth-child(4),
+.cpd-due-table th:nth-child(3) { color: #b45309; -webkit-text-fill-color: #b45309; border-bottom-color: #b45309; }
+.cpd-pay-table th:nth-child(5),
+.cpd-due-table th:nth-child(4) { color: #047857; -webkit-text-fill-color: #047857; border-bottom-color: #047857; }
+.cpd-pay-table th:nth-child(6) { color: #be123c; -webkit-text-fill-color: #be123c; border-bottom-color: #be123c; }
+.cpd-pay-table th:nth-child(7),
+.cpd-due-table th:nth-child(5) { color: #0f766e; -webkit-text-fill-color: #0f766e; border-bottom-color: #0f766e; }
+.cpd-pay-table th:nth-child(8) { color: #7c3aed; -webkit-text-fill-color: #7c3aed; border-bottom-color: #7c3aed; }
+.cpd-table td:nth-child(2) { color: #6d28d9; -webkit-text-fill-color: #6d28d9; white-space: nowrap; }
+.cpd-pay-table td:nth-child(3) { color: #1d4ed8; -webkit-text-fill-color: #1d4ed8; font-weight: 700; }
+.cpd-num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 800; }
+.cpd-pay-table td.cpd-num:nth-child(5),
+.cpd-due-table td.cpd-num { color: #047857; -webkit-text-fill-color: #047857; }
+.cpd-pay-table td.cpd-num:nth-child(6) { color: #be123c; -webkit-text-fill-color: #be123c; }
 .cpd-ops { white-space: nowrap; }
-.cpd-ops a { margin-right: 6px; }
-.cpd .method-dropdown { position: relative; margin-bottom: 4px; }
-.cpd .customer-results { position: absolute; z-index: 20; left: 0; right: 72px; top: 100%; }
-@media (max-width: 900px) {
-  .cpd-desk { grid-template-columns: 1fr; }
+.cpd-ops a { margin-right: 8px; font-weight: 800; }
+.cpd-a-view { color: #1d4ed8; -webkit-text-fill-color: #1d4ed8; }
+.cpd-a-print { color: #0f766e; -webkit-text-fill-color: #0f766e; }
+.cpd-a-edit { color: #b45309; -webkit-text-fill-color: #b45309; }
+.cpd-a-void { color: #be123c; -webkit-text-fill-color: #be123c; }
+.cpd .method-dropdown { position: relative; }
+html body.ame-customer-payment-page #main-content .cpd .method-trigger-icon {
+  background: #0b3d91 !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+.cpd .method-trigger { width: 100%; box-sizing: border-box; min-height: 44px; background: #ffffff !important; }
+.cpd .method-panel { z-index: 30; }
+.cpd .customer-results {
+  position: absolute;
+  z-index: 40;
+  left: 0;
+  right: 0;
+  top: calc(100% + 4px);
+  background: #ffffff !important;
+  border: 1px solid #d5deea;
+  border-radius: 10px;
+  box-shadow: 0 12px 28px rgba(15, 35, 80, 0.12);
+}
+.cpd .cpay-status.is-due { color: #be123c !important; -webkit-text-fill-color: #be123c !important; background: #ffffff !important; }
+.cpd .cpay-status.is-deposit { color: #047857 !important; -webkit-text-fill-color: #047857 !important; background: #ffffff !important; }
+@media (max-width: 1100px) {
+  .cpd-top { grid-template-columns: minmax(220px, 1fr) minmax(0, 1.2fr); }
+  .cpd-balbox { grid-column: 1 / -1; }
+  .cpd-fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 720px) {
+  .cpd-panel { padding: 14px 12px 16px; border-radius: 12px; }
+  .cpd-top,
+  .cpd-fields,
+  .cpd-due { grid-template-columns: 1fr; }
+  .cpd-search { flex-wrap: nowrap; }
+  .cpd-form h1 { font-size: 22px; }
+  .cpd-actions .cpd-submit { flex: 1 1 140px; }
+  .cpd-table,
+  .cpd-due-table { min-width: 0; display: block; }
+  .cpd-table thead { display: none; }
+  .cpd-table tbody,
+  .cpd-table tr,
+  .cpd-table td { display: block; width: auto; }
+  .cpd-table tr {
+    border: 1px solid #e7eef6;
+    border-radius: 12px;
+    margin: 0 0 10px;
+    padding: 8px 10px;
+    background: #ffffff;
+  }
+  .cpd-table td {
+    border: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 6px 0;
+    text-align: right;
+    background: #ffffff;
+  }
+  .cpd-table td::before {
+    content: attr(data-label);
+    font-weight: 800;
+    text-align: left;
+    flex: 0 0 auto;
+  }
+  .cpd-table td[colspan] { display: block; text-align: left; }
+  .cpd-table td[colspan]::before { content: none; }
+  .cpd-pay-table td:nth-child(1)::before { color: #0b3d91; -webkit-text-fill-color: #0b3d91; }
+  .cpd-pay-table td:nth-child(2)::before,
+  .cpd-due-table td:nth-child(2)::before { color: #6d28d9; -webkit-text-fill-color: #6d28d9; }
+  .cpd-pay-table td:nth-child(3)::before { color: #1d4ed8; -webkit-text-fill-color: #1d4ed8; }
+  .cpd-pay-table td:nth-child(4)::before,
+  .cpd-due-table td:nth-child(3)::before { color: #b45309; -webkit-text-fill-color: #b45309; }
+  .cpd-pay-table td:nth-child(5)::before,
+  .cpd-due-table td:nth-child(4)::before { color: #047857; -webkit-text-fill-color: #047857; }
+  .cpd-pay-table td:nth-child(6)::before { color: #be123c; -webkit-text-fill-color: #be123c; }
+  .cpd-pay-table td:nth-child(7)::before,
+  .cpd-due-table td:nth-child(5)::before { color: #0f766e; -webkit-text-fill-color: #0f766e; }
+  .cpd-pay-table td:nth-child(8)::before { color: #7c3aed; -webkit-text-fill-color: #7c3aed; }
+  .cpd-due-table td:nth-child(1)::before { color: #0b3d91; -webkit-text-fill-color: #0b3d91; }
+  .cpd-ops { white-space: normal; text-align: right; }
+  .cpd-num { text-align: right; }
 }
