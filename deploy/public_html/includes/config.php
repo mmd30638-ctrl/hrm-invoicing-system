@@ -319,6 +319,17 @@ if (!isset($_SESSION['user_id']) && !in_array($current_page, $public_pages, true
     exit();
 }
 
+$ame_public_memos = ['invoice.php', 'invoice_digital.php', 'invoice_a4.php'];
+if (!isset($_SESSION['user_id']) && in_array($current_page, $ame_public_memos, true)) {
+    require_once __DIR__ . '/memo_access.php';
+    $ame_memo_id = (int) ($_GET['id'] ?? 0);
+    $ame_memo_token = (string) ($_GET['t'] ?? '');
+    if (!ame_memo_token_ok($ame_memo_id, $ame_memo_token)) {
+        header('Location: /login.php');
+        exit();
+    }
+}
+
 if (isset($_SESSION['user_id']) && !in_array($current_page, $public_pages, true)) {
     ame_enforce_account_session($db);
     $idle_limit = 20 * 60;

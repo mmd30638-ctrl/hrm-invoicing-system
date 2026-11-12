@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../../../includes/config.php';
 require_once __DIR__ . '/../../../includes/return_v2_functions.php';
+require_once __DIR__ . '/../../../includes/memo_lang.php';
 ensure_return_v2_schema($db);
 
 if (empty($_SESSION['csrf_token'])) {
@@ -146,11 +147,11 @@ $ame_ret_pct = ($ame_ret_prev !== null && $ame_ret_prev > 0.009 && $ame_ret_cut 
 include __DIR__ . '/../../../partials/header.php';
 
 $status_meta = [
-    'draft' => ['label' => 'খসড়া', 'bg' => '#F1F5F9', 'color' => '#64748B'],
-    'pending_approval' => ['label' => '⏳ অনুমোদনের অপেক্ষায়', 'bg' => '#FFF3E0', 'color' => '#E65100'],
-    'approved' => ['label' => '✅ অনুমোদিত (সম্পন্ন করা বাকি)', 'bg' => '#E1F5FE', 'color' => '#0091EA'],
-    'completed' => ['label' => '🎉 সম্পন্ন', 'bg' => '#E8F5E9', 'color' => '#0B8043'],
-    'cancelled' => ['label' => '❌ বাতিল', 'bg' => '#FFEBEE', 'color' => '#C62828'],
+    'draft' => ['label' => ame_ui('খসড়া', 'Draft'), 'bg' => '#F1F5F9', 'color' => '#64748B'],
+    'pending_approval' => ['label' => ame_ui('⏳ অনুমোদনের অপেক্ষায়', '⏳ Waiting for approval'), 'bg' => '#FFF3E0', 'color' => '#E65100'],
+    'approved' => ['label' => ame_ui('✅ অনুমোদিত (সম্পন্ন করা বাকি)', '✅ Approved (not finished)'), 'bg' => '#E1F5FE', 'color' => '#0091EA'],
+    'completed' => ['label' => ame_ui('🎉 সম্পন্ন', '🎉 Completed'), 'bg' => '#E8F5E9', 'color' => '#0B8043'],
+    'cancelled' => ['label' => ame_ui('❌ বাতিল', '❌ Cancelled'), 'bg' => '#FFEBEE', 'color' => '#C62828'],
 ];
 $meta = $status_meta[$ret['status']] ?? $status_meta['draft'];
 ?>
@@ -167,19 +168,19 @@ $meta = $status_meta[$ret['status']] ?? $status_meta['draft'];
     .memo-wrapper { background:#fff; width:100%; max-width:480px; margin:0 auto; padding:24px 20px; border-radius:14px; box-shadow:0 8px 24px rgba(0,0,0,.08); border:1px solid #E5E7EB; overflow:visible; }
     .memo-head { text-align:center; border-bottom:2px dashed #003F8F; padding-bottom:12px; margin-bottom:12px; }
     .memo-shop-name { font-size:20px; font-weight:800; color:#003F8F; margin:0 0 4px; line-height:1.25; }
-    .memo-shop-desc, .memo-shop-phone { font-size:12px; color:#111827; margin:0; font-weight:700; }
-    .memo-shop-desc { font-weight:500; color:#4B5563; }
+    .memo-shop-desc, .memo-shop-phone { font-size:15px; color:#111827; margin:0; font-weight:800; line-height:1.45; text-shadow:none; }
+    .memo-shop-desc { color:#111827; }
     .memo-badge { display:inline-block; margin-top:8px; padding:3px 14px; background:#003F8F; color:#fff; font-size:12px; font-weight:800; border-radius:20px; }
     .memo-meta-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px 12px; background:#F8FAFC; border:1px solid #E2E8F0; border-radius:10px; padding:10px 12px; margin-bottom:12px; font-size:12px; }
     .memo-meta-item { display:flex; flex-direction:column; line-height:1.35; min-width:0; }
-    .memo-meta-item .lbl { font-size:10.5px; color:#64748B; font-weight:700; }
+    .memo-meta-item .lbl { font-size:13px; color:#0B1E4D; font-weight:800; }
     .memo-meta-item .val { font-weight:800; color:#0F172A; word-break:break-word; }
     .memo-table { width:100%; border-collapse:collapse; margin-bottom:12px; font-size:12px; }
     .memo-table th { background:#F1F5F9; color:#003F8F; font-weight:800; padding:8px 6px; border-top:1px solid #CBD5E1; border-bottom:1px solid #CBD5E1; text-align:left; }
     .memo-table td { padding:7px 6px; border-bottom:1px solid #E2E8F0; color:#1E293B; vertical-align:top; }
     .memo-table .tc { text-align:center; }
     .memo-table .tr { text-align:right; white-space:nowrap; }
-    .memo-table .sku-text { display:block; font-size:10px; color:#64748B; font-weight:600; }
+    .memo-table .sku-text { display:block; font-size:13px; color:#0B1E4D; font-weight:700; }
     .memo-summary { border-top:1px solid #CBD5E1; padding-top:8px; }
     .memo-sum-row { display:flex; justify-content:space-between; gap:10px; padding:3px 0; font-size:13px; font-weight:700; }
     .rv-settle { margin:8px 0 0; padding:10px; border:1px solid #FDE68A; border-radius:8px; background:#FFFBEB; color:#111; overflow:visible; }
@@ -188,7 +189,7 @@ $meta = $status_meta[$ret['status']] ?? $status_meta['draft'];
     .rv-settle .sabek-line b { font-weight:900; white-space:nowrap; font-variant-numeric:tabular-nums; }
     .rv-settle .rv-settle-now { border-top:1px dashed #F59E0B; margin-top:4px; padding-top:6px; color:#991B1B; font-size:16px; }
     .rv-settle .rv-settle-proof { margin-top:8px; text-align:center; font-size:13px; font-weight:900; color:#0B1E4D; line-height:1.45; word-break:break-word; }
-    .memo-foot { text-align:center; margin-top:14px; padding-top:10px; border-top:1px dashed #CBD5E1; font-size:11px; color:#64748B; }
+    .memo-foot { text-align:center; margin-top:14px; padding-top:10px; border-top:1px dashed #CBD5E1; font-size:14px; color:#0B1E4D; font-weight:700; }
     .rv-actions { display:flex; gap:8px; flex-wrap:wrap; margin-top:14px; }
     .rv-btn { flex:1; min-width:120px; padding:12px; border:none; border-radius:10px; font-weight:800; font-size:13px; cursor:pointer; }
     .rv-btn-approve { background:linear-gradient(135deg,#0091EA,#4FC3F7); color:#fff; }
@@ -206,12 +207,12 @@ if (str_starts_with($ame_wa_phone, '0') && strlen($ame_wa_phone) >= 11) {
 } elseif ($ame_wa_phone !== '' && !str_starts_with($ame_wa_phone, '880') && strlen($ame_wa_phone) === 10) {
     $ame_wa_phone = '880' . $ame_wa_phone;
 }
-$ame_wa_prev = $ame_ret_prev === null ? '' : 'সাবেক বকেয়া: ৳' . number_format((float) $ame_ret_prev, 2) . "\n";
-$ame_wa_after = $ame_ret_after === null ? '' : 'সর্বমোট ব্যালেন্স: ৳' . number_format((float) $ame_ret_after, 2) . "\n";
-$ame_wa_text = $ame_shop_name . "\nবিক্রয় ফেরত " . (string) $ret['return_no']
-    . ($ame_sale_invoice !== '' ? "\nইনভয়েস: " . $ame_sale_invoice : '')
+$ame_wa_prev = $ame_ret_prev === null ? '' : ame_ui('সাবেক বকেয়া', 'Previous due') . ': ৳' . number_format((float) $ame_ret_prev, 2) . "\n";
+$ame_wa_after = $ame_ret_after === null ? '' : ame_ui('সর্বমোট ব্যালেন্স', 'Total balance') . ': ৳' . number_format((float) $ame_ret_after, 2) . "\n";
+$ame_wa_text = $ame_shop_name . "\n" . ame_ui('বিক্রয় ফেরত', 'Sales return') . ' ' . (string) $ret['return_no']
+    . ($ame_sale_invoice !== '' ? "\n" . ame_ui('ইনভয়েস', 'Invoice') . ': ' . $ame_sale_invoice : '')
     . "\n" . $ame_wa_prev
-    . 'ফেরত: −৳' . number_format((float) $ret['return_amount'], 2) . "\n"
+    . ame_ui('ফেরত', 'Return') . ': −৳' . number_format((float) $ret['return_amount'], 2) . "\n"
     . $ame_wa_after;
 $ame_wa_url = 'https://wa.me/' . $ame_wa_phone . '?text=' . rawurlencode($ame_wa_text);
 $ame_file_base = 'return-' . preg_replace('/[^A-Za-z0-9_-]/', '', (string) $ret['return_no']);
@@ -227,13 +228,13 @@ $ame_file_base = 'return-' . preg_replace('/[^A-Za-z0-9_-]/', '', (string) $ret[
             <?php echo htmlspecialchars($_SESSION['error']); unset($_SESSION['error']); ?>
         </div>
     <?php endif; ?>
-    <nav class="inv-action-bar no-print" aria-label="ফেরত মেমো অপশন">
-        <button type="button" class="inv-btn inv-btn-print" data-ret-act="print-image">প্রিন্ট</button>
-        <button type="button" class="inv-btn inv-btn-pdf" data-ret-act="download">পিডিএফ</button>
-        <button type="button" class="inv-btn inv-btn-img" data-ret-act="download-image">ছবি</button>
-        <button type="button" class="inv-btn inv-btn-share" data-ret-act="share">শেয়ার</button>
-        <a class="inv-btn inv-btn-wa" href="<?php echo htmlspecialchars($ame_wa_url, ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noopener">WhatsApp</a>
-        <button type="button" class="inv-btn inv-btn-tg" data-ret-act="share-telegram">Telegram</button>
+    <nav class="inv-action-bar no-print" aria-label="<?php echo ame_ui('ফেরত মেমো অপশন', 'Return memo options'); ?>">
+        <button type="button" class="inv-btn inv-btn-print" data-ret-act="print-image"><?php echo ame_ui('প্রিন্ট', 'Print'); ?></button>
+        <button type="button" class="inv-btn inv-btn-pdf" data-ret-act="download"><?php echo ame_ui('পিডিএফ', 'PDF'); ?></button>
+        <button type="button" class="inv-btn inv-btn-img" data-ret-act="download-image"><?php echo ame_ui('ছবি', 'Image'); ?></button>
+        <button type="button" class="inv-btn inv-btn-share" data-ret-act="share"><?php echo ame_ui('শেয়ার', 'Share'); ?></button>
+        <a class="inv-btn inv-btn-wa" href="<?php echo htmlspecialchars($ame_wa_url, ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noopener"><?php echo ame_ui('হোয়াটসঅ্যাপ', 'WhatsApp'); ?></a>
+        <button type="button" class="inv-btn inv-btn-tg" data-ret-act="share-telegram"><?php echo ame_ui('টেলিগ্রাম', 'Telegram'); ?></button>
     </nav>
     <div class="memo-wrapper" id="memo-container" data-ame-capture="clone">
         <div class="memo-head">
@@ -245,51 +246,51 @@ $ame_file_base = 'return-' . preg_replace('/[^A-Za-z0-9_-]/', '', (string) $ret[
             <?php if ($ame_shop_phone !== ''): ?>
             <p class="memo-shop-phone">📞 <?php echo htmlspecialchars($ame_shop_phone, ENT_QUOTES, 'UTF-8'); ?></p>
             <?php endif; ?>
-            <div class="memo-badge">বিক্রয় ফেরত মেমো</div>
+            <div class="memo-badge"><?php echo ame_ui('বিক্রয় ফেরত মেমো', 'Sales return memo'); ?></div>
         </div>
         <div class="memo-meta-grid">
             <div class="memo-meta-item">
-                <span class="lbl">ফেরত নম্বর</span>
+                <span class="lbl"><?php echo ame_ui('ফেরত নম্বর', 'Return no.'); ?></span>
                 <span class="val"><?php echo htmlspecialchars((string)$ret['return_no'], ENT_QUOTES, 'UTF-8'); ?></span>
             </div>
             <?php if ($ame_sale_invoice !== ''): ?>
             <div class="memo-meta-item">
-                <span class="lbl">ইনভয়েস</span>
+                <span class="lbl"><?php echo ame_ui('ইনভয়েস', 'Invoice'); ?></span>
                 <span class="val">#<?php echo htmlspecialchars($ame_sale_invoice, ENT_QUOTES, 'UTF-8'); ?></span>
             </div>
             <?php endif; ?>
             <div class="memo-meta-item">
-                <span class="lbl">তারিখ</span>
-                <span class="val" id="dateDisplay"><?php echo date('d M Y', strtotime($ret['return_date'] ?? $ret['created_at'])); ?></span>
+                <span class="lbl"><?php echo ame_ui('তারিখ', 'Date'); ?></span>
+                <span class="val" id="dateDisplay"><?php echo ame_ui_date((int) strtotime($ret['return_date'] ?? $ret['created_at'])); ?></span>
             </div>
             <div class="memo-meta-item">
-                <span class="lbl">ক্রেতার নাম</span>
-                <span class="val"><?php echo htmlspecialchars($ret['customer_name'] ?: 'নগদ ক্রেতা', ENT_QUOTES, 'UTF-8'); ?><?php echo $ame_ret_code !== '' ? ' (' . htmlspecialchars($ame_ret_code, ENT_QUOTES, 'UTF-8') . ')' : ''; ?></span>
+                <span class="lbl"><?php echo ame_ui('ক্রেতার নাম', 'Customer'); ?></span>
+                <span class="val"><?php echo htmlspecialchars($ret['customer_name'] ?: ame_ui('নগদ ক্রেতা', 'Cash customer'), ENT_QUOTES, 'UTF-8'); ?><?php echo $ame_ret_code !== '' ? ' (' . htmlspecialchars($ame_ret_code, ENT_QUOTES, 'UTF-8') . ')' : ''; ?></span>
             </div>
             <div class="memo-meta-item">
-                <span class="lbl">মোবাইল</span>
+                <span class="lbl"><?php echo ame_ui('মোবাইল', 'Mobile'); ?></span>
                 <span class="val"><?php echo $ame_ret_phone !== '' ? htmlspecialchars($ame_ret_phone, ENT_QUOTES, 'UTF-8') : '—'; ?></span>
             </div>
             <div class="memo-meta-item">
-                <span class="lbl">বিক্রয়ের ধরন</span>
-                <span class="val"><?php echo htmlspecialchars((string)$ret['sales_type'], ENT_QUOTES, 'UTF-8'); ?></span>
+                <span class="lbl"><?php echo ame_ui('বিক্রয়ের ধরন', 'Sale type'); ?></span>
+                <span class="val"><?php echo htmlspecialchars(ame_ui_sale_type((string)$ret['sales_type']), ENT_QUOTES, 'UTF-8'); ?></span>
             </div>
             <div class="memo-meta-item">
-                <span class="lbl">অবস্থা</span>
+                <span class="lbl"><?php echo ame_ui('অবস্থা', 'Status'); ?></span>
                 <span class="val"><?php echo $meta['label']; ?></span>
             </div>
         </div>
         <?php if (trim((string)($ret['reason'] ?? '')) !== ''): ?>
-        <div class="memo-sum-row" style="margin-bottom:8px;"><span>কারণ</span><span><?php echo htmlspecialchars((string)$ret['reason'], ENT_QUOTES, 'UTF-8'); ?></span></div>
+        <div class="memo-sum-row" style="margin-bottom:8px;"><span><?php echo ame_ui('কারণ', 'Reason'); ?></span><span><?php echo htmlspecialchars((string)$ret['reason'], ENT_QUOTES, 'UTF-8'); ?></span></div>
         <?php endif; ?>
         <table class="memo-table">
             <thead>
                 <tr>
-                    <th style="width:28px;" class="tc">নং</th>
-                    <th>বিবরণ</th>
-                    <th style="width:48px;" class="tc">পরিমাণ</th>
-                    <th style="width:70px;" class="tr">দর</th>
-                    <th style="width:80px;" class="tr">মোট</th>
+                    <th style="width:28px;" class="tc"><?php echo ame_ui('নং', 'No.'); ?></th>
+                    <th><?php echo ame_ui('বিবরণ', 'Description'); ?></th>
+                    <th style="width:48px;" class="tc"><?php echo ame_ui('পরিমাণ', 'Qty'); ?></th>
+                    <th style="width:70px;" class="tr"><?php echo ame_ui('দর', 'Rate'); ?></th>
+                    <th style="width:80px;" class="tr"><?php echo ame_ui('মোট', 'Total'); ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -298,10 +299,10 @@ $ame_file_base = 'return-' . preg_replace('/[^A-Za-z0-9_-]/', '', (string) $ret[
                     <td class="tc"><?php echo $sl++; ?></td>
                     <td>
                         <span style="font-weight:700;"><?php echo htmlspecialchars((string)$it['product_name'], ENT_QUOTES, 'UTF-8'); ?></span>
-                        <span class="sku-text"><?php echo !empty($it['is_replacement']) ? 'বদলি' : 'ফেরত'; ?><?php
+                        <span class="sku-text"><?php echo !empty($it['is_replacement']) ? ame_ui('বদলি', 'Replacement') : ame_ui('ফেরত', 'Return'); ?><?php
                             $disc = (float)($it['discount_pct'] ?? 0);
                             if ($disc > 0.009) {
-                                echo ' · ছাড় ' . htmlspecialchars(rtrim(rtrim(number_format($disc, 1), '0'), '.'), ENT_QUOTES, 'UTF-8') . '%';
+                                echo ' · ' . ame_ui('ছাড়', 'Discount') . ' ' . htmlspecialchars(rtrim(rtrim(number_format($disc, 1), '0'), '.'), ENT_QUOTES, 'UTF-8') . '%';
                             }
                             if (!empty($it['line_reason'])) {
                                 echo ' · ' . htmlspecialchars((string)$it['line_reason'], ENT_QUOTES, 'UTF-8');
@@ -317,32 +318,32 @@ $ame_file_base = 'return-' . preg_replace('/[^A-Za-z0-9_-]/', '', (string) $ret[
         </table>
         <div class="memo-summary">
             <div class="memo-sum-row">
-                <span>ফেরতের বিল</span>
+                <span><?php echo ame_ui('ফেরতের বিল', 'Return bill'); ?></span>
                 <span>৳<?php echo number_format((float)$ret['return_amount'], 2); ?></span>
             </div>
             <?php if ((float)$ret['customer_adjustment'] != 0): ?>
             <div class="memo-sum-row">
-                <span><?php echo $ret['customer_adjustment'] > 0 ? 'বাড়তি প্রদেয়' : 'ক্রেডিট'; ?></span>
+                <span><?php echo $ret['customer_adjustment'] > 0 ? ame_ui('বাড়তি প্রদেয়', 'Extra payable') : ame_ui('ক্রেডিট', 'Credit'); ?></span>
                 <span>৳<?php echo number_format(abs((float)$ret['customer_adjustment']), 2); ?></span>
             </div>
             <?php endif; ?>
             <?php if ($deducted_account_name !== '' && ($ret['refund_method'] ?? '') !== 'customer_balance'): ?>
             <div class="memo-sum-row" style="background:#FFF8E1; border:1px solid #FDE68A; border-radius:8px; padding:7px 9px; margin-top:6px; color:#B45309;">
-                <span>🏦 মাইনাসকৃত একাউন্ট: <b><?php echo htmlspecialchars($deducted_account_name, ENT_QUOTES, 'UTF-8'); ?></b></span>
+                <span>🏦 <?php echo ame_ui('মাইনাসকৃত একাউন্ট', 'Deducted account'); ?>: <b><?php echo htmlspecialchars($deducted_account_name, ENT_QUOTES, 'UTF-8'); ?></b></span>
                 <span style="color:#C62828; font-weight:900;">−৳<?php echo number_format($deducted_amount > 0 ? $deducted_amount : (float)$ret['return_amount'], 2); ?></span>
             </div>
             <?php elseif (($ret['refund_method'] ?? '') === 'customer_balance'): ?>
             <div class="memo-sum-row" style="background:#EFF6FF; border:1px solid #BFDBFE; border-radius:8px; padding:7px 9px; margin-top:6px; color:#1E40AF;">
-                <span>👤 সমন্বয় পদ্ধতি</span>
-                <span style="font-weight:900;">গ্রাহক খতিয়ানে সমন্বয় (−৳<?php echo number_format((float)$ret['return_amount'], 2); ?>)</span>
+                <span>👤 <?php echo ame_ui('সমন্বয় পদ্ধতি', 'Adjustment method'); ?></span>
+                <span style="font-weight:900;"><?php echo ame_ui('গ্রাহক খতিয়ানে সমন্বয়', 'Adjusted on the customer ledger'); ?> (−৳<?php echo number_format((float)$ret['return_amount'], 2); ?>)</span>
             </div>
             <?php endif; ?>
             <?php if ($ame_ret_prev !== null && $ame_ret_after !== null):
                 $cut_sign = $ame_ret_cut_minus ? '−' : '+';
                 $pct_txt = $ame_ret_pct === null ? '' : rtrim(rtrim(number_format($ame_ret_pct, 2), '0'), '.') . '%';
-                $prev_label = $ame_ret_prev > 0.009 ? 'সাবেক বকেয়া' : ($ame_ret_prev < -0.009 ? 'সাবেক জমা' : 'সাবেক বকেয়া');
-                $after_label = 'সর্বমোট ব্যালেন্স';
-                $cut_label = $ame_ret_cut_minus ? 'ফেরত (−)' : 'ফেরত (+)';
+                $prev_label = $ame_ret_prev > 0.009 ? ame_ui('সাবেক বকেয়া', 'Previous due') : ($ame_ret_prev < -0.009 ? ame_ui('সাবেক জমা', 'Previous deposit') : ame_ui('সাবেক বকেয়া', 'Previous due'));
+                $after_label = ame_ui('সর্বমোট ব্যালেন্স', 'Total balance');
+                $cut_label = $ame_ret_cut_minus ? ame_ui('ফেরত (−)', 'Return (−)') : ame_ui('ফেরত (+)', 'Return (+)');
                 $after_txt = abs($ame_ret_after) < 0.009 ? '=' : $ame_ret_sign($ame_ret_after);
                 $formula = $ame_ret_sign($ame_ret_prev) . ' ' . $cut_sign . number_format(abs($ame_ret_cut), 2) . ' = ' . $after_txt;
             ?>
@@ -356,23 +357,23 @@ $ame_file_base = 'return-' . preg_replace('/[^A-Za-z0-9_-]/', '', (string) $ret[
         </div>
         <div class="memo-foot">
             <?php
-            $rm_labels = ['customer_balance' => 'গ্রাহক ব্যালেন্স সমন্বয়', 'cash_refund' => 'নগদ ফেরত', 'bank_transfer' => 'ব্যাংক ট্রান্সফার', 'mobile_banking' => 'মোবাইল ব্যাংকিং'];
+            $rm_labels = ['customer_balance' => ame_ui('গ্রাহক ব্যালেন্স সমন্বয়', 'Customer balance adjustment'), 'cash_refund' => ame_ui('নগদ ফেরত', 'Cash refund'), 'bank_transfer' => ame_ui('ব্যাংক ট্রান্সফার', 'Bank transfer'), 'mobile_banking' => ame_ui('মোবাইল ব্যাংকিং', 'Mobile banking')];
             $rm = $rm_labels[$ret['refund_method'] ?? 'customer_balance'] ?? (string)($ret['refund_method'] ?? '');
             ?>
-            <p style="margin:0 0 3px;">ফেরত পদ্ধতি: <b><?php echo htmlspecialchars($rm, ENT_QUOTES, 'UTF-8'); ?></b><?php if ($deducted_account_name !== '' && ($ret['refund_method'] ?? '') !== 'customer_balance'): ?> · একাউন্ট: <b><?php echo htmlspecialchars($deducted_account_name, ENT_QUOTES, 'UTF-8'); ?></b><?php endif; ?></p>
+            <p style="margin:0 0 3px;"><?php echo ame_ui('ফেরত পদ্ধতি', 'Return method'); ?>: <b><?php echo htmlspecialchars($rm, ENT_QUOTES, 'UTF-8'); ?></b><?php if ($deducted_account_name !== '' && ($ret['refund_method'] ?? '') !== 'customer_balance'): ?> · <?php echo ame_ui('একাউন্ট', 'Account'); ?>: <b><?php echo htmlspecialchars($deducted_account_name, ENT_QUOTES, 'UTF-8'); ?></b><?php endif; ?></p>
             <?php if (!empty($ret['notes'])): ?>
             <p style="margin:0 0 3px;"><?php echo nl2br(htmlspecialchars((string)$ret['notes'], ENT_QUOTES, 'UTF-8')); ?></p>
             <?php endif; ?>
-            <p style="margin:0; font-weight:700; color:#374151;">ধন্যবাদ, আবার আসবেন!</p>
+            <p style="margin:0; font-weight:800; color:#0B1E4D;"><?php echo ame_ui('ধন্যবাদ, আবার আসবেন!', 'Thank you. Please visit again.'); ?></p>
         </div>
     </div>
     <div class="no-print" style="margin-top:8px; text-align:right;">
-        <button type="button" onclick="toggleDateEdit()" style="background:#fff; border:1px solid #CBD5E1; border-radius:8px; padding:6px 10px; font-weight:700; cursor:pointer;">তারিখ বদলান</button>
+        <button type="button" onclick="toggleDateEdit()" style="background:#fff; border:1px solid #CBD5E1; border-radius:8px; padding:6px 10px; font-weight:700; cursor:pointer;"><?php echo ame_ui('তারিখ বদলান', 'Change date'); ?></button>
         <form action="actions/update_return_date.php" method="POST" id="dateEditForm" style="display:none; margin-top:6px;">
             <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
             <input type="hidden" name="id" value="<?php echo (int)$ret['id']; ?>">
             <input type="date" name="return_date" value="<?php echo date('Y-m-d', strtotime($ret['return_date'] ?? $ret['created_at'])); ?>" max="<?php echo date('Y-m-d'); ?>" style="padding:6px 8px; border:1.5px solid #CFE3F7; border-radius:6px; font-size:12px;">
-            <button type="submit" style="background:#0091EA; color:#fff; border:none; padding:6px 12px; border-radius:6px; font-size:11.5px; font-weight:700; cursor:pointer;">সংরক্ষণ</button>
+            <button type="submit" style="background:#0091EA; color:#fff; border:none; padding:6px 12px; border-radius:6px; font-size:13px; font-weight:700; cursor:pointer;"><?php echo ame_ui('সংরক্ষণ', 'Save'); ?></button>
         </form>
     </div>
     <div class="rv-actions no-print">
@@ -380,25 +381,25 @@ $ame_file_base = 'return-' . preg_replace('/[^A-Za-z0-9_-]/', '', (string) $ret[
                     <form action="actions/approve.php" method="POST" style="flex:1;">
                         <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
                         <input type="hidden" name="id" value="<?php echo (int)$ret['id']; ?>">
-                        <button type="submit" class="rv-btn rv-btn-approve" style="width:100%;">✅ অনুমোদন করুন</button>
+                        <button type="submit" class="rv-btn rv-btn-approve" style="width:100%;">✅ <?php echo ame_ui('অনুমোদন করুন', 'Approve'); ?></button>
                     </form>
-                    <form action="actions/cancel.php" method="POST" style="flex:1;" onsubmit="return confirm('নিশ্চিত বাতিল করতে চান?');">
+                    <form action="actions/cancel.php" method="POST" style="flex:1;" onsubmit="return confirm(<?php echo json_encode(ame_ui('নিশ্চিত বাতিল করতে চান?', 'Cancel this return?')); ?>);">
                         <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
                         <input type="hidden" name="id" value="<?php echo (int)$ret['id']; ?>">
-                        <button type="submit" class="rv-btn rv-btn-cancel" style="width:100%;">❌ বাতিল করুন</button>
+                        <button type="submit" class="rv-btn rv-btn-cancel" style="width:100%;">❌ <?php echo ame_ui('বাতিল করুন', 'Cancel'); ?></button>
                     </form>
                 <?php elseif ($ret['status'] === 'approved'): ?>
                     <form action="actions/complete.php" method="POST" style="flex:1;">
                         <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
                         <input type="hidden" name="id" value="<?php echo (int)$ret['id']; ?>">
-                        <button type="submit" class="rv-btn rv-btn-complete" style="width:100%;">🎉 সম্পন্ন করুন (স্টক ও লেজার আপডেট)</button>
+                        <button type="submit" class="rv-btn rv-btn-complete" style="width:100%;">🎉 <?php echo ame_ui('সম্পন্ন করুন (স্টক ও লেজার আপডেট)', 'Finish (update stock and ledger)'); ?></button>
                     </form>
                 <?php endif; ?>
-                <button type="button" class="rv-btn rv-btn-print" onclick="shareVoucher()">শেয়ার</button>
+                <button type="button" class="rv-btn rv-btn-print" onclick="shareVoucher()"><?php echo ame_ui('শেয়ার', 'Share'); ?></button>
             </div>
 
     <div style="margin-top:16px; text-align:center;" class="no-print">
-        <a href="register.php" style="color:#0091EA; text-decoration:none; font-size:13px;">← রেজিস্টারে ফিরে যান</a>
+        <a href="register.php" style="color:#0091EA; text-decoration:none; font-size:14px; font-weight:700;">← <?php echo ame_ui('রেজিস্টারে ফিরে যান', 'Back to the register'); ?></a>
     </div>
 </div>
 
@@ -409,7 +410,7 @@ function toggleDateEdit() {
 }
 </script>
 
-<script src="/assets/js/ame-memo-file.js"></script>
+<script src="/assets/js/ame-memo-file.js?v=10.98.791"></script>
 <script>
 function shareVoucher() {
     if (typeof window.ameMemoCapture === 'function') {
