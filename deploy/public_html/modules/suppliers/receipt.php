@@ -54,8 +54,8 @@ $waUrl = 'https://wa.me/' . $waPhone . '?text=' . rawurlencode($waText);
 $ame_body_class = 'ame-spay-page';
 include '../../partials/header.php';
 ?>
-<link rel="stylesheet" href="/assets/css/supplier-settlement.css?v=10.98.791">
-<link rel="stylesheet" href="/assets/css/memo-clear.css?v=10.98.791">
+<link rel="stylesheet" href="/assets/css/supplier-settlement.css?v=10.98.798">
+<link rel="stylesheet" href="/assets/css/memo-clear.css?v=10.98.798">
 <div class="spay<?php echo isset($_GET['slip']) ? ' spay-slip' : ''; ?>" id="spReceipt">
     <?php if ($error !== ''): ?><div class="spay-error spay-no-print no-print"><?php echo htmlspecialchars($error, ENT_QUOTES, 'UTF-8'); ?></div><?php endif; ?>
     <nav class="inv-action-bar no-print spay-no-print" id="spayShareBar" aria-label="<?php echo ame_spay_t('পেমেন্ট রসিদ', 'Payment receipt'); ?>">
@@ -197,8 +197,8 @@ include '../../partials/header.php';
     <?php endif; ?>
 </div>
 <?php include '../../partials/footer.php'; ?>
-<link rel="stylesheet" href="/assets/css/supplier-settlement.css?v=10.98.791" id="spayInkLock">
-<link rel="stylesheet" href="/assets/css/memo-clear.css?v=10.98.791">
+<link rel="stylesheet" href="/assets/css/supplier-settlement.css?v=10.98.798" id="spayInkLock">
+<link rel="stylesheet" href="/assets/css/memo-clear.css?v=10.98.798">
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     var fileBase = <?php echo json_encode($fileBase, JSON_UNESCAPED_UNICODE); ?>;
