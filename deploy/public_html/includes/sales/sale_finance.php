@@ -1,0 +1,455 @@
+<?php
+
+/**
+ * অতিরিক্ত জমা সাবেক বকেয়া থেকে কাটে।
+ * চেকবক্স থাকলে পুরো অতিরিক্ত টাকা (বকেয়ার বেশি হলে অগ্রিম)।
+ * চেকবক্স না থাকলেও সাবেক বকেয়া থাকলে সেই বকেয়া পর্যন্ত নিজে থেকে কাটে।
+ */
+function ame_sale_resolve_due_adjustment($customer_id, float $previous_balance, float $extra_payment, bool $adjust_requested): float
+{
+    $extra = round(max(0, $extra_payment), 2);
+    if ($customer_id === null || (int)$customer_id <= 0 || $extra <= 0.009) {
+        return 0.0;
+    }
+    if ($adjust_requested) {
+        return $extra;
+    }
+    $open = round(max(0, $previous_balance), 2);
+    if ($open <= 0.009) {
+        return 0.0;
+    }
+    return round(min($extra, $open), 2);
+}
+
+function ame_sale_customer_ledger(
+    $db,
+    $sale_id,
+    $customer_id,
+    $grand_total,
+    $paid_for_sale,
+    $due_adjustment,
+    $is_english,
+    $exchange_amount = 0,
+    $previous_balance = null
+) {
+    if ($customer_id === null) {
+        return;
+    }
+
+    $reference = 'SALE-' . $sale_id;
+    $exchange_amount = round((float)$exchange_amount, 2);
+    $cash_credit = round((float)$paid_for_sale, 2);
+
+    /*
+     * সম্পূর্ণ Invoice Customer-এর Debit হবে।
+     */
+    add_ledger_entry(
+        $db,
+        $customer_id,
+        $is_english ? 'Credit Sale' : 'বিক্রয়',
+        $reference,
+        $is_english
+            ? 'Sales invoice #' . $sale_id
+            : 'বিক্রয় ইনভয়েস #' . $sale_id,
+        $grand_total,
+        0
+    );
+
+    if ($exchange_amount > 0) {
+        add_ledger_entry(
+            $db,
+            $customer_id,
+            $is_english ? 'Battery Exchange' : 'ব্যাটারি এক্সচেঞ্জ',
+            $reference,
+            $is_english
+                ? 'Old battery exchange against invoice #' . $sale_id
+                : 'ইনভয়েস #' . $sale_id . '-এর পুরাতন ব্যাটারি এক্সচেঞ্জ',
+            0,
+            $exchange_amount
+        );
+    }
+
+    /*
+     * বর্তমান Invoice-এর Cash/Bank Payment Credit হবে।
+     */
+    if ($cash_credit > 0) {
+        add_ledger_entry(
+            $db,
+            $customer_id,
+            $is_english
+                ? 'Sale Payment'
+                : 'বিক্রয় পেমেন্ট',
+            $reference,
+            $is_english
+                ? 'Deposit against invoice #' . $sale_id
+                : 'ইনভয়েস #' . $sale_id . '-এ জমা',
+            0,
+            $cash_credit
+        );
+    }
+
+    /*
+     * অতিরিক্ত টাকা আগে পুরনো বাকি কাটে। বাকি না থাকলে অ্যাকাউন্টে জমা হয়।
+     * স্টেটমেন্ট এই সারি আর বিক্রয় পেমেন্টকে এক জমায় দেখায়।
+     */
+    if ($due_adjustment > 0) {
+        $open_due = $previous_balance === null
+            ? $due_adjustment
+            : max(0, round((float)$previous_balance, 2));
+        $due_cut = min($due_adjustment, $open_due);
+        $account_credit = round($due_adjustment - $due_cut, 2);
+        if ($due_cut > 0.009) {
+            add_ledger_entry(
+                $db,
+                $customer_id,
+                $is_english
+                    ? 'Previous Due Payment'
+                    : 'পূর্বের বকেয়া',
+                'DUE-PAY-' . $sale_id,
+                $is_english
+                    ? 'Extra payment cut from previous due'
+                    : 'অতিরিক্ত টাকা সাবেক বকেয়া থেকে কাটা হয়েছে',
+                0,
+                $due_cut
+            );
+        }
+        if ($account_credit > 0.009) {
+            add_ledger_entry(
+                $db,
+                $customer_id,
+                $is_english
+                    ? 'Customer Advance'
+                    : 'অ্যাকাউন্টে জমা',
+                'ADV-SALE-' . $sale_id,
+                $is_english
+                    ? 'Extra payment kept on the customer account'
+                    : 'অতিরিক্ত টাকা কাস্টমারের অ্যাকাউন্টে যোগ হয়েছে',
+                0,
+                $account_credit
+            );
+        }
+    }
+}
+
+function ame_sale_post_payments(
+    $db,
+    $sale_id,
+    $payments,
+    $deposit_amount,
+    $user_id,
+    $is_english
+) {
+    $remaining = round(
+        $deposit_amount,
+        2
+    );
+
+    foreach ($payments as $payment) {
+        if ($remaining <= 0) {
+            break;
+        }
+
+        $account_id = (int)$payment['account_id'];
+
+        $posted_amount = min(
+            (float)$payment['amount'],
+            $remaining
+        );
+
+        if ($posted_amount <= 0) {
+            continue;
+        }
+
+        /*
+         * প্রতিটি Account আলাদাভাবে Credit হবে।
+         */
+        account_credit(
+            $account_id,
+            $posted_amount,
+            'sale',
+            $sale_id,
+            ($is_english
+                ? 'Split payment — Invoice #'
+                : 'বিভক্ত পরিশোধ — ইনভয়েস #')
+                . $sale_id
+        );
+
+        $reference_number = (string)(
+            $payment['reference_number'] ?? ''
+        );
+
+        $note = $is_english
+            ? 'Payment received against sale'
+            : 'বিক্রয়ের বিপরীতে টাকা গ্রহণ';
+
+        /*
+         * বিভক্ত Payment-এর বিস্তারিত সংরক্ষণ।
+         */
+        $stmt = $db->prepare(
+            "INSERT INTO sale_payments (
+                sale_id,
+                account_id,
+                amount,
+                reference_number,
+                payment_status,
+                note,
+                created_by
+             ) VALUES (
+                ?, ?, ?, ?, 'posted', ?, ?
+             )"
+        );
+
+        $stmt->bind_param(
+            'iidssi',
+            $sale_id,
+            $account_id,
+            $posted_amount,
+            $reference_number,
+            $note,
+            $user_id
+        );
+
+        $stmt->execute();
+        $stmt->close();
+
+        $remaining = round(
+            $remaining - $posted_amount,
+            2
+        );
+    }
+
+    if ($remaining > 0.009) {
+        throw new RuntimeException(
+            $is_english
+                ? 'Payment distribution is incomplete.'
+                : 'পেমেন্টের সম্পূর্ণ টাকা বণ্টন হয়নি।'
+        );
+    }
+}
+
+function ame_sale_store_service(
+    $db,
+    $sale_id,
+    $engineer_id,
+    $service_type,
+    $service_amount
+) {
+    if ($service_amount <= 0) {
+        return 0;
+    }
+
+    $eng_name = '';
+    if ($engineer_id > 0) {
+        $ns = $db->prepare('SELECT name FROM engineers WHERE id = ? LIMIT 1');
+        if ($ns) {
+            $ns->bind_param('i', $engineer_id);
+            $ns->execute();
+            $nrow = $ns->get_result()->fetch_assoc();
+            $ns->close();
+            $eng_name = trim((string)($nrow['name'] ?? ''));
+        }
+    }
+
+    $has_name = false;
+    $col = @$db->query("SHOW COLUMNS FROM sale_services LIKE 'engineer_name'");
+    if ($col && $col->fetch_assoc()) {
+        $has_name = true;
+    }
+
+    if ($has_name) {
+        $stmt = $db->prepare(
+            'INSERT INTO sale_services (
+                sale_id,
+                engineer_id,
+                service_type,
+                amount,
+                engineer_name
+             ) VALUES (?, ?, ?, ?, ?)'
+        );
+        $stmt->bind_param(
+            'iisds',
+            $sale_id,
+            $engineer_id,
+            $service_type,
+            $service_amount,
+            $eng_name
+        );
+    } else {
+        $stmt = $db->prepare(
+            'INSERT INTO sale_services (
+                sale_id,
+                engineer_id,
+                service_type,
+                amount
+             ) VALUES (?, ?, ?, ?)'
+        );
+        $stmt->bind_param(
+            'iisd',
+            $sale_id,
+            $engineer_id,
+            $service_type,
+            $service_amount
+        );
+    }
+
+    $stmt->execute();
+    $service_id = (int)$db->insert_id;
+    $stmt->close();
+    return $service_id;
+}
+
+function ame_sale_parse_services($data, $is_english)
+{
+    $lines = [];
+
+    if (!empty($data['services']) && is_array($data['services'])) {
+        foreach ($data['services'] as $row) {
+            if (!is_array($row)) {
+                continue;
+            }
+
+            $engineer_id = (int)($row['engineer_id'] ?? 0);
+            $service_type = substr(
+                trim((string)($row['service_type'] ?? '')),
+                0,
+                255
+            );
+            $amount = max(
+                0,
+                round((float)($row['amount'] ?? 0), 2)
+            );
+
+            if ($engineer_id <= 0 && $service_type === '' && $amount <= 0) {
+                continue;
+            }
+
+            if ($engineer_id <= 0 || $service_type === '' || $amount <= 0) {
+                ame_sale_fail(
+                    $is_english,
+                    'প্রতিটি ইঞ্জিনিয়ার বিলে নাম, কাজের বিবরণ এবং টাকা দিন।',
+                    'Each engineer bill needs an engineer, description and amount.'
+                );
+            }
+
+            $lines[] = [
+                'engineer_id' => $engineer_id,
+                'service_type' => $service_type,
+                'amount' => $amount,
+            ];
+        }
+    } else {
+        $amount = max(
+            0,
+            round((float)($data['service_amount'] ?? 0), 2)
+        );
+        $engineer_id = (int)($data['engineer_id'] ?? 0);
+        $service_type = substr(
+            trim((string)($data['service_type'] ?? '')),
+            0,
+            255
+        );
+
+        if ($amount > 0) {
+            if ($engineer_id <= 0 || $service_type === '') {
+                ame_sale_fail(
+                    $is_english,
+                    'ইঞ্জিনিয়ার এবং সার্ভিসের বিবরণ দিন।',
+                    'Select an engineer and enter the service description.'
+                );
+            }
+
+            $lines[] = [
+                'engineer_id' => $engineer_id,
+                'service_type' => $service_type,
+                'amount' => $amount,
+            ];
+        }
+    }
+
+    $total = 0.0;
+    foreach ($lines as $line) {
+        $total += (float)$line['amount'];
+    }
+
+    return [
+        'lines' => $lines,
+        'total' => round($total, 2),
+    ];
+}
+
+function ame_sale_assert_service_engineers($db, $lines, $is_english)
+{
+    if (!is_array($lines) || $lines === []) {
+        return;
+    }
+
+    $table = @$db->query("SHOW TABLES LIKE 'engineers'");
+    if (!$table || $table->num_rows === 0) {
+        ame_sale_fail(
+            $is_english,
+            'ইঞ্জিনিয়ার তালিকা পাওয়া যায়নি।',
+            'The engineer list is not available.'
+        );
+    }
+
+    $stmt = $db->prepare(
+        "SELECT id
+         FROM engineers
+         WHERE id = ?
+           AND (purged_at IS NULL OR purged_at = '')
+         LIMIT 1"
+    );
+
+    foreach ($lines as $line) {
+        $engineer_id = (int)($line['engineer_id'] ?? 0);
+        $stmt->bind_param('i', $engineer_id);
+        $stmt->execute();
+        $exists = $stmt->get_result()->num_rows === 1;
+
+        if (!$exists) {
+            $stmt->close();
+            ame_sale_fail(
+                $is_english,
+                'নির্বাচিত ইঞ্জিনিয়ার সক্রিয় নয়।',
+                'The selected engineer is inactive.'
+            );
+        }
+    }
+
+    $stmt->close();
+}
+
+function ame_sale_replace_services($db, $sale_id, $lines)
+{
+    $delete = $db->prepare(
+        'DELETE FROM sale_services WHERE sale_id = ?'
+    );
+    if (!$delete) {
+        throw new RuntimeException(
+            'sale_services table is missing: ' . $db->error
+        );
+    }
+    $delete->bind_param('i', $sale_id);
+    $delete->execute();
+    $delete->close();
+
+    if (!is_array($lines)) {
+        return [];
+    }
+
+    $stored = [];
+    foreach ($lines as $line) {
+        $service_id = ame_sale_store_service(
+            $db,
+            $sale_id,
+            (int)($line['engineer_id'] ?? 0),
+            (string)($line['service_type'] ?? ''),
+            (float)($line['amount'] ?? 0)
+        );
+        if ($service_id > 0) {
+            $line['sale_service_id'] = $service_id;
+            $stored[] = $line;
+        }
+    }
+    return $stored;
+}
