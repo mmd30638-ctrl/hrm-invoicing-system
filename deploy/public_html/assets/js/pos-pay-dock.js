@@ -6,6 +6,8 @@
     pay.setAttribute('data-pay-dock', '1');
 
     var english = document.documentElement.lang === 'en';
+    var dockState = null;
+    var pressInside = false;
     var tab = document.createElement('button');
     tab.type = 'button';
     tab.id = 'amePayDockTab';
@@ -50,6 +52,8 @@
     }
 
     function paint(open) {
+        var changed = dockState !== open;
+        dockState = open;
         var width = panelWidth();
         pay.classList.toggle('is-open', open);
         document.body.classList.toggle('ame-pay-open', open);
@@ -70,8 +74,10 @@
         setStyle(pay, 'background', '#ffffff');
         setStyle(pay, 'border-radius', '14px 0 0 14px');
         setStyle(pay, 'box-shadow', open ? '-16px 0 36px rgba(15, 35, 80, 0.18)' : 'none');
-        setStyle(pay, 'transform', open ? 'translateX(0)' : 'translateX(110%)');
-        setStyle(pay, 'pointer-events', open ? 'auto' : 'none');
+        if (changed) {
+            setStyle(pay, 'transform', open ? 'translateX(0)' : 'translateX(110%)');
+            setStyle(pay, 'pointer-events', open ? 'auto' : 'none');
+        }
         setStyle(tab, 'position', 'fixed');
         setStyle(tab, 'z-index', '900001');
         setStyle(tab, 'top', '42%');
@@ -79,22 +85,24 @@
         setStyle(tab, 'left', 'auto');
         setStyle(tab, 'overflow', 'hidden');
         setStyle(tab, 'transform', 'none');
-        var extras = document.querySelectorAll('.ame-pay-dock-tab');
-        for (var i = 0; i < extras.length; i++) {
-            if (extras[i] !== tab) {
-                extras[i].remove();
+        if (changed) {
+            var extras = document.querySelectorAll('.ame-pay-dock-tab');
+            for (var i = 0; i < extras.length; i++) {
+                if (extras[i] !== tab) {
+                    extras[i].remove();
+                }
             }
+            tab.setAttribute('aria-expanded', open ? 'true' : 'false');
+            tab.setAttribute('aria-label', open
+                ? (english ? 'Hide the payment panel' : 'পেমেন্ট প্যানেল লুকান')
+                : (english ? 'Show the payment panel' : 'পেমেন্ট প্যানেল খুলুন'));
+            var path = open ? 'M9 6l6 6-6 6' : 'M15 6l-6 6 6 6';
+            tab.innerHTML = '<svg class="ame-pay-dock-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="'
+                + path
+                + '" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="ame-pay-dock-word">'
+                + word(open)
+                + '</span>';
         }
-        tab.setAttribute('aria-expanded', open ? 'true' : 'false');
-        tab.setAttribute('aria-label', open
-            ? (english ? 'Hide the payment panel' : 'পেমেন্ট প্যানেল লুকান')
-            : (english ? 'Show the payment panel' : 'পেমেন্ট প্যানেল খুলুন'));
-        var path = open ? 'M9 6l6 6-6 6' : 'M15 6l-6 6 6 6';
-        tab.innerHTML = '<svg class="ame-pay-dock-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="'
-            + path
-            + '" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="ame-pay-dock-word">'
-            + word(open)
-            + '</span>';
     }
 
     tab.addEventListener('click', function (event) {
@@ -117,6 +125,35 @@
         paint(pay.classList.contains('is-open'));
     });
 
+    function inDock(node) {
+        if (!node) {
+            return false;
+        }
+        if (node.nodeType !== 1) {
+            node = node.parentElement;
+        }
+        if (!node) {
+            return false;
+        }
+        if (pay.contains(node) || tab.contains(node)) {
+            return true;
+        }
+        return !!(node.closest && node.closest('.ame-account-sheet'));
+    }
+
+    function markPress(event) {
+        pressInside = inDock(event.target);
+    }
+
+    document.addEventListener('pointerdown', markPress, true);
+    document.addEventListener('touchstart', markPress, true);
+    pay.addEventListener('focusin', function () {
+        pressInside = true;
+        if (!pay.classList.contains('is-open')) {
+            paint(true);
+        }
+    });
+
     document.addEventListener('click', function (event) {
         var jump = event.target.closest && event.target.closest('#amePosPayJump, #ameSaleDockGo, a[href="#amePosPay"]');
         if (jump) {
@@ -127,7 +164,8 @@
         if (!pay.classList.contains('is-open')) {
             return;
         }
-        if (pay.contains(event.target) || tab.contains(event.target)) {
+        if (pressInside || inDock(event.target) || inDock(document.activeElement)) {
+            pressInside = false;
             return;
         }
         paint(false);
