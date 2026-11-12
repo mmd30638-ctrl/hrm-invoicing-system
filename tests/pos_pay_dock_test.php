@@ -23,9 +23,10 @@ ame_dock_expect(str_contains($js, 'appendChild(pay)') === false, 'the payment pa
 ame_dock_expect(str_contains($js, "setStyle(node, 'overflow', 'visible')"), 'the drawer is not clipped by the sales page');
 ame_dock_expect(str_contains($css, 'max-width: 16px !important'), 'payment icons stay the small heading size');
 ame_dock_expect(str_contains($js, "'900000'"), 'the payment panel sits above the sales toolbar');
-ame_dock_expect(str_contains($js, 'pressInside'), 'a tap that starts in the payment panel does not close it');
-ame_dock_expect(str_contains($js, 'focusin'), 'the amount box can take focus while the panel stays open');
-ame_dock_expect(str_contains($js, 'document.activeElement'), 'typing in the amount box keeps the panel open');
+ame_dock_expect(substr_count($js, 'paint(false)') === 1, 'nothing except the first layout tucks the panel on its own');
+ame_dock_expect(str_contains($js, "paint(!pay.classList.contains('is-open'))"), 'the edge tab is the control that tucks the panel');
+ame_dock_expect(str_contains($js, 'tabPress'), 'a tap on the amount box cannot press the edge tab');
+ame_dock_expect(str_contains($js, 'Escape') === false, 'the panel stays out until the edge tab is pressed again');
 ame_dock_expect(str_contains($js, 'translateX(110%)'), 'a closed panel stays fully off the right edge');
 ame_dock_expect(str_contains($js, 'deskPaid') === false, 'the dock does not rewrite the paid amount');
 ame_dock_expect(str_contains($js, 'calculateAll') === false, 'the dock does not recalculate the sale');
@@ -34,6 +35,6 @@ ame_dock_expect(str_contains($footer, 'pos-pay-dock.js'), 'the dock control load
 ame_dock_expect(str_contains($pos, "getElementById('deskPayArrow')"), 'the second-account arrow stays in place');
 
 $version = trim((string)file_get_contents($root . '/VERSION.txt'));
-ame_dock_expect($version === '10.98.811', 'the update version is 10.98.811');
+ame_dock_expect($version === '10.98.812', 'the update version is 10.98.812');
 
 echo "OK pos payment dock\n";

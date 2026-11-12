@@ -7,7 +7,7 @@
 
     var english = document.documentElement.lang === 'en';
     var dockState = null;
-    var pressInside = false;
+    var tabPress = false;
     var tab = document.createElement('button');
     tab.type = 'button';
     tab.id = 'amePayDockTab';
@@ -105,9 +105,42 @@
         }
     }
 
+    function armTab(event) {
+        var node = event.target;
+        if (node && node.nodeType !== 1) {
+            node = node.parentElement;
+        }
+        tabPress = !!(node && tab.contains(node));
+    }
+
+    tab.addEventListener('pointerdown', armTab);
+    tab.addEventListener('touchstart', armTab);
+    document.addEventListener('pointerup', function (event) {
+        var node = event.target;
+        if (node && node.nodeType !== 1) {
+            node = node.parentElement;
+        }
+        if (!node || !tab.contains(node)) {
+            tabPress = false;
+        }
+    }, true);
+    document.addEventListener('pointercancel', function () {
+        tabPress = false;
+    }, true);
+    tab.addEventListener('keydown', function (event) {
+        if (event.key !== 'Enter' && event.key !== ' ') {
+            return;
+        }
+        event.preventDefault();
+        paint(!pay.classList.contains('is-open'));
+    });
     tab.addEventListener('click', function (event) {
         event.preventDefault();
         event.stopPropagation();
+        if (!tabPress) {
+            return;
+        }
+        tabPress = false;
         paint(!pay.classList.contains('is-open'));
     });
 
@@ -125,55 +158,12 @@
         paint(pay.classList.contains('is-open'));
     });
 
-    function inDock(node) {
-        if (!node) {
-            return false;
-        }
-        if (node.nodeType !== 1) {
-            node = node.parentElement;
-        }
-        if (!node) {
-            return false;
-        }
-        if (pay.contains(node) || tab.contains(node)) {
-            return true;
-        }
-        return !!(node.closest && node.closest('.ame-account-sheet'));
-    }
-
-    function markPress(event) {
-        pressInside = inDock(event.target);
-    }
-
-    document.addEventListener('pointerdown', markPress, true);
-    document.addEventListener('touchstart', markPress, true);
-    pay.addEventListener('focusin', function () {
-        pressInside = true;
-        if (!pay.classList.contains('is-open')) {
-            paint(true);
-        }
-    });
-
     document.addEventListener('click', function (event) {
         var jump = event.target.closest && event.target.closest('#amePosPayJump, #ameSaleDockGo, a[href="#amePosPay"]');
-        if (jump) {
-            event.preventDefault();
-            paint(true);
+        if (!jump) {
             return;
         }
-        if (!pay.classList.contains('is-open')) {
-            return;
-        }
-        if (pressInside || inDock(event.target) || inDock(document.activeElement)) {
-            pressInside = false;
-            return;
-        }
-        paint(false);
-    });
-
-    document.addEventListener('keydown', function (event) {
-        if (event.key === 'Escape' && pay.classList.contains('is-open')) {
-            paint(false);
-        }
+        event.preventDefault();
+        paint(true);
     });
 })();

@@ -32,7 +32,7 @@ ame_cpd_expect(str_contains($desk, 'next_due_amount'), 'the expected amount is t
 ame_cpd_expect(str_contains($desk, 'receivable_balance'), 'the customer balance is read, not recalculated');
 
 $version = trim((string)file_get_contents($root . '/VERSION.txt'));
-ame_cpd_expect($version === '10.98.811', 'the update version is 10.98.811');
+ame_cpd_expect($version === '10.98.812', 'the update version is 10.98.812');
 ame_cpd_expect(str_contains($css, '.cpd-table th'), 'table headings keep their own colors');
 ame_cpd_expect(str_contains($css, 'min-height: 32px'), 'the receive fields stay compact');
 
