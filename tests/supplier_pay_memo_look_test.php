@@ -27,6 +27,12 @@ if (preg_match('/\$ameDueShow\s*[-+*\/]/', $receipt) || preg_match('/\$ledger\[.
 if (!str_contains($receipt, 'memo-badge') || !str_contains($receipt, 'memo-table') || !str_contains($receipt, 'inv-btn-print')) {
     spay_fail('sales memo design is missing');
 }
+if (!str_contains($receipt, 'sabek-box') || !str_contains($receipt, 'ame-paper-proof') || !str_contains($receipt, 'sabek-line')) {
+    spay_fail('receipt is not using the sales ledger box');
+}
+if (preg_match('/#ame-memo-capture-clone\.spay-memo \{[^}]*width:\s*100%/s', $css)) {
+    spay_fail('capture clone is forced narrower than the memo');
+}
 if (str_contains($receipt, 'ame-paper-80mm')) {
     spay_fail('receipt is still forced onto the thermal roll');
 }

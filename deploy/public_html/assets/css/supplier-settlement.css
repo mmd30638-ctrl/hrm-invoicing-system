@@ -685,10 +685,12 @@ html body.ame-spay-page #main-content #spayMemo .spay-ledger-proof,
 html body #ame-memo-capture-clone.spay-memo .spay-ledger-proof {
   margin: 10px 0 0 !important;
   text-align: center !important;
-  color: #111111 !important;
-  -webkit-text-fill-color: #111111 !important;
+  color: #0B1E4D !important;
   font-size: 16px !important;
   font-weight: 900 !important;
+  white-space: normal !important;
+  word-break: break-word !important;
+  overflow: visible !important;
 }
 html body.ame-spay-page #spReceipt .ame-op-stamp,
 html body.ame-spay-page #spReceipt .ame-op-stamp p {
@@ -715,7 +717,7 @@ html body #ame-memo-capture-clone.spay-memo .ame-logo-eid {
   paint-order: normal !important;
   text-shadow: none !important;
   font-weight: 900 !important;
-  font-size: 28px !important;
+  font-size: 18px !important;
   line-height: 1.45 !important;
   letter-spacing: 0 !important;
   text-align: center !important;
@@ -736,13 +738,11 @@ html body.ame-spay-page #main-content #spayMemo.memo-wrapper {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 }
 html body #ame-memo-capture-clone.spay-memo {
-  max-width: none !important;
-  width: 100% !important;
   margin: 0 !important;
   box-shadow: none !important;
   border: none !important;
-  padding: 24px 20px !important;
   background: #ffffff !important;
+  overflow: visible !important;
 }
 html body.ame-spay-page #spayMemo .memo-head,
 html body #ame-memo-capture-clone.spay-memo .memo-head {
@@ -806,44 +806,58 @@ html body #ame-memo-capture-clone.spay-memo .memo-meta-item .val {
   font-weight: 800 !important;
   word-break: break-word !important;
 }
-html body.ame-spay-page #spayMemo .memo-sum-row,
-html body #ame-memo-capture-clone.spay-memo .memo-sum-row {
+html body.ame-spay-page #spayMemo .sabek-box,
+html body #ame-memo-capture-clone.spay-memo .sabek-box {
   display: flex !important;
-  justify-content: space-between !important;
-  align-items: center !important;
-  gap: 10px !important;
-  margin: 6px 0 !important;
-  padding: 8px 10px !important;
-  border-radius: 8px !important;
-  font-size: 15px !important;
-  font-weight: 800 !important;
-}
-html body.ame-spay-page #spayMemo .spay-row-sabek,
-html body #ame-memo-capture-clone.spay-memo .spay-row-sabek {
+  flex-direction: column !important;
+  align-items: stretch !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  overflow: visible !important;
   background: #FFFBEB !important;
   border: 1px solid #FDE68A !important;
+  border-radius: 8px !important;
+  padding: 8px 10px !important;
+  margin-top: 6px !important;
+  gap: 4px !important;
 }
-html body.ame-spay-page #spayMemo .highlight,
-html body #ame-memo-capture-clone.spay-memo .highlight {
-  background: #F0FDF4 !important;
-  border: 1px solid #BBF7D0 !important;
-  color: #166534 !important;
+html body.ame-spay-page #spayMemo .sabek-line,
+html body #ame-memo-capture-clone.spay-memo .sabek-line {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  gap: 8px !important;
+  overflow: visible !important;
+  font-size: 15px !important;
+  font-weight: 800 !important;
+  color: #111827 !important;
 }
-html body.ame-spay-page #spayMemo .spay-row-left,
-html body #ame-memo-capture-clone.spay-memo .spay-row-left {
-  background: #FEF2F2 !important;
-  border: 1px solid #FECACA !important;
+html body.ame-spay-page #spayMemo .sabek-line span:first-child,
+html body #ame-memo-capture-clone.spay-memo .sabek-line span:first-child {
+  min-width: 0 !important;
+  flex: 1 1 auto !important;
 }
-html body.ame-spay-page #spayMemo .spay-row-adv,
-html body #ame-memo-capture-clone.spay-memo .spay-row-adv {
-  background: #F0FDF4 !important;
-  border: 1px solid #BBF7D0 !important;
+html body.ame-spay-page #spayMemo .sabek-line span:last-child,
+html body #ame-memo-capture-clone.spay-memo .sabek-line span:last-child {
+  flex: 0 0 auto !important;
+  white-space: nowrap !important;
+  text-align: right !important;
+}
+html body.ame-spay-page #spayMemo .spay-total-line,
+html body #ame-memo-capture-clone.spay-memo .spay-total-line {
+  border-top: 1px solid #F59E0B !important;
+  margin-top: 6px !important;
+  padding-top: 6px !important;
 }
 html body.ame-spay-page #spayMemo .spay-money-due,
 html body #ame-memo-capture-clone.spay-memo .spay-money-due {
   color: #003F8F !important;
-  -webkit-text-fill-color: #003F8F !important;
-  font-size: 18px !important;
+  font-size: 16px !important;
   font-weight: 900 !important;
 }
 html body.ame-spay-page #spayMemo .spay-money-paid,
@@ -851,24 +865,30 @@ html body.ame-spay-page #spayMemo .spay-money-adv,
 html body #ame-memo-capture-clone.spay-memo .spay-money-paid,
 html body #ame-memo-capture-clone.spay-memo .spay-money-adv {
   color: #166534 !important;
-  -webkit-text-fill-color: #166534 !important;
-  font-size: 18px !important;
+  font-size: 16px !important;
   font-weight: 900 !important;
 }
 html body.ame-spay-page #spayMemo .spay-money-left,
 html body #ame-memo-capture-clone.spay-memo .spay-money-left {
   color: #991B1B !important;
-  -webkit-text-fill-color: #991B1B !important;
-  font-size: 18px !important;
+  font-size: 16px !important;
   font-weight: 900 !important;
 }
 html body.ame-spay-page #spayMemo .spay-ledger-proof,
 html body #ame-memo-capture-clone.spay-memo .spay-ledger-proof {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  margin-top: 6px !important;
   text-align: center !important;
   color: #0B1E4D !important;
-  -webkit-text-fill-color: #0B1E4D !important;
-  font-size: 15px !important;
+  font-size: 14px !important;
   font-weight: 900 !important;
+  line-height: 1.45 !important;
+  white-space: normal !important;
+  word-break: break-word !important;
+  overflow: visible !important;
 }
 html body.ame-spay-page #spReceipt .inv-action-bar {
   display: flex;

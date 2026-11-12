@@ -129,7 +129,7 @@
         var link = document.createElement('link');
         link.id = 'ameMemoClearCss';
         link.rel = 'stylesheet';
-        link.href = '/assets/css/memo-clear.css?v=10.98.798';
+        link.href = '/assets/css/memo-clear.css?v=10.98.799';
         (document.body || document.head || document.documentElement).appendChild(link);
     }
     ensureMemoClearCss();
@@ -651,7 +651,6 @@
             } catch (e) {}
         });
         clone.querySelectorAll('.ame-logo-eid').forEach(function (el) {
-            var clearTop = clone.classList && clone.classList.contains('spay-memo');
             el.style.animation = 'none';
             el.style.whiteSpace = 'normal';
             el.style.overflow = 'visible';
@@ -662,7 +661,7 @@
             el.style.backgroundImage = 'none';
             el.style.webkitTextStroke = '0';
             el.style.paintOrder = 'normal';
-            paintClearLine(el, '#9B1C1C', clearTop ? '28px' : '22px');
+            paintClearLine(el, '#9B1C1C', '18px');
         });
         document.body.appendChild(clone);
         return clone;
