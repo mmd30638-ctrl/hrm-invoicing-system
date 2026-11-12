@@ -62,7 +62,7 @@
         setStyle(pay, 'max-width', width + 'px');
         setStyle(pay, 'height', 'auto');
         setStyle(pay, 'margin', '0');
-        setStyle(pay, 'z-index', '120000');
+        setStyle(pay, 'z-index', '900000');
         setStyle(pay, 'overflow', 'auto');
         setStyle(pay, 'display', 'block');
         setStyle(pay, 'visibility', 'visible');
@@ -73,7 +73,7 @@
         setStyle(pay, 'transform', open ? 'translateX(0)' : 'translateX(110%)');
         setStyle(pay, 'pointer-events', open ? 'auto' : 'none');
         setStyle(tab, 'position', 'fixed');
-        setStyle(tab, 'z-index', '120001');
+        setStyle(tab, 'z-index', '900001');
         setStyle(tab, 'top', '42%');
         setStyle(tab, 'right', open ? (width + 'px') : '0');
         setStyle(tab, 'left', 'auto');
