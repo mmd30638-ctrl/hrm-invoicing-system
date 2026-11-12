@@ -585,6 +585,15 @@ if (isset($db) && $db instanceof mysqli) {
                             aria-label="<?php echo $escape($words['draft_complete']); ?>"
                         >✅</button>
                     </div>
+                    <div class="ame-pos-complete-row">
+                    <button
+                        type="button"
+                        id="amePosCashPaid"
+                        class="ame-pos-cash-paid"
+                        title="<?php echo $escape($ame_pos_english
+                            ? 'Pay the full amount in cash, complete the memo, and open share'
+                            : 'পুরো টাকা ক্যাশে নিয়ে মেমো সম্পন্ন করুন ও শেয়ার খুলুন'); ?>"
+                    ><?php echo $escape($words['pay_cash']); ?></button>
                     <button
                         type="button"
                         id="amePosRecentToggle"
@@ -596,6 +605,7 @@ if (isset($db) && $db instanceof mysqli) {
                         <span id="amePosRecentCurrent"><?php echo $escape($words['recent_complete']); ?></span>
                         <span class="ame-pos-recent-caret" aria-hidden="true">▾</span>
                     </button>
+                    </div>
                     <div id="amePosRecentFlyout" class="ame-pos-recent-flyout" hidden role="listbox">
                         <button type="button" id="amePosRecentDraft" class="ame-pos-recent-option" role="option">
                             <?php echo $escape($words['recent_draft']); ?>

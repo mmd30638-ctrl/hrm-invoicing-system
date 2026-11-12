@@ -203,7 +203,7 @@ $tg_url = 'https://t.me/share/url?url=' . rawurlencode($ame_public_memo) . '&tex
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title><?php echo ame_ui('ইনভয়েস', 'Invoice'); ?> #<?php echo htmlspecialchars($inv_no, ENT_QUOTES, 'UTF-8'); ?> - <?php echo htmlspecialchars($shop['shop_name'] ?? 'Aponshop', ENT_QUOTES, 'UTF-8'); ?></title>
     <link rel="stylesheet" href="/assets/css/ame-front-colors.css">
-    <link rel="stylesheet" href="/assets/css/memo-clear.css?v=10.98.813">
+    <link rel="stylesheet" href="/assets/css/memo-clear.css?v=10.98.814">
     <style>
         * { box-sizing: border-box; }
         body {
@@ -721,7 +721,7 @@ $tg_url = 'https://t.me/share/url?url=' . rawurlencode($ame_public_memo) . '&tex
     </div>
 
     <!-- স্ক্রিপ্ট লোডার -->
-    <script src="/assets/js/ame-memo-file.js?v=10.98.813"></script>
+    <script src="/assets/js/ame-memo-file.js?v=10.98.814"></script>
     <script>
     (function () {
         var saleId = <?php echo (int)$sale_id; ?>;
@@ -748,6 +748,13 @@ $tg_url = 'https://t.me/share/url?url=' . rawurlencode($ame_public_memo) . '&tex
         // স্বয়ংক্রিয় ট্রিগার (ইউআরএল প্যারামিটার অনুযায়ী)
         window.addEventListener('DOMContentLoaded', function () {
             var urlParams = new URLSearchParams(window.location.search);
+            var cashShare = false;
+            try {
+                if (sessionStorage.getItem('amePosCashShare') === '1' && (urlParams.get('from') === 'complete' || urlParams.get('share') === '1')) {
+                    cashShare = true;
+                    sessionStorage.removeItem('amePosCashShare');
+                }
+            } catch (err) {}
             if (urlParams.get('print') === '1' && !urlParams.get('beacon')) {
                 setTimeout(function () {
                     if (typeof window.ameMemoCapture === 'function') {
@@ -756,7 +763,7 @@ $tg_url = 'https://t.me/share/url?url=' . rawurlencode($ame_public_memo) . '&tex
                         window.print();
                     }
                 }, 400);
-            } else if (urlParams.get('share') === '1') {
+            } else if (urlParams.get('share') === '1' || cashShare) {
                 setTimeout(function () {
                     if (typeof window.ameMemoCapture === 'function') {
                         window.ameMemoCapture('share', fileBase, 'memo-container');

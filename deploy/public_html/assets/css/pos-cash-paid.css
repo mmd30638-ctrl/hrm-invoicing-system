@@ -1,0 +1,42 @@
+/* Cash box sits on the left of the Complete box. */
+
+html body.ame-sales-pro.ame-pos-terminal-page #main-content .ame-sale-desk .ame-pos-complete-row {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: stretch !important;
+  gap: 8px !important;
+  width: 100% !important;
+  margin-top: 8px !important;
+}
+
+html body.ame-sales-pro.ame-pos-terminal-page #main-content .ame-sale-desk .ame-pos-complete-row button#amePosCashPaid {
+  flex: 0 0 42% !important;
+  width: 42% !important;
+  max-width: 42% !important;
+  min-width: 0 !important;
+  min-height: 48px !important;
+  height: 48px !important;
+  margin: 0 !important;
+  padding: 6px 8px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 12px !important;
+  border: 1.5px solid #0b3d91 !important;
+  background: #0b3d91 !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  font-size: 16px !important;
+  font-weight: 800 !important;
+  line-height: 1.1 !important;
+  cursor: pointer !important;
+  box-sizing: border-box !important;
+}
+
+html body.ame-sales-pro.ame-pos-terminal-page #main-content .ame-sale-desk .ame-pos-complete-row button#amePosRecentToggle {
+  flex: 1 1 auto !important;
+  width: auto !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  margin-top: 0 !important;
+}
