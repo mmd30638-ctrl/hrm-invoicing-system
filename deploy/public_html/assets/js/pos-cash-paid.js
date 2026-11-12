@@ -149,9 +149,94 @@
         }
     }, true);
 
-    button.addEventListener('click', function (event) {
-        event.preventDefault();
-        event.stopPropagation();
+    function isRegisteredCustomer() {
+        var nodes = document.querySelectorAll('input[name="cus_type"]:checked, input[name="cus_type_toolbar"]:checked');
+        var i;
+        for (i = 0; i < nodes.length; i++) {
+            if (nodes[i].value === 'Registered') {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function customerName() {
+        var field = document.getElementById('posCustomerInfoField');
+        return field && field.value ? field.value.replace(/\s+/g, ' ').trim() : '';
+    }
+
+    function closeCashAsk() {
+        var open = document.getElementById('ameCashAsk');
+        if (open) {
+            open.remove();
+        }
+    }
+
+    function openCashAsk(onYes) {
+        closeCashAsk();
+        var root = document.createElement('div');
+        root.id = 'ameCashAsk';
+        root.className = 'ame-cash-ask';
+        var card = document.createElement('div');
+        card.className = 'ame-cash-ask-card';
+        card.setAttribute('role', 'dialog');
+        card.setAttribute('aria-modal', 'true');
+        var kicker = document.createElement('p');
+        kicker.className = 'ame-cash-ask-kicker';
+        kicker.textContent = english ? 'Message' : 'বার্তা';
+        var bubble = document.createElement('p');
+        bubble.className = 'ame-cash-ask-bubble';
+        bubble.textContent = english
+            ? 'Has this customer\'s full amount been paid?'
+            : 'এই কাস্টমারের সম্পূর্ণ টাকা কি পরিশোধ হয়েছে?';
+        card.appendChild(kicker);
+        card.appendChild(bubble);
+        var name = customerName();
+        if (name) {
+            var who = document.createElement('p');
+            who.className = 'ame-cash-ask-who';
+            who.textContent = name;
+            card.appendChild(who);
+        }
+        var actions = document.createElement('div');
+        actions.className = 'ame-cash-ask-actions';
+        var yes = document.createElement('button');
+        yes.type = 'button';
+        yes.className = 'ame-cash-ask-yes';
+        yes.textContent = english ? 'Yes, it is paid' : 'হ্যাঁ, পরিশোধ হয়েছে';
+        var no = document.createElement('button');
+        no.type = 'button';
+        no.className = 'ame-cash-ask-no';
+        no.textContent = english ? 'No' : 'না';
+        yes.addEventListener('click', function () {
+            closeCashAsk();
+            onYes();
+        });
+        no.addEventListener('click', closeCashAsk);
+        actions.appendChild(yes);
+        actions.appendChild(no);
+        card.appendChild(actions);
+        root.appendChild(card);
+        root.addEventListener('click', function (event) {
+            if (event.target === root) {
+                closeCashAsk();
+            }
+        });
+        document.addEventListener('keydown', function onKey(event) {
+            if (!document.getElementById('ameCashAsk')) {
+                document.removeEventListener('keydown', onKey);
+                return;
+            }
+            if (event.key === 'Escape') {
+                closeCashAsk();
+                document.removeEventListener('keydown', onKey);
+            }
+        });
+        document.body.appendChild(root);
+        yes.focus();
+    }
+
+    function finishCash() {
         var amount = payableNow();
         var method = document.getElementById('deskPayMethod');
         var paid = document.getElementById('deskPaid');
@@ -181,5 +266,15 @@
         if (typeof window.submitFinalSale === 'function') {
             window.submitFinalSale();
         }
+    }
+
+    button.addEventListener('click', function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        if (isRegisteredCustomer()) {
+            openCashAsk(finishCash);
+            return;
+        }
+        finishCash();
     });
 })();

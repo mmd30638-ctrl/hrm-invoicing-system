@@ -40,3 +40,72 @@ html body.ame-sales-pro.ame-pos-terminal-page #main-content .ame-sale-desk .ame-
   min-width: 0 !important;
   margin-top: 0 !important;
 }
+
+.ame-cash-ask {
+  position: fixed;
+  inset: 0;
+  z-index: 960000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  background: rgba(15, 23, 42, 0.46);
+}
+
+.ame-cash-ask-card {
+  width: min(360px, 100%);
+  padding: 18px 16px 14px;
+  border-radius: 22px;
+  background: #ffffff;
+  box-shadow: 0 22px 50px rgba(15, 23, 42, 0.28);
+  border: 1px solid #dbe7ff;
+}
+
+.ame-cash-ask-kicker {
+  margin: 0 0 10px;
+  color: #0b3d91;
+  font: 800 12px/1 'Noto Sans Bengali', 'Segoe UI', sans-serif;
+  letter-spacing: 0.04em;
+}
+
+.ame-cash-ask-bubble {
+  margin: 0;
+  padding: 14px 14px 12px;
+  border-radius: 16px 16px 16px 6px;
+  background: #eff6ff;
+  color: #1e3a8a;
+  font: 800 18px/1.45 'Noto Sans Bengali', 'Segoe UI', sans-serif;
+}
+
+.ame-cash-ask-who {
+  margin: 10px 0 0;
+  color: #9f1239;
+  font: 900 16px/1.3 'Noto Sans Bengali', 'Segoe UI', sans-serif;
+}
+
+.ame-cash-ask-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.ame-cash-ask-yes,
+.ame-cash-ask-no {
+  flex: 1;
+  min-height: 46px;
+  border-radius: 12px;
+  font: 800 15px/1.2 'Noto Sans Bengali', 'Segoe UI', sans-serif;
+  cursor: pointer;
+}
+
+.ame-cash-ask-yes {
+  border: 0;
+  background: #0b3d91;
+  color: #ffffff;
+}
+
+.ame-cash-ask-no {
+  border: 1.5px solid #cbd5e1;
+  background: #ffffff;
+  color: #334155;
+}

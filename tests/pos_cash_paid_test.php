@@ -30,5 +30,13 @@ ame_cash_expect(str_contains($invoice, 'amePosCashShare'), 'the invoice can open
 ame_cash_expect(str_contains($js, "getElementById('discount')") === false, 'the cash box does not rewrite the discount');
 ame_cash_expect(str_contains($js, "getElementById('sub-total')") === false, 'the cash box does not rewrite the subtotal');
 ame_cash_expect(str_contains($js, 'customer_id') === false, 'the cash box does not change the customer balance');
+ame_cash_expect(str_contains($js, 'Registered'), 'a registered customer is asked before the cash shortcut');
+ame_cash_expect(str_contains($js, 'এই কাস্টমারের সম্পূর্ণ টাকা কি পরিশোধ হয়েছে?'), 'the cash shortcut asks whether the full amount is paid');
+ame_cash_expect(str_contains($css, 'ame-cash-ask-bubble'), 'the question is shown as a designed message');
+ame_cash_expect(str_contains($invoice, 'memo-customer-name'), 'the memo customer name can be drawn heavier');
+$ink = (string)file_get_contents($root . '/assets/css/memo-clear.css');
+ame_cash_expect(str_contains($ink, '#memo-container .memo-customer-name'), 'the memo customer name has its own color');
+ame_cash_expect(str_contains($ink, '#9F1239'), 'the customer name color is separate from the other lines');
+ame_cash_expect(str_contains($invoice, 'number_format($paid_amount, 2)'), 'the paid figure on the memo is unchanged');
 
 echo "OK cash paid complete\n";

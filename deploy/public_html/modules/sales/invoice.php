@@ -203,7 +203,7 @@ $tg_url = 'https://t.me/share/url?url=' . rawurlencode($ame_public_memo) . '&tex
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title><?php echo ame_ui('ইনভয়েস', 'Invoice'); ?> #<?php echo htmlspecialchars($inv_no, ENT_QUOTES, 'UTF-8'); ?> - <?php echo htmlspecialchars($shop['shop_name'] ?? 'Aponshop', ENT_QUOTES, 'UTF-8'); ?></title>
     <link rel="stylesheet" href="/assets/css/ame-front-colors.css">
-    <link rel="stylesheet" href="/assets/css/memo-clear.css?v=10.98.814">
+    <link rel="stylesheet" href="/assets/css/memo-clear.css?v=10.98.815">
     <style>
         * { box-sizing: border-box; }
         body {
@@ -555,8 +555,8 @@ $tg_url = 'https://t.me/share/url?url=' . rawurlencode($ame_public_memo) . '&tex
             </div>
             <div class="memo-meta-item">
                 <span class="lbl"><?php echo !empty($sale['is_supplier']) ? ame_ui('পার্টি', 'Party') : ame_ui('ক্রেতা', 'Customer'); ?></span>
-                <span class="val">
-                    <?php echo htmlspecialchars($c_name, ENT_QUOTES, 'UTF-8'); ?>
+                    <span class="val">
+                    <span class="memo-customer-name"><?php echo htmlspecialchars($c_name, ENT_QUOTES, 'UTF-8'); ?></span>
                     <?php if (!empty($sale['is_supplier'])): ?>
                     <span class="memo-party-tag"><?php echo ame_ui('সরবরাহকারী', 'Supplier'); ?></span>
                     <?php endif; ?>
@@ -721,7 +721,7 @@ $tg_url = 'https://t.me/share/url?url=' . rawurlencode($ame_public_memo) . '&tex
     </div>
 
     <!-- স্ক্রিপ্ট লোডার -->
-    <script src="/assets/js/ame-memo-file.js?v=10.98.814"></script>
+    <script src="/assets/js/ame-memo-file.js?v=10.98.815"></script>
     <script>
     (function () {
         var saleId = <?php echo (int)$sale_id; ?>;
