@@ -769,6 +769,9 @@ function ame_staff_duty_roster(mysqli $db): array
     unset($dutyRow);
     $rows = ame_staff_duty_merge_logins($db, $rows);
     $rows = ame_staff_duty_unique_rows($rows);
+    if (function_exists('ame_engineer_bill_expand_roster')) {
+        $rows = ame_engineer_bill_expand_roster($db, $rows);
+    }
     $rosterCache = $rows;
     return $rows;
 }
@@ -1196,4 +1199,11 @@ function ame_staff_is_duty_active(mysqli $db, int $employee_id): bool
         return false;
     }
     return in_array($employee_id, ame_staff_on_duty_ids($db), true);
+}
+
+if (is_file(__DIR__ . '/engineer_bill_lock.php')) {
+    require_once __DIR__ . '/engineer_bill_lock.php';
+    if (isset($db) && $db instanceof mysqli && function_exists('ame_engineer_bill_boot')) {
+        ame_engineer_bill_boot($db);
+    }
 }
