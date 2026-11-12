@@ -41,7 +41,12 @@ $memoJs = (string)file_get_contents($root . '/assets/js/ame-memo-file.js');
 ame_cash_expect(str_contains($ink, '#memo-container .memo-customer-name'), 'the memo customer name has its own color');
 ame_cash_expect(str_contains($ink, '#ame-memo-capture-clone .memo-customer-name'), 'the shared memo copy keeps the customer name color');
 ame_cash_expect(str_contains($memoJs, 'paintSeenColors'), 'the share image copies the colors seen on the open memo');
-ame_cash_expect(str_contains($memoJs, 'data-sales-colors'), 'the sales memo footer stays in the share image');
+ame_cash_expect(str_contains($memoJs, "node.id === 'spayMemo'"), 'supplier and return memos keep the open colors when shared');
+$supplier = (string)file_get_contents($root . '/modules/suppliers/receipt.php');
+$returnMemo = (string)file_get_contents($root . '/modules/returns/v2/view.php');
+ame_cash_expect(str_contains($supplier, 'memo-customer-name'), 'the supplier name is drawn like the sales customer name');
+ame_cash_expect(str_contains($returnMemo, 'memo-customer-name'), 'the return memo customer name is drawn like the sales memo');
+ame_cash_expect(str_contains($supplier, 'number_format($amePaidShow, 2)'), 'the supplier paid figure is unchanged');
 ame_cash_expect(str_contains($ink, '#9F1239'), 'the customer name color is separate from the other lines');
 ame_cash_expect(str_contains($invoice, 'number_format($paid_amount, 2)'), 'the paid figure on the memo is unchanged');
 

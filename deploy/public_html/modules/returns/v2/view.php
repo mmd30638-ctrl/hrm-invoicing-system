@@ -265,7 +265,7 @@ $ame_file_base = 'return-' . preg_replace('/[^A-Za-z0-9_-]/', '', (string) $ret[
             </div>
             <div class="memo-meta-item">
                 <span class="lbl"><?php echo ame_ui('ক্রেতার নাম', 'Customer'); ?></span>
-                <span class="val"><?php echo htmlspecialchars($ret['customer_name'] ?: ame_ui('নগদ ক্রেতা', 'Cash customer'), ENT_QUOTES, 'UTF-8'); ?><?php echo $ame_ret_code !== '' ? ' (' . htmlspecialchars($ame_ret_code, ENT_QUOTES, 'UTF-8') . ')' : ''; ?></span>
+                <span class="val"><span class="memo-customer-name"><?php echo htmlspecialchars($ret['customer_name'] ?: ame_ui('নগদ ক্রেতা', 'Cash customer'), ENT_QUOTES, 'UTF-8'); ?><?php echo $ame_ret_code !== '' ? ' (' . htmlspecialchars($ame_ret_code, ENT_QUOTES, 'UTF-8') . ')' : ''; ?></span></span>
             </div>
             <div class="memo-meta-item">
                 <span class="lbl"><?php echo ame_ui('মোবাইল', 'Mobile'); ?></span>
@@ -410,7 +410,7 @@ function toggleDateEdit() {
 }
 </script>
 
-<script src="/assets/js/ame-memo-file.js?v=10.98.817"></script>
+<script src="/assets/js/ame-memo-file.js?v=10.98.818"></script>
 <script>
 function shareVoucher() {
     if (typeof window.ameMemoCapture === 'function') {

@@ -129,7 +129,7 @@
         var link = document.createElement('link');
         link.id = 'ameMemoClearCss';
         link.rel = 'stylesheet';
-        link.href = '/assets/css/memo-clear.css?v=10.98.817';
+        link.href = '/assets/css/memo-clear.css?v=10.98.818';
         (document.body || document.head || document.documentElement).appendChild(link);
     }
     ensureMemoClearCss();
@@ -643,8 +643,8 @@
             img.style.maxWidth = '280px';
             img.style.width = 'auto';
         });
-        var salesShot = node && node.id === 'memo-container';
-        if (salesShot) {
+        var inkShot = node && (node.id === 'memo-container' || node.id === 'spayMemo' || (node.getAttribute && node.getAttribute('data-ame-capture') === 'clone'));
+        if (inkShot) {
             clone.setAttribute('data-sales-colors', '1');
         } else {
             clone.querySelectorAll('.memo-foot').forEach(function (el) {
@@ -684,7 +684,7 @@
             el.style.paintOrder = 'normal';
             paintClearLine(el, '#9B1C1C', '18px');
         });
-        if (salesShot) {
+        if (inkShot) {
             paintSeenColors(node, clone);
         }
         document.body.appendChild(clone);
