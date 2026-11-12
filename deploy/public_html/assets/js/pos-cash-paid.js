@@ -181,22 +181,31 @@
         card.className = 'ame-cash-ask-card';
         card.setAttribute('role', 'dialog');
         card.setAttribute('aria-modal', 'true');
+        var head = document.createElement('div');
+        head.className = 'ame-cash-ask-head';
+        var mark = document.createElement('span');
+        mark.className = 'ame-cash-ask-mark';
+        mark.setAttribute('aria-hidden', 'true');
+        mark.textContent = '৳';
         var kicker = document.createElement('p');
         kicker.className = 'ame-cash-ask-kicker';
         kicker.textContent = english ? 'Message' : 'বার্তা';
+        head.appendChild(mark);
+        head.appendChild(kicker);
+        var body = document.createElement('div');
+        body.className = 'ame-cash-ask-body';
         var bubble = document.createElement('p');
         bubble.className = 'ame-cash-ask-bubble';
         bubble.textContent = english
             ? 'Has this customer\'s full amount been paid?'
             : 'এই কাস্টমারের সম্পূর্ণ টাকা কি পরিশোধ হয়েছে?';
-        card.appendChild(kicker);
-        card.appendChild(bubble);
+        body.appendChild(bubble);
         var name = customerName();
         if (name) {
             var who = document.createElement('p');
             who.className = 'ame-cash-ask-who';
             who.textContent = name;
-            card.appendChild(who);
+            body.appendChild(who);
         }
         var actions = document.createElement('div');
         actions.className = 'ame-cash-ask-actions';
@@ -215,7 +224,9 @@
         no.addEventListener('click', closeCashAsk);
         actions.appendChild(yes);
         actions.appendChild(no);
-        card.appendChild(actions);
+        body.appendChild(actions);
+        card.appendChild(head);
+        card.appendChild(body);
         root.appendChild(card);
         root.addEventListener('click', function (event) {
             if (event.target === root) {

@@ -33,6 +33,8 @@ ame_cash_expect(str_contains($js, 'customer_id') === false, 'the cash box does n
 ame_cash_expect(str_contains($js, 'Registered'), 'a registered customer is asked before the cash shortcut');
 ame_cash_expect(str_contains($js, 'এই কাস্টমারের সম্পূর্ণ টাকা কি পরিশোধ হয়েছে?'), 'the cash shortcut asks whether the full amount is paid');
 ame_cash_expect(str_contains($css, 'ame-cash-ask-bubble'), 'the question is shown as a designed message');
+ame_cash_expect(str_contains($css, 'ame-cash-ask-head'), 'the cash message has a colored header');
+ame_cash_expect(str_contains($js, 'ame-cash-ask-mark'), 'the cash message carries a colored mark');
 ame_cash_expect(str_contains($invoice, 'memo-customer-name'), 'the memo customer name can be drawn heavier');
 $ink = (string)file_get_contents($root . '/assets/css/memo-clear.css');
 ame_cash_expect(str_contains($ink, '#memo-container .memo-customer-name'), 'the memo customer name has its own color');
