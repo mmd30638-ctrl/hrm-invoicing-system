@@ -129,7 +129,7 @@
         var link = document.createElement('link');
         link.id = 'ameMemoClearCss';
         link.rel = 'stylesheet';
-        link.href = '/assets/css/memo-clear.css?v=10.98.791';
+        link.href = '/assets/css/memo-clear.css?v=10.98.801';
         (document.body || document.head || document.documentElement).appendChild(link);
     }
     ensureMemoClearCss();
@@ -612,15 +612,16 @@
             wrap.style.maxWidth = 'none';
             wrap.style.overflow = 'visible';
         });
+        var spayShot = node && node.classList && node.classList.contains('spay-memo');
         clone.style.cssText = [
             'position:absolute',
             'left:0',
             'top:0',
             'z-index:-1',
-            'width:' + A4_CSS_PX + 'px',
-            'max-width:' + A4_CSS_PX + 'px',
+            'width:' + (spayShot ? '420px' : (A4_CSS_PX + 'px')),
+            'max-width:' + (spayShot ? '420px' : (A4_CSS_PX + 'px')),
             'background:#ffffff',
-            'padding:28px 32px',
+            'padding:' + (spayShot ? '16px 14px' : '28px 32px'),
             'box-sizing:border-box',
             'font-size:16px',
             'line-height:1.5',
@@ -629,6 +630,14 @@
             'box-shadow:none',
             'overflow:visible'
         ].join(';');
+        if (spayShot) {
+            clone.style.setProperty('width', '420px', 'important');
+            clone.style.setProperty('max-width', '420px', 'important');
+            clone.style.setProperty('min-width', '0', 'important');
+            clone.style.setProperty('box-sizing', 'border-box', 'important');
+            clone.style.setProperty('overflow', 'visible', 'important');
+            clone.style.setProperty('padding', '16px 14px', 'important');
+        }
         clone.querySelectorAll('img.ame-print-logo, .memo-logo').forEach(function (img) {
             img.style.height = '96px';
             img.style.maxWidth = '280px';
@@ -648,10 +657,16 @@
                     el.style.webkitTextFillColor = 'unset';
                 }
                 el.style.animation = 'none';
+                if (spayShot) {
+                    el.style.setProperty('white-space', 'normal', 'important');
+                    el.style.setProperty('overflow', 'visible', 'important');
+                    el.style.setProperty('overflow-wrap', 'anywhere', 'important');
+                    el.style.setProperty('word-break', 'break-word', 'important');
+                    el.style.setProperty('max-width', '100%', 'important');
+                }
             } catch (e) {}
         });
         clone.querySelectorAll('.ame-logo-eid').forEach(function (el) {
-            var clearTop = clone.classList && clone.classList.contains('spay-memo');
             el.style.animation = 'none';
             el.style.whiteSpace = 'normal';
             el.style.overflow = 'visible';
@@ -662,7 +677,7 @@
             el.style.backgroundImage = 'none';
             el.style.webkitTextStroke = '0';
             el.style.paintOrder = 'normal';
-            paintClearLine(el, '#9B1C1C', clearTop ? '28px' : '22px');
+            paintClearLine(el, '#9B1C1C', '18px');
         });
         document.body.appendChild(clone);
         return clone;
@@ -671,6 +686,9 @@
     function capture(node) {
         var clone = prepClone(node);
             var scale = 2;
+        var spayShot = clone.classList && clone.classList.contains('spay-memo');
+        var boxW = spayShot ? Math.ceil(Math.max(clone.scrollWidth, clone.offsetWidth, 320)) : A4_CSS_PX;
+        var boxH = Math.ceil(Math.max(clone.scrollHeight, clone.offsetHeight));
         return waitImages(clone).then(function () {
             return window.html2canvas(clone, {
                 scale: scale,
@@ -678,10 +696,12 @@
                 useCORS: true,
                 allowTaint: true,
                 logging: false,
-                width: A4_CSS_PX,
-                windowWidth: A4_CSS_PX,
-                height: Math.max(clone.scrollHeight, clone.offsetHeight),
-                windowHeight: Math.max(clone.scrollHeight, clone.offsetHeight),
+                width: boxW,
+                windowWidth: boxW,
+                height: boxH,
+                windowHeight: boxH,
+                x: 0,
+                y: 0,
                 scrollX: 0,
                 scrollY: 0,
                 ignoreElements: function (element) {
