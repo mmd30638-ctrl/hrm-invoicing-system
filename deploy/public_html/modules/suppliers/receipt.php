@@ -37,6 +37,7 @@ $ameAdvanceShow = (float)($ledger['advance'] ?? 0);
 $ameDueShow = (float)$ledger['due'];
 $ameTotalShow = $ameAdvanceShow > 0.009 ? $ameAdvanceShow : $ameRemainShow;
 $ameTotalClass = $ameAdvanceShow > 0.009 ? 'spay-money-adv' : 'spay-money-left';
+$ameTotalRow = $ameAdvanceShow > 0.009 ? 'spay-row-adv' : 'spay-row-left';
 $waPhone = preg_replace('/\D+/', '', (string)($row['phone'] ?? ''));
 if (str_starts_with($waPhone, '0') && strlen($waPhone) >= 11) {
     $waPhone = '880' . substr($waPhone, 1);
@@ -56,8 +57,8 @@ $waUrl = 'https://wa.me/' . $waPhone . '?text=' . rawurlencode($waText);
 $ame_body_class = 'ame-spay-page ame-paper-a4';
 include '../../partials/header.php';
 ?>
-<link rel="stylesheet" href="/assets/css/supplier-settlement.css?v=10.98.800">
-<link rel="stylesheet" href="/assets/css/memo-clear.css?v=10.98.800">
+<link rel="stylesheet" href="/assets/css/supplier-settlement.css?v=10.98.801">
+<link rel="stylesheet" href="/assets/css/memo-clear.css?v=10.98.801">
 <div class="spay<?php echo isset($_GET['slip']) ? ' spay-slip' : ''; ?>" id="spReceipt">
     <?php if ($error !== ''): ?><div class="spay-error spay-no-print no-print"><?php echo htmlspecialchars($error, ENT_QUOTES, 'UTF-8'); ?></div><?php endif; ?>
     <nav class="inv-action-bar no-print spay-no-print" id="spayShareBar" aria-label="<?php echo ame_spay_t('পেমেন্ট রসিদ', 'Payment receipt'); ?>">
@@ -78,19 +79,19 @@ include '../../partials/header.php';
             <div class="memo-badge"><?php echo te('spay_receipt'); ?></div>
         </div>
         <div class="memo-meta-grid">
-            <div class="memo-meta-item"><span class="lbl"><?php echo te('spay_id'); ?></span><span class="val"><?php echo htmlspecialchars((string)$row['payment_no'], ENT_QUOTES, 'UTF-8'); ?></span></div>
-            <div class="memo-meta-item"><span class="lbl"><?php echo te('spay_date'); ?></span><span class="val"><?php echo htmlspecialchars($amePayWhen, ENT_QUOTES, 'UTF-8'); ?></span></div>
-            <div class="memo-meta-item"><span class="lbl"><?php echo te('spay_status'); ?></span><span class="val"><?php echo htmlspecialchars($statuses[$row['status']] ?? $row['status'], ENT_QUOTES, 'UTF-8'); ?></span></div>
-            <div class="memo-meta-item"><span class="lbl"><?php echo te('spay_company'); ?></span><span class="val"><?php echo htmlspecialchars((string)($row['business_name'] ?: $row['supplier_name']), ENT_QUOTES, 'UTF-8'); ?></span></div>
-            <div class="memo-meta-item"><span class="lbl"><?php echo te('spay_code'); ?></span><span class="val"><?php echo htmlspecialchars((string)($row['party_code'] ?: '—'), ENT_QUOTES, 'UTF-8'); ?></span></div>
-            <div class="memo-meta-item"><span class="lbl"><?php echo te('spay_mobile'); ?></span><span class="val"><?php echo htmlspecialchars((string)($row['phone'] ?: '—'), ENT_QUOTES, 'UTF-8'); ?></span></div>
-            <div class="memo-meta-item"><span class="lbl"><?php echo te('spay_method'); ?></span><span class="val"><?php echo htmlspecialchars($methods[$row['method']] ?? $row['method'], ENT_QUOTES, 'UTF-8'); ?></span></div>
-            <div class="memo-meta-item"><span class="lbl"><?php echo te('spay_account'); ?></span><span class="val"><?php echo htmlspecialchars((string)($row['account_name'] ?: '—'), ENT_QUOTES, 'UTF-8'); ?></span></div>
-            <div class="memo-meta-item"><span class="lbl"><?php echo ame_spay_t('সাপ্লায়ারের নাম', 'Supplier name'); ?></span><span class="val"><?php echo htmlspecialchars((string)($row['supplier_name'] ?: '—'), ENT_QUOTES, 'UTF-8'); ?></span></div>
-            <div class="memo-meta-item"><span class="lbl"><?php echo te('spay_ref'); ?></span><span class="val"><?php echo htmlspecialchars((string)($row['reference_no'] ?: '—'), ENT_QUOTES, 'UTF-8'); ?></span></div>
-            <div class="memo-meta-item"><span class="lbl"><?php echo te('spay_cheque'); ?></span><span class="val"><?php echo htmlspecialchars((string)($row['cheque_no'] ?: '—'), ENT_QUOTES, 'UTF-8'); ?></span></div>
-            <div class="memo-meta-item"><span class="lbl"><?php echo te('spay_by'); ?></span><span class="val"><?php echo htmlspecialchars((string)($row['created_name'] ?: '—'), ENT_QUOTES, 'UTF-8'); ?></span></div>
-            <div class="memo-meta-item"><span class="lbl"><?php echo te('spay_auth'); ?></span><span class="val"><?php echo htmlspecialchars((string)($row['approved_name'] ?: '—'), ENT_QUOTES, 'UTF-8'); ?></span></div>
+            <div class="memo-meta-item spay-c-navy"><span class="lbl"><?php echo te('spay_id'); ?></span><span class="val"><?php echo htmlspecialchars((string)$row['payment_no'], ENT_QUOTES, 'UTF-8'); ?></span></div>
+            <div class="memo-meta-item spay-c-blue"><span class="lbl"><?php echo te('spay_date'); ?></span><span class="val"><?php echo htmlspecialchars($amePayWhen, ENT_QUOTES, 'UTF-8'); ?></span></div>
+            <div class="memo-meta-item spay-c-green"><span class="lbl"><?php echo te('spay_status'); ?></span><span class="val"><?php echo htmlspecialchars($statuses[$row['status']] ?? $row['status'], ENT_QUOTES, 'UTF-8'); ?></span></div>
+            <div class="memo-meta-item spay-c-navy"><span class="lbl"><?php echo te('spay_company'); ?></span><span class="val"><?php echo htmlspecialchars((string)($row['business_name'] ?: $row['supplier_name']), ENT_QUOTES, 'UTF-8'); ?></span></div>
+            <div class="memo-meta-item spay-c-ink"><span class="lbl"><?php echo te('spay_code'); ?></span><span class="val"><?php echo htmlspecialchars((string)($row['party_code'] ?: '—'), ENT_QUOTES, 'UTF-8'); ?></span></div>
+            <div class="memo-meta-item spay-c-blue"><span class="lbl"><?php echo te('spay_mobile'); ?></span><span class="val"><?php echo htmlspecialchars((string)($row['phone'] ?: '—'), ENT_QUOTES, 'UTF-8'); ?></span></div>
+            <div class="memo-meta-item spay-c-green"><span class="lbl"><?php echo te('spay_method'); ?></span><span class="val"><?php echo htmlspecialchars($methods[$row['method']] ?? $row['method'], ENT_QUOTES, 'UTF-8'); ?></span></div>
+            <div class="memo-meta-item spay-c-navy"><span class="lbl"><?php echo te('spay_account'); ?></span><span class="val"><?php echo htmlspecialchars((string)($row['account_name'] ?: '—'), ENT_QUOTES, 'UTF-8'); ?></span></div>
+            <div class="memo-meta-item spay-c-red"><span class="lbl"><?php echo ame_spay_t('সাপ্লায়ারের নাম', 'Supplier name'); ?></span><span class="val"><?php echo htmlspecialchars((string)($row['supplier_name'] ?: '—'), ENT_QUOTES, 'UTF-8'); ?></span></div>
+            <div class="memo-meta-item spay-c-ink"><span class="lbl"><?php echo te('spay_ref'); ?></span><span class="val"><?php echo htmlspecialchars((string)($row['reference_no'] ?: '—'), ENT_QUOTES, 'UTF-8'); ?></span></div>
+            <div class="memo-meta-item spay-c-blue"><span class="lbl"><?php echo te('spay_cheque'); ?></span><span class="val"><?php echo htmlspecialchars((string)($row['cheque_no'] ?: '—'), ENT_QUOTES, 'UTF-8'); ?></span></div>
+            <div class="memo-meta-item spay-c-navy"><span class="lbl"><?php echo te('spay_by'); ?></span><span class="val"><?php echo htmlspecialchars((string)($row['created_name'] ?: '—'), ENT_QUOTES, 'UTF-8'); ?></span></div>
+            <div class="memo-meta-item spay-c-green"><span class="lbl"><?php echo te('spay_auth'); ?></span><span class="val"><?php echo htmlspecialchars((string)($row['approved_name'] ?: '—'), ENT_QUOTES, 'UTF-8'); ?></span></div>
         </div>
         <?php if (!empty($row['lines'])): ?>
         <table class="memo-table">
@@ -117,23 +118,23 @@ include '../../partials/header.php';
             <div class="ame-paper-box memo-sum-row sabek-box" id="spayLedgerBox">
                 <table class="spay-ledger">
                     <tbody>
-                    <tr class="sabek-line">
+                    <tr class="sabek-line spay-row-due">
                         <td><?php echo ame_spay_t('সাবেক বকেয়া', 'Previous due'); ?></td>
                         <td class="num spay-money-due">+৳<?php echo number_format($ameDueShow, 2); ?></td>
                     </tr>
-                    <tr class="sabek-line">
+                    <tr class="sabek-line spay-row-paid">
                         <td><?php echo ame_spay_t('পরিশোধ (−)', 'Paid (−)'); ?></td>
                         <td class="num spay-money-paid">−৳<?php echo number_format($amePaidShow, 2); ?></td>
                     </tr>
-                    <tr class="sabek-line spay-total-line">
+                    <tr class="sabek-line spay-total-line <?php echo $ameTotalRow; ?>">
                         <td><?php echo htmlspecialchars((string)($ledger['after_label'] ?? ''), ENT_QUOTES, 'UTF-8'); ?></td>
                         <td class="num <?php echo $ameTotalClass; ?>">৳<?php echo number_format($ameTotalShow, 2); ?></td>
                     </tr>
-                    <tr class="sabek-line">
+                    <tr class="sabek-line spay-row-left">
                         <td><?php echo ame_spay_t('মেমো শেষে অবশিষ্ট বকেয়া', 'Due left on this memo'); ?></td>
                         <td class="num spay-money-left">৳<?php echo number_format($ameRemainShow, 2); ?></td>
                     </tr>
-                    <tr class="sabek-line">
+                    <tr class="sabek-line spay-row-adv">
                         <td><?php echo ame_spay_t('অগ্রিম জমা', 'Advance held'); ?></td>
                         <td class="num spay-money-adv">৳<?php echo number_format($ameAdvanceShow, 2); ?></td>
                     </tr>
@@ -209,8 +210,8 @@ include '../../partials/header.php';
     <?php endif; ?>
 </div>
 <?php include '../../partials/footer.php'; ?>
-<link rel="stylesheet" href="/assets/css/supplier-settlement.css?v=10.98.800" id="spayInkLock">
-<link rel="stylesheet" href="/assets/css/memo-clear.css?v=10.98.800">
+<link rel="stylesheet" href="/assets/css/supplier-settlement.css?v=10.98.801" id="spayInkLock">
+<link rel="stylesheet" href="/assets/css/memo-clear.css?v=10.98.801">
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     var fileBase = <?php echo json_encode($fileBase, JSON_UNESCAPED_UNICODE); ?>;

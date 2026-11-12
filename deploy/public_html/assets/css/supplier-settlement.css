@@ -777,34 +777,66 @@ html body #ame-memo-capture-clone.spay-memo .memo-badge {
 html body.ame-spay-page #spayMemo .memo-meta-grid,
 html body #ame-memo-capture-clone.spay-memo .memo-meta-grid {
   display: grid !important;
-  grid-template-columns: 1fr 1fr !important;
-  gap: 8px 12px !important;
+  grid-template-columns: 1fr !important;
+  gap: 4px !important;
   background: #F8FAFC !important;
   border: 1px solid #E2E8F0 !important;
   border-radius: 10px !important;
-  padding: 10px 12px !important;
+  padding: 8px 10px !important;
   margin: 0 0 12px !important;
 }
 html body.ame-spay-page #spayMemo .memo-meta-item,
 html body #ame-memo-capture-clone.spay-memo .memo-meta-item {
   display: flex !important;
-  flex-direction: column !important;
+  flex-direction: row !important;
+  justify-content: space-between !important;
+  align-items: baseline !important;
+  gap: 10px !important;
   min-width: 0 !important;
+  width: 100% !important;
 }
 html body.ame-spay-page #spayMemo .memo-meta-item .lbl,
 html body #ame-memo-capture-clone.spay-memo .memo-meta-item .lbl {
-  color: #0B1E4D !important;
-  -webkit-text-fill-color: #0B1E4D !important;
+  color: #64748B !important;
+  -webkit-text-fill-color: #64748B !important;
   font-size: 13px !important;
   font-weight: 800 !important;
+  flex: 0 0 auto !important;
+  text-align: left !important;
 }
 html body.ame-spay-page #spayMemo .memo-meta-item .val,
 html body #ame-memo-capture-clone.spay-memo .memo-meta-item .val {
-  color: #0F172A !important;
-  -webkit-text-fill-color: #0F172A !important;
   font-size: 15px !important;
   font-weight: 800 !important;
+  text-align: right !important;
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
   word-break: break-word !important;
+}
+html body.ame-spay-page #spayMemo .spay-c-navy .val,
+html body #ame-memo-capture-clone.spay-memo .spay-c-navy .val {
+  color: #003F8F !important;
+  -webkit-text-fill-color: #003F8F !important;
+}
+html body.ame-spay-page #spayMemo .spay-c-blue .val,
+html body #ame-memo-capture-clone.spay-memo .spay-c-blue .val {
+  color: #0B3A82 !important;
+  -webkit-text-fill-color: #0B3A82 !important;
+}
+html body.ame-spay-page #spayMemo .spay-c-green .val,
+html body #ame-memo-capture-clone.spay-memo .spay-c-green .val {
+  color: #166534 !important;
+  -webkit-text-fill-color: #166534 !important;
+}
+html body.ame-spay-page #spayMemo .spay-c-red .val,
+html body #ame-memo-capture-clone.spay-memo .spay-c-red .val {
+  color: #991B1B !important;
+  -webkit-text-fill-color: #991B1B !important;
+}
+html body.ame-spay-page #spayMemo .spay-c-ink .val,
+html body #ame-memo-capture-clone.spay-memo .spay-c-ink .val {
+  color: #0F172A !important;
+  -webkit-text-fill-color: #0F172A !important;
 }
 html body.ame-spay-page #spayMemo.memo-wrapper,
 html body #ame-memo-capture-clone.spay-memo {
@@ -837,20 +869,42 @@ html body.ame-spay-page #spayMemo .spay-ledger td,
 html body #ame-memo-capture-clone.spay-memo .spay-ledger td {
   width: 50% !important;
   box-sizing: border-box !important;
-  padding: 5px 4px !important;
+  padding: 6px 8px !important;
   font-size: 14px !important;
   font-weight: 800 !important;
-  color: #111827 !important;
-  background: transparent !important;
   white-space: normal !important;
   word-break: break-word !important;
   overflow: visible !important;
-  vertical-align: top !important;
+  vertical-align: middle !important;
   text-align: left !important;
 }
 html body.ame-spay-page #spayMemo .spay-ledger td.num,
 html body #ame-memo-capture-clone.spay-memo .spay-ledger td.num {
   text-align: right !important;
+}
+html body.ame-spay-page #spayMemo .spay-row-due td,
+html body #ame-memo-capture-clone.spay-memo .spay-row-due td {
+  background: #FFFBEB !important;
+  color: #003F8F !important;
+  -webkit-text-fill-color: #003F8F !important;
+}
+html body.ame-spay-page #spayMemo .spay-row-paid td,
+html body #ame-memo-capture-clone.spay-memo .spay-row-paid td {
+  background: #F0FDF4 !important;
+  color: #166534 !important;
+  -webkit-text-fill-color: #166534 !important;
+}
+html body.ame-spay-page #spayMemo .spay-row-left td,
+html body #ame-memo-capture-clone.spay-memo .spay-row-left td {
+  background: #FEF2F2 !important;
+  color: #991B1B !important;
+  -webkit-text-fill-color: #991B1B !important;
+}
+html body.ame-spay-page #spayMemo .spay-row-adv td,
+html body #ame-memo-capture-clone.spay-memo .spay-row-adv td {
+  background: #ECFDF5 !important;
+  color: #166534 !important;
+  -webkit-text-fill-color: #166534 !important;
 }
 html body.ame-spay-page #spayMemo .spay-total-line,
 html body #ame-memo-capture-clone.spay-memo .spay-total-line {
@@ -933,7 +987,24 @@ html body.ame-spay-page #spReceipt .spay-more {
   max-width: 520px;
   margin: 8px auto 12px;
 }
+html body.ame-spay-page #spayMemo .memo-shop-desc,
+html body #ame-memo-capture-clone.spay-memo .memo-shop-desc {
+  color: #0B3A82 !important;
+  -webkit-text-fill-color: #0B3A82 !important;
+}
+html body.ame-spay-page #spayMemo .memo-shop-phone,
+html body #ame-memo-capture-clone.spay-memo .memo-shop-phone {
+  color: #166534 !important;
+  -webkit-text-fill-color: #166534 !important;
+}
+html body.ame-spay-page #spayMemo .memo-table tbody td,
+html body #ame-memo-capture-clone.spay-memo .memo-table tbody td {
+  color: #003F8F !important;
+  -webkit-text-fill-color: #003F8F !important;
+}
 html body.ame-spay-page #spayMemo .memo-table .tr,
 html body #ame-memo-capture-clone.spay-memo .memo-table .tr {
   text-align: right !important;
+  color: #166534 !important;
+  -webkit-text-fill-color: #166534 !important;
 }
