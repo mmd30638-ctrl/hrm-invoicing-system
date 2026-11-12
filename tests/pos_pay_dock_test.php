@@ -15,9 +15,12 @@ $footer = (string)file_get_contents($root . '/partials/footer.php');
 $pos = (string)file_get_contents($root . '/modules/sales/pos_workspace.php');
 
 ame_dock_expect(str_contains($css, '#amePosPay.is-open'), 'the payment panel can slide open');
-ame_dock_expect(str_contains($css, 'translateX(105%)'), 'the payment panel starts tucked on the right');
+ame_dock_expect(str_contains($css, 'translateX(110%)'), 'the payment panel starts tucked on the right');
 ame_dock_expect(str_contains($css, 'grid-template-columns: minmax(0, 1fr) !important'), 'the cart keeps the width while payment is tucked');
 ame_dock_expect(str_contains($js, "getElementById('amePosPay')"), 'the dock uses the existing payment panel');
+ame_dock_expect(str_contains($js, "setProperty(prop, value, 'important')"), 'the dock styles win over the sales lock sheet');
+ame_dock_expect(str_contains($js, 'appendChild(pay)'), 'the payment panel leaves the clipped sales grid');
+ame_dock_expect(str_contains($js, 'translateX(110%)'), 'a closed panel stays fully off the right edge');
 ame_dock_expect(str_contains($js, 'deskPaid') === false, 'the dock does not rewrite the paid amount');
 ame_dock_expect(str_contains($js, 'calculateAll') === false, 'the dock does not recalculate the sale');
 ame_dock_expect(str_contains($footer, 'pos-pay-dock.css'), 'the dock style loads with the shop');
@@ -25,6 +28,6 @@ ame_dock_expect(str_contains($footer, 'pos-pay-dock.js'), 'the dock control load
 ame_dock_expect(str_contains($pos, "getElementById('deskPayArrow')"), 'the second-account arrow stays in place');
 
 $version = trim((string)file_get_contents($root . '/VERSION.txt'));
-ame_dock_expect($version === '10.98.807', 'the update version is 10.98.807');
+ame_dock_expect($version === '10.98.808', 'the update version is 10.98.808');
 
 echo "OK pos payment dock\n";

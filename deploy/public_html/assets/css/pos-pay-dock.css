@@ -19,13 +19,13 @@ html body.ame-pos-terminal-page #main-content .ame-sale-desk #amePosPay {
   background: #ffffff !important;
   border-radius: 14px 0 0 14px;
   box-shadow: -16px 0 36px rgba(15, 35, 80, 0.18);
-  transform: translateX(105%);
+  transform: translateX(110%) !important;
   transition: transform 0.22s ease;
   pointer-events: none;
 }
 
 html body.ame-pos-terminal-page #main-content .ame-sale-desk #amePosPay.is-open {
-  transform: translateX(0);
+  transform: translateX(0) !important;
   pointer-events: auto;
 }
 
@@ -64,7 +64,6 @@ html body.ame-pos-terminal-page .ame-pay-dock-tab .ame-pay-dock-word {
 }
 
 html body.ame-pos-terminal-page.ame-pay-open .ame-pay-dock-tab {
-  right: min(420px, calc(100vw - 48px));
   border-radius: 14px 0 0 14px;
   background: #0f766e;
   box-shadow: -6px 8px 18px rgba(15, 118, 110, 0.28);
@@ -75,8 +74,5 @@ html body.ame-pos-terminal-page.ame-pay-open .ame-pay-dock-tab {
     top: calc(52px + env(safe-area-inset-top, 0px));
     width: min(420px, calc(100vw - 44px));
     max-width: calc(100vw - 44px);
-  }
-  html body.ame-pos-terminal-page.ame-pay-open .ame-pay-dock-tab {
-    right: min(420px, calc(100vw - 44px));
   }
 }

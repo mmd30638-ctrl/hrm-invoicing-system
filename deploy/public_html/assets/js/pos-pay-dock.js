@@ -19,9 +19,50 @@
         return english ? 'Pay' : 'পেমেন্ট';
     }
 
+    function panelWidth() {
+        return Math.min(420, Math.max(260, window.innerWidth - 52));
+    }
+
+    function setStyle(node, prop, value) {
+        node.style.setProperty(prop, value, 'important');
+    }
+
     function paint(open) {
+        var width = panelWidth();
         pay.classList.toggle('is-open', open);
         document.body.classList.toggle('ame-pay-open', open);
+        setStyle(pay, 'position', 'fixed');
+        setStyle(pay, 'top', '56px');
+        setStyle(pay, 'right', '0');
+        setStyle(pay, 'bottom', '0');
+        setStyle(pay, 'left', 'auto');
+        setStyle(pay, 'width', width + 'px');
+        setStyle(pay, 'max-width', width + 'px');
+        setStyle(pay, 'height', 'auto');
+        setStyle(pay, 'margin', '0');
+        setStyle(pay, 'z-index', '120000');
+        setStyle(pay, 'overflow', 'auto');
+        setStyle(pay, 'display', 'block');
+        setStyle(pay, 'visibility', 'visible');
+        setStyle(pay, 'opacity', '1');
+        setStyle(pay, 'background', '#ffffff');
+        setStyle(pay, 'border-radius', '14px 0 0 14px');
+        setStyle(pay, 'box-shadow', open ? '-16px 0 36px rgba(15, 35, 80, 0.18)' : 'none');
+        setStyle(pay, 'transform', open ? 'translateX(0)' : 'translateX(110%)');
+        setStyle(pay, 'pointer-events', open ? 'auto' : 'none');
+        setStyle(tab, 'position', 'fixed');
+        setStyle(tab, 'z-index', '120001');
+        setStyle(tab, 'top', '42%');
+        setStyle(tab, 'right', open ? (width + 'px') : '0');
+        setStyle(tab, 'left', 'auto');
+        setStyle(tab, 'overflow', 'hidden');
+        setStyle(tab, 'transform', 'none');
+        var extras = document.querySelectorAll('.ame-pay-dock-tab');
+        for (var i = 0; i < extras.length; i++) {
+            if (extras[i] !== tab) {
+                extras[i].remove();
+            }
+        }
         tab.setAttribute('aria-expanded', open ? 'true' : 'false');
         tab.setAttribute('aria-label', open
             ? (english ? 'Hide the payment panel' : 'পেমেন্ট প্যানেল লুকান')
@@ -40,11 +81,19 @@
         paint(!pay.classList.contains('is-open'));
     });
 
+    var grid = pay.closest('.ame-pos-grid');
+    document.body.appendChild(pay);
     document.body.appendChild(tab);
+    if (grid) {
+        grid.style.setProperty('grid-template-columns', 'minmax(0, 1fr)', 'important');
+    }
     paint(false);
+    window.addEventListener('resize', function () {
+        paint(pay.classList.contains('is-open'));
+    });
 
     document.addEventListener('click', function (event) {
-        var jump = event.target.closest && event.target.closest('#amePosPayJump, a[href="#amePosPay"]');
+        var jump = event.target.closest && event.target.closest('#amePosPayJump, #ameSaleDockGo, a[href="#amePosPay"]');
         if (jump) {
             event.preventDefault();
             paint(true);
