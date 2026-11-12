@@ -1191,13 +1191,23 @@ html body.ame-customer-payment-page #main-content {
   background: #f4f7fb !important;
   background-color: #f4f7fb !important;
 }
+.cpd.cpay-page {
+  --cpay-type: 14px;
+  --cpay-pad: 8px;
+  font-size: 14px;
+  padding: 8px;
+  min-height: 0;
+}
+body.ame-customer-payment-page #main-content .cpd.cpay-page > form {
+  flex: 0 0 auto !important;
+}
 .cpd-desk {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 8px;
   width: 100%;
   max-width: 100%;
-  padding: 4px 2px 28px;
+  padding: 0;
   box-sizing: border-box;
 }
 .cpd-panel,
@@ -1218,23 +1228,23 @@ html body.ame-customer-payment-page #main-content {
 }
 .cpd-panel {
   border: 1px solid #e3eaf3;
-  border-radius: 14px;
-  padding: 16px 18px 18px;
-  box-shadow: 0 8px 24px rgba(15, 35, 80, 0.05);
+  border-radius: 10px;
+  padding: 8px 10px;
+  box-shadow: none;
 }
 .cpd-form h1 {
-  margin: 0 0 14px;
-  font-size: clamp(22px, 2vw, 30px);
+  margin: 0 0 6px;
+  font-size: 18px;
   font-weight: 800;
   letter-spacing: -0.02em;
   color: #0b3d91;
   -webkit-text-fill-color: #0b3d91;
-  line-height: 1.2;
+  line-height: 1.15;
 }
 .cpd-h-pay,
 .cpd-h-due {
-  margin: 0 0 12px;
-  font-size: clamp(18px, 1.5vw, 22px);
+  margin: 0 0 6px;
+  font-size: 16px;
   font-weight: 800;
 }
 .cpd-h-pay { color: #0b3d91; -webkit-text-fill-color: #0b3d91; }
@@ -1242,7 +1252,7 @@ html body.ame-customer-payment-page #main-content {
 .cpd-top {
   display: grid;
   grid-template-columns: minmax(240px, 340px) minmax(0, 1fr) minmax(190px, 250px);
-  gap: 14px;
+  gap: 8px;
   align-items: stretch;
 }
 .cpd-search {
@@ -1258,12 +1268,12 @@ html body.ame-customer-payment-page #main-content {
   width: 100%;
   box-sizing: border-box;
   border: 1px solid #d5deea;
-  border-radius: 10px;
-  padding: 10px 12px;
-  min-height: 44px;
+  border-radius: 8px;
+  padding: 4px 8px;
+  min-height: 32px;
   color: #111827;
   -webkit-text-fill-color: #111827;
-  font-size: 15px;
+  font-size: 14px;
 }
 .cpd-search input { flex: 1; min-width: 0; }
 .cpd-search button,
@@ -1272,9 +1282,9 @@ html body.ame-customer-payment-page #main-content {
   color: #fff;
   -webkit-text-fill-color: #fff;
   border: 0;
-  border-radius: 10px;
-  padding: 10px 16px;
-  min-height: 44px;
+  border-radius: 8px;
+  padding: 4px 12px;
+  min-height: 32px;
   font-weight: 800;
   cursor: pointer;
 }
@@ -1285,14 +1295,14 @@ html body.ame-customer-payment-page #main-content {
   min-width: 0;
   background: #ffffff;
   border: 1px solid #e3eaf3;
-  border-radius: 12px;
-  padding: 10px 12px;
+  border-radius: 8px;
+  padding: 6px 8px;
 }
 .cpd .cpay-avatar {
-  width: 56px !important;
-  height: 56px !important;
-  min-width: 56px;
-  font-size: 22px !important;
+  width: 40px !important;
+  height: 40px !important;
+  min-width: 40px;
+  font-size: 16px !important;
   border: 2px solid #dbeafe !important;
   box-shadow: none !important;
   color: #1d4ed8 !important;
@@ -1326,23 +1336,23 @@ html body.ame-customer-payment-page #main-content {
 .cpd-meta a { color: inherit; -webkit-text-fill-color: inherit; font-weight: 800; }
 .cpd-balbox {
   border: 1px solid #fecdd3;
-  border-radius: 12px;
-  padding: 10px 12px;
+  border-radius: 8px;
+  padding: 6px 8px;
 }
 .cpd-fields,
 .cpd-due {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 12px 14px;
-  margin-top: 14px;
+  gap: 6px 8px;
+  margin-top: 8px;
 }
 .cpd-due { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .cpd-field { min-width: 0; }
 .cpd-span-2 { grid-column: 1 / -1; }
 .cpd-label {
   display: block;
-  margin: 0 0 6px;
-  font-size: 13px;
+  margin: 0 0 2px;
+  font-size: 12px;
   font-weight: 800;
 }
 .cpd-c-navy { color: #0b3d91; -webkit-text-fill-color: #0b3d91; }
@@ -1359,7 +1369,7 @@ html body.ame-customer-payment-page #main-content {
   font-weight: 800;
 }
 .cpd-balance {
-  font-size: 22px;
+  font-size: 18px;
   color: #0b3d91;
   -webkit-text-fill-color: #0b3d91;
 }
@@ -1371,7 +1381,7 @@ html body.ame-customer-payment-page #main-content {
   display: flex;
   gap: 8px;
   align-items: flex-start;
-  margin: 14px 0 6px;
+  margin: 8px 0 4px;
   font-size: 14px;
   font-weight: 700;
   color: #7c3aed;
@@ -1382,8 +1392,8 @@ html body.ame-customer-payment-page #main-content {
   flex-wrap: wrap;
   gap: 6px 10px;
   align-items: baseline;
-  margin: 12px 0;
-  padding: 12px 14px;
+  margin: 6px 0;
+  padding: 6px 8px;
   border: 1px solid #e3eaf3;
   border-radius: 12px;
   font-size: 14px;
@@ -1401,7 +1411,7 @@ html body.ame-customer-payment-page #main-content {
   flex-wrap: wrap;
   gap: 10px;
   align-items: center;
-  margin-top: 12px;
+  margin-top: 6px;
 }
 .cpd-link { color: #1d4ed8; -webkit-text-fill-color: #1d4ed8; font-weight: 800; font-size: 14px; }
 .cpd-cancel { color: #be123c; -webkit-text-fill-color: #be123c; font-weight: 800; font-size: 14px; }
@@ -1418,7 +1428,7 @@ html body.ame-customer-payment-page #main-content {
 .cpd-table th,
 .cpd-table td {
   border: 1px solid #e7eef6;
-  padding: 9px 10px;
+  padding: 4px 6px;
   text-align: left;
   vertical-align: middle;
   background: #ffffff;
@@ -1476,18 +1486,106 @@ html body.ame-customer-payment-page #main-content .cpd .method-trigger-icon {
 }
 .cpd .cpay-status.is-due { color: #be123c !important; -webkit-text-fill-color: #be123c !important; background: #ffffff !important; }
 .cpd .cpay-status.is-deposit { color: #047857 !important; -webkit-text-fill-color: #047857 !important; background: #ffffff !important; }
+.cpd-field:nth-child(1) .cpd-input { color: #047857; -webkit-text-fill-color: #047857; }
+.cpd-field:nth-child(2) .cpd-input { color: #c2410c; -webkit-text-fill-color: #c2410c; }
+.cpd-field:nth-child(4) .cpd-input { color: #0f766e; -webkit-text-fill-color: #0f766e; }
+.cpd-field:nth-child(5) .cpd-readonly { color: #0b3d91; -webkit-text-fill-color: #0b3d91; }
+.cpd-field:nth-child(6) .cpd-input { color: #6d28d9; -webkit-text-fill-color: #6d28d9; }
+.cpd-field:nth-child(7) .cpd-input { color: #b45309; -webkit-text-fill-color: #b45309; }
+.cpd-field:nth-child(8) .cpd-input { color: #be123c; -webkit-text-fill-color: #be123c; }
+.cpd-due .cpd-field:nth-child(1) .cpd-input { color: #6d28d9; -webkit-text-fill-color: #6d28d9; }
+.cpd-due .cpd-field:nth-child(2) .cpd-input { color: #047857; -webkit-text-fill-color: #047857; }
+.cpd-due .cpd-field:nth-child(3) .cpd-input { color: #b45309; -webkit-text-fill-color: #b45309; }
+.cpd-table td[colspan] { color: #b45309; -webkit-text-fill-color: #b45309; font-weight: 700; }
+html body.ame-customer-payment-page #main-content .cpd .method-trigger {
+  min-height: 32px !important;
+  padding: 2px 8px !important;
+  border-radius: 8px !important;
+  gap: 6px !important;
+  background: #ffffff !important;
+}
+html body.ame-customer-payment-page #main-content .cpd .method-trigger-icon,
+html body.ame-customer-payment-page #main-content .cpd .method-option-icon {
+  width: 22px !important;
+  height: 22px !important;
+  min-width: 22px !important;
+  font-size: 13px !important;
+  border-radius: 6px !important;
+}
+html body.ame-customer-payment-page #main-content .cpd .method-trigger-label,
+html body.ame-customer-payment-page #main-content .cpd .method-option-label {
+  font-size: 14px !important;
+  color: #1d4ed8 !important;
+  -webkit-text-fill-color: #1d4ed8 !important;
+}
+html body.ame-customer-payment-page #main-content .cpd .ame-pay-sec {
+  margin-top: 6px !important;
+  padding: 6px 8px !important;
+  border-radius: 8px !important;
+}
+html body.ame-customer-payment-page #main-content .cpd .ame-pay-sec-code {
+  font-size: 20px !important;
+  letter-spacing: 0.08em !important;
+  margin: 0 0 4px !important;
+  padding: 2px 6px !important;
+}
+html body.ame-customer-payment-page #main-content .cpd .ame-pay-sec-hint,
+html body.ame-customer-payment-page #main-content .cpd .ame-pay-sec-lbl {
+  font-size: 12px !important;
+  margin: 0 0 4px !important;
+}
+html body.ame-customer-payment-page #main-content .cpd .ame-pay-sec-input {
+  min-height: 32px !important;
+  font-size: 16px !important;
+  padding: 4px 8px !important;
+}
+html body.ame-customer-payment-page #main-content .cpd-table thead,
+html body.ame-customer-payment-page #main-content .cpd-table thead tr,
+html body.ame-customer-payment-page #main-content .cpd-table th {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  background-image: none !important;
+}
+html body.ame-customer-payment-page #main-content .cpd-pay-table th:nth-child(1),
+html body.ame-customer-payment-page #main-content .cpd-due-table th:nth-child(1) {
+  color: #0b3d91 !important; -webkit-text-fill-color: #0b3d91 !important;
+}
+html body.ame-customer-payment-page #main-content .cpd-pay-table th:nth-child(2),
+html body.ame-customer-payment-page #main-content .cpd-due-table th:nth-child(2) {
+  color: #6d28d9 !important; -webkit-text-fill-color: #6d28d9 !important;
+}
+html body.ame-customer-payment-page #main-content .cpd-pay-table th:nth-child(3) {
+  color: #1d4ed8 !important; -webkit-text-fill-color: #1d4ed8 !important;
+}
+html body.ame-customer-payment-page #main-content .cpd-pay-table th:nth-child(4),
+html body.ame-customer-payment-page #main-content .cpd-due-table th:nth-child(3) {
+  color: #b45309 !important; -webkit-text-fill-color: #b45309 !important;
+}
+html body.ame-customer-payment-page #main-content .cpd-pay-table th:nth-child(5),
+html body.ame-customer-payment-page #main-content .cpd-due-table th:nth-child(4) {
+  color: #047857 !important; -webkit-text-fill-color: #047857 !important;
+}
+html body.ame-customer-payment-page #main-content .cpd-pay-table th:nth-child(6) {
+  color: #be123c !important; -webkit-text-fill-color: #be123c !important;
+}
+html body.ame-customer-payment-page #main-content .cpd-pay-table th:nth-child(7),
+html body.ame-customer-payment-page #main-content .cpd-due-table th:nth-child(5) {
+  color: #0f766e !important; -webkit-text-fill-color: #0f766e !important;
+}
+html body.ame-customer-payment-page #main-content .cpd-pay-table th:nth-child(8) {
+  color: #7c3aed !important; -webkit-text-fill-color: #7c3aed !important;
+}
 @media (max-width: 1100px) {
-  .cpd-top { grid-template-columns: minmax(220px, 1fr) minmax(0, 1.2fr); }
-  .cpd-balbox { grid-column: 1 / -1; }
+  .cpd-top { grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr) minmax(128px, .72fr); }
   .cpd-fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 720px) {
-  .cpd-panel { padding: 14px 12px 16px; border-radius: 12px; }
+  .cpd-panel { padding: 6px 8px; border-radius: 8px; }
   .cpd-top,
   .cpd-fields,
   .cpd-due { grid-template-columns: 1fr; }
   .cpd-search { flex-wrap: nowrap; }
-  .cpd-form h1 { font-size: 22px; }
+  .cpd-form h1 { font-size: 17px; }
   .cpd-actions .cpd-submit { flex: 1 1 140px; }
   .cpd-table,
   .cpd-due-table { min-width: 0; display: block; }

@@ -45,6 +45,6 @@ ame_stmt_expect(str_contains($desk, 'ame_engineer_statement_credit'), 'the engin
 ame_stmt_expect(str_contains($desk, 'service_amount'), 'the statement reads the work bill amount');
 
 $version = trim((string)file_get_contents($root . '/VERSION.txt'));
-ame_stmt_expect($version === '10.98.805', 'the update version is 10.98.805');
+ame_stmt_expect($version === '10.98.806', 'the update version is 10.98.806');
 
 echo "OK service-only engineer statement\n";
