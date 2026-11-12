@@ -323,18 +323,23 @@ function ame_sale_parse_services($data, $is_english)
                 continue;
             }
 
-            if ($engineer_id <= 0 || $service_type === '' || $amount <= 0) {
+            if ($amount <= 0) {
                 ame_sale_fail(
                     $is_english,
-                    'প্রতিটি ইঞ্জিনিয়ার বিলে নাম, কাজের বিবরণ এবং টাকা দিন।',
-                    'Each engineer bill needs an engineer, description and amount.'
+                    'ইঞ্জিনিয়ারের কাজের বিলে টাকা দিন।',
+                    'Enter the engineer work bill amount.'
                 );
+            }
+
+            if ($service_type === '') {
+                $service_type = 'কাজের বিল';
             }
 
             $lines[] = [
                 'engineer_id' => $engineer_id,
                 'service_type' => $service_type,
                 'amount' => $amount,
+                'engineer_query' => substr(trim((string)($row['engineer_query'] ?? '')), 0, 150),
             ];
         }
     } else {
@@ -350,18 +355,15 @@ function ame_sale_parse_services($data, $is_english)
         );
 
         if ($amount > 0) {
-            if ($engineer_id <= 0 || $service_type === '') {
-                ame_sale_fail(
-                    $is_english,
-                    'ইঞ্জিনিয়ার এবং সার্ভিসের বিবরণ দিন।',
-                    'Select an engineer and enter the service description.'
-                );
+            if ($service_type === '') {
+                $service_type = 'কাজের বিল';
             }
 
             $lines[] = [
                 'engineer_id' => $engineer_id,
                 'service_type' => $service_type,
                 'amount' => $amount,
+                'engineer_query' => substr(trim((string)($data['engineer_query'] ?? '')), 0, 150),
             ];
         }
     }
@@ -402,6 +404,9 @@ function ame_sale_assert_service_engineers($db, $lines, $is_english)
 
     foreach ($lines as $line) {
         $engineer_id = (int)($line['engineer_id'] ?? 0);
+        if ($engineer_id <= 0) {
+            continue;
+        }
         $stmt->bind_param('i', $engineer_id);
         $stmt->execute();
         $exists = $stmt->get_result()->num_rows === 1;
@@ -421,6 +426,19 @@ function ame_sale_assert_service_engineers($db, $lines, $is_english)
 
 function ame_sale_replace_services($db, $sale_id, $lines)
 {
+    if (!is_array($lines)) {
+        $lines = [];
+    }
+    if (!function_exists('ame_engineer_statement_resolve_lines')) {
+        $statementPost = dirname(__DIR__) . '/engineer_statement_post.php';
+        if (is_file($statementPost)) {
+            require_once $statementPost;
+        }
+    }
+    if (function_exists('ame_engineer_statement_resolve_lines')) {
+        $lines = ame_engineer_statement_resolve_lines($db, $lines);
+    }
+
     $delete = $db->prepare(
         'DELETE FROM sale_services WHERE sale_id = ?'
     );
@@ -432,10 +450,6 @@ function ame_sale_replace_services($db, $sale_id, $lines)
     $delete->bind_param('i', $sale_id);
     $delete->execute();
     $delete->close();
-
-    if (!is_array($lines)) {
-        return [];
-    }
 
     $stored = [];
     foreach ($lines as $line) {
@@ -450,6 +464,9 @@ function ame_sale_replace_services($db, $sale_id, $lines)
             $line['sale_service_id'] = $service_id;
             $stored[] = $line;
         }
+    }
+    if (function_exists('ame_engineer_statement_post_stored')) {
+        ame_engineer_statement_post_stored($db, (int)$sale_id, $stored);
     }
     return $stored;
 }

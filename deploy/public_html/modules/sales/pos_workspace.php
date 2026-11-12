@@ -1132,8 +1132,8 @@ function ameAddCustomItem() {
         ? window.AME_LANG === 'en'
         : false;
     var incompleteMsg = isEnglish
-        ? 'Each engineer bill needs a name, work details and amount.'
-        : 'প্রতিটি ইঞ্জিনিয়ার বিলে নাম, কাজের বিবরণ এবং টাকা দিন।';
+        ? 'Each engineer bill needs an engineer and an amount. A product is not required.'
+        : 'প্রতিটি ইঞ্জিনিয়ার বিলে ইঞ্জিনিয়ার এবং টাকা দিন। পণ্য ছাড়াও এই বিল যাবে।';
     var dutyTitle = isEnglish ? 'Not Active today' : 'আজকের জন্য Active করা হয়নি';
     var dutyText = isEnglish
         ? 'This worker or service engineer is not Active for today. Tap the green icon in the header and activate them first.'
@@ -1363,6 +1363,7 @@ function ameAddCustomItem() {
         var row = wrap.closest('.ame-pos-service-row');
         if (row) {
             showWorkPresets(row);
+            keepCompleteBillOnCart(row);
         }
         hideServiceNotice();
     }
@@ -1492,24 +1493,70 @@ function ameAddCustomItem() {
         syncAddAllButton();
     }
 
-    function rowState(row) {
+    function resolvedEngineerId(row) {
         var hidden = row.querySelector('.ame-svc-eng');
+        var typed = row.querySelector('.ame-svc-eng-q');
+        var amount = row.querySelector('.ame-svc-amount');
+        var id = Number((hidden && hidden.value) || 0);
+        if (id > 0 && findEngineer(id)) {
+            return id;
+        }
+        var q = String((typed && typed.value) || '').trim().toLowerCase();
+        if (q !== '') {
+            var exact = [];
+            engineerList.forEach(function (item) {
+                var name = String(item.name || '').trim().toLowerCase();
+                var code = String(item.emp_code || '').trim().toLowerCase();
+                if (name === q || code === q || String(item.id) === q || String(item.employee_id || '') === q) {
+                    exact.push(item);
+                }
+            });
+            if (exact.length === 1) {
+                if (hidden) {
+                    hidden.value = String(exact[0].id);
+                }
+                return Number(exact[0].id);
+            }
+        }
+        if (id <= 0 && number(amount && amount.value) > 0 && engineerList.length === 1) {
+            if (hidden) {
+                hidden.value = String(engineerList[0].id);
+            }
+            return Number(engineerList[0].id);
+        }
+        return id > 0 ? id : 0;
+    }
+
+    function rowState(row) {
         var type = row.querySelector('.ame-svc-type');
         var amount = row.querySelector('.ame-svc-amount');
-        var engId = Number((hidden && hidden.value) || 0);
+        var engId = resolvedEngineerId(row);
         var desc = (type && type.value || '').trim();
         var amt = number(amount && amount.value);
+        if (desc === '' && engId > 0 && amt > 0) {
+            desc = 'কাজের বিল';
+        }
         var item = findEngineer(engId);
         var empty = !engId && desc === '' && amt <= 0;
         return {
             empty: empty,
-            complete: engId > 0 && desc !== '' && amt > 0,
+            complete: engId > 0 && amt > 0,
             present: !!(item && item.present),
             item: item,
             engId: engId,
             desc: desc,
             amt: amt
         };
+    }
+
+    function keepCompleteBillOnCart(row) {
+        var state = rowState(row);
+        if (!state.complete) {
+            return;
+        }
+        markRowInCart(row, state);
+        syncAddAllButton();
+        refreshCartView();
     }
 
     function markRowInCart(row, state) {
@@ -1575,6 +1622,7 @@ function ameAddCustomItem() {
         if (amount) {
             amount.addEventListener('input', function () {
                 syncTotal();
+                keepCompleteBillOnCart(row);
                 markRowChanged(row);
             });
         }
@@ -1707,6 +1755,9 @@ function ameAddCustomItem() {
         var serial = Number(startIndex) || 0;
         rows.forEach(function (row) {
             var desc = (row.querySelector('.ame-svc-type').value || '').trim();
+            if (desc === '') {
+                desc = 'কাজের বিল';
+            }
             var amt = number(row.querySelector('.ame-svc-amount').value);
             serial += 1;
 
