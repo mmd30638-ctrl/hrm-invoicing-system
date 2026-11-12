@@ -23,6 +23,28 @@
         return Math.min(420, Math.max(260, window.innerWidth - 52));
     }
 
+    function panelTop() {
+        var header = document.querySelector('.master-header-fixed');
+        var top = 8;
+        if (header) {
+            var box = header.getBoundingClientRect();
+            if (box.bottom > 0) {
+                top = Math.round(box.bottom + 4);
+            }
+        }
+        return top;
+    }
+
+    function unlock(node) {
+        if (!node) {
+            return;
+        }
+        setStyle(node, 'overflow', 'visible');
+        setStyle(node, 'overflow-x', 'visible');
+        setStyle(node, 'overflow-y', 'visible');
+        setStyle(node, 'contain', 'none');
+    }
+
     function setStyle(node, prop, value) {
         node.style.setProperty(prop, value, 'important');
     }
@@ -32,7 +54,7 @@
         pay.classList.toggle('is-open', open);
         document.body.classList.toggle('ame-pay-open', open);
         setStyle(pay, 'position', 'fixed');
-        setStyle(pay, 'top', '56px');
+        setStyle(pay, 'top', panelTop() + 'px');
         setStyle(pay, 'right', '0');
         setStyle(pay, 'bottom', '0');
         setStyle(pay, 'left', 'auto');
@@ -82,8 +104,11 @@
     });
 
     var grid = pay.closest('.ame-pos-grid');
-    document.body.appendChild(pay);
     document.body.appendChild(tab);
+    unlock(document.getElementById('main-content'));
+    unlock(pay.closest('.ame-pos-page'));
+    unlock(pay.closest('.ame-pos-shell'));
+    unlock(grid);
     if (grid) {
         grid.style.setProperty('grid-template-columns', 'minmax(0, 1fr)', 'important');
     }
