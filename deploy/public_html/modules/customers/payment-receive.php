@@ -70,39 +70,49 @@ include __DIR__ . '/../../partials/header.php';
         <div class="cpd-desk">
             <section class="cpd-panel cpd-form">
                 <h1>ক্রেতার পেমেন্ট গ্রহণ <span class="cpay-net" id="amePayNet"></span></h1>
-                <div class="cpd-search customer-search-wrap">
-                    <input type="text" id="customerSearchInput" autocomplete="off" placeholder="আইডি/নাম/মোবাইল">
-                    <button type="button" id="searchCustomerBtn">খুঁজুন</button>
-                    <div class="cpay-results customer-results" id="customerResults"></div>
-                </div>
+                <div class="cpd-top">
+                    <div class="cpd-search customer-search-wrap">
+                        <input type="text" id="customerSearchInput" autocomplete="off" placeholder="আইডি/নাম/মোবাইল">
+                        <button type="button" id="searchCustomerBtn">খুঁজুন</button>
+                        <div class="cpay-results customer-results" id="customerResults"></div>
+                    </div>
 
-                <div class="cpd-who">
-                    <div class="cpay-avatar" id="cpayAvatar">?</div>
-                    <div>
-                        <p class="cpd-name">
-                            <span id="cpayName">কাস্টমার বাছাই করুন</span>
-                            <span class="cpay-badge is-empty" id="cpayBadge">অপেক্ষমাণ</span>
-                        </p>
-                        <p class="cpd-meta" id="cpayCode">আইডি: —</p>
-                        <p class="cpd-meta" id="cpayPhone">ফোন: —</p>
-                        <p class="cpd-meta" id="cpayAddr">ঠিকানা: —</p>
-                        <p class="cpd-meta" id="cpayGroup" hidden></p>
+                    <div class="cpd-who">
+                        <div class="cpay-avatar" id="cpayAvatar">?</div>
+                        <div>
+                            <p class="cpd-name">
+                                <span id="cpayName">কাস্টমার বাছাই করুন</span>
+                                <span class="cpay-badge is-empty" id="cpayBadge">অপেক্ষমাণ</span>
+                            </p>
+                            <p class="cpd-meta cpd-c-blue" id="cpayCode">আইডি: —</p>
+                            <p class="cpd-meta cpd-c-violet" id="cpayPhone">ফোন: —</p>
+                            <p class="cpd-meta cpd-c-amber" id="cpayAddr">ঠিকানা: —</p>
+                            <p class="cpd-meta cpd-c-teal" id="cpayGroup" hidden></p>
+                        </div>
+                    </div>
+
+                    <div class="cpd-balbox">
+                        <label class="cpd-label cpd-c-rose">ব্যালেন্স</label>
+                        <div class="cpd-balance" id="cpdBalance">0.00</div>
+                        <p class="cpd-quiet cpd-c-navy" id="cpayAccountTitle">বকেয়া / জমা হিসাব</p>
+                        <p class="cpd-quiet" id="cpayAccountSub">কাস্টমার বাছাই করলে খাতার ব্যালেন্স দেখাবে</p>
+                        <p class="cpd-quiet"><span class="cpay-status" id="cpayAccountStatus">—</span></p>
                     </div>
                 </div>
 
-                <label class="cpd-label">ব্যালেন্স</label>
-                <div class="cpd-balance" id="cpdBalance">0.00</div>
-                <p class="cpd-quiet" id="cpayAccountTitle">বকেয়া / জমা হিসাব</p>
-                <p class="cpd-quiet" id="cpayAccountSub">কাস্টমার বাছাই করলে খাতার ব্যালেন্স দেখাবে</p>
-                <p class="cpd-quiet"><span class="cpay-status" id="cpayAccountStatus">—</span></p>
-
-                <label class="cpd-label" for="amountInput">জমার টাকা</label>
+                <div class="cpd-fields">
+                <div class="cpd-field">
+                <label class="cpd-label cpd-c-green" for="amountInput">জমার টাকা</label>
                 <input class="cpd-input" type="number" step="0.01" name="amount" min="0" placeholder="0" id="amountInput">
+                </div>
 
-                <label class="cpd-label" for="discountInput">ডিসকাউন্ট</label>
+                <div class="cpd-field">
+                <label class="cpd-label cpd-c-orange" for="discountInput">ডিসকাউন্ট</label>
                 <input class="cpd-input" type="number" step="0.01" name="discount" min="0" placeholder="0" id="discountInput" value="0">
+                </div>
 
-                <label class="cpd-label">মাধ্যম</label>
+                <div class="cpd-field">
+                <label class="cpd-label cpd-c-blue">মাধ্যম</label>
                 <div class="method-dropdown" id="methodDropdown">
                     <input type="hidden" name="method" id="methodValue" value="CASH">
                     <div class="method-trigger" id="methodTrigger" role="button" tabindex="0" aria-haspopup="listbox" aria-expanded="false">
@@ -118,8 +128,10 @@ include __DIR__ . '/../../partials/header.php';
                         <div class="method-option" data-value="CHEQUE" data-icon="🧾" data-label="চেক"><span class="method-option-icon">🧾</span><span class="method-option-label">চেক</span><span class="check">✓</span></div>
                     </div>
                 </div>
+                </div>
 
-                <label class="cpd-label" for="accountSelect">জমা অ্যাকাউন্ট</label>
+                <div class="cpd-field">
+                <label class="cpd-label cpd-c-teal" for="accountSelect">জমা অ্যাকাউন্ট</label>
                 <select class="cpd-input ame-account-select" data-ame-account-select="1" data-ame-direction="receive" name="account_id" id="accountSelect">
                     <?php if (count($accounts) === 1): ?>
                     <option value="<?php echo (int)$accounts[0]['id']; ?>" selected><?php echo htmlspecialchars($accounts[0]['account_name']); ?> (<?php echo ame_balance_label((float)$accounts[0]['balance']); ?>)</option>
@@ -133,25 +145,42 @@ include __DIR__ . '/../../partials/header.php';
                 <?php if (!$accounts): ?>
                 <p class="cpd-warn">কোনো সক্রিয় অ্যাকাউন্ট নেই — আগে একটি ক্যাশ, ব্যাংক বা মোবাইল অ্যাকাউন্ট খুলুন।</p>
                 <?php endif; ?>
-                <label class="cpd-label">অ্যাকাউন্ট ব্যালেন্স</label>
+                </div>
+
+                <div class="cpd-field">
+                <label class="cpd-label cpd-c-navy">অ্যাকাউন্ট ব্যালেন্স</label>
                 <div class="cpd-readonly" id="cpdTill">—</div>
+                </div>
 
-                <label class="cpd-label" for="cpdPayDate">তারিখ</label>
+                <div class="cpd-field">
+                <label class="cpd-label cpd-c-violet" for="cpdPayDate">তারিখ</label>
                 <input class="cpd-input" type="date" name="payment_date" id="cpdPayDate" required value="<?php echo date('Y-m-d'); ?>">
+                </div>
 
-                <label class="cpd-label" for="cpdRef">রেফারেন্স</label>
+                <div class="cpd-field">
+                <label class="cpd-label cpd-c-amber" for="cpdRef">রেফারেন্স</label>
                 <input class="cpd-input" type="text" name="reference_no" id="cpdRef" maxlength="100" placeholder="ট্রানজেকশন নম্বর">
+                </div>
 
-                <label class="cpd-label" for="cpdNote">নোট</label>
+                <div class="cpd-field cpd-span-2">
+                <label class="cpd-label cpd-c-rose" for="cpdNote">নোট</label>
                 <textarea class="cpd-input" name="note" id="cpdNote" rows="2" maxlength="255" placeholder="নোট"></textarea>
+                </div>
+                </div>
 
                 <div class="cpd-due" id="dueBody">
-                    <label class="cpd-label" for="nextDueInput">পরবর্তী পেমেন্টের তারিখ</label>
+                    <div class="cpd-field">
+                    <label class="cpd-label cpd-c-violet" for="nextDueInput">পরবর্তী পেমেন্টের তারিখ</label>
                     <input class="cpd-input" type="date" name="next_due_date" id="nextDueInput">
-                    <label class="cpd-label" for="nextDueAmountInput">পরবর্তী পেমেন্টের পরিমাণ</label>
+                    </div>
+                    <div class="cpd-field">
+                    <label class="cpd-label cpd-c-green" for="nextDueAmountInput">পরবর্তী পেমেন্টের পরিমাণ</label>
                     <input class="cpd-input" type="number" step="0.01" min="0" name="next_due_amount" id="nextDueAmountInput" placeholder="0">
-                    <label class="cpd-label" for="cpdDueNote">পরবর্তী পেমেন্টের নোট</label>
+                    </div>
+                    <div class="cpd-field">
+                    <label class="cpd-label cpd-c-amber" for="cpdDueNote">পরবর্তী পেমেন্টের নোট</label>
                     <input class="cpd-input" type="text" name="due_note" id="cpdDueNote" maxlength="255" placeholder="যেমন: মাসিক কিস্তি">
+                    </div>
                 </div>
                 <button type="button" class="cpay-due-toggle" id="dueToggle" hidden>পরবর্তী তারিখ</button>
 
@@ -198,9 +227,9 @@ include __DIR__ . '/../../partials/header.php';
             </section>
 
             <section class="cpd-panel cpd-books">
-                <h2>গ্রহণকৃত পেমেন্ট সমূহ</h2>
+                <h2 class="cpd-h-pay">গ্রহণকৃত পেমেন্ট সমূহ</h2>
                 <div class="cpd-table-wrap">
-                    <table class="cpd-table">
+                    <table class="cpd-table cpd-pay-table">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -218,9 +247,11 @@ include __DIR__ . '/../../partials/header.php';
                         </tbody>
                     </table>
                 </div>
-                <h2>প্রত্যাশিত বকেয়া পেমেন্ট এর তারিখ</h2>
+            </section>
+            <section class="cpd-panel cpd-expect">
+                <h2 class="cpd-h-due">প্রত্যাশিত বকেয়া পেমেন্ট এর তারিখ</h2>
                 <div class="cpd-table-wrap">
-                    <table class="cpd-table">
+                    <table class="cpd-table cpd-due-table">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -294,6 +325,14 @@ function bookNumber(n) {
     return x.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
+function paintBalanceTone(node, value) {
+    if (!node) return;
+    node.classList.remove('is-due', 'is-deposit');
+    const n = Number(value);
+    if (!Number.isFinite(n) || n === 0) return;
+    node.classList.add(n > 0 ? 'is-due' : 'is-deposit');
+}
+
 function cpdEsc(value) {
     return String(value == null ? '' : value).replace(/[&<>"]/g, function (ch) {
         return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[ch];
@@ -309,19 +348,19 @@ function paintPaymentDesk(data) {
         payBody.innerHTML = '<tr><td colspan="8">এই কাস্টমারের গ্রহণকৃত পেমেন্ট নেই।</td></tr>';
     } else {
         payBody.innerHTML = rows.map(function (row, index) {
-            const ops = '<a href="receipt.php?payment_id=' + row.id + '">দেখুন</a>'
-                + ' <a href="receipt.php?payment_id=' + row.id + '&amp;print=1">প্রিন্ট</a>'
-                + (row.reversed ? '' : ' <a href="payment-edit.php?id=' + row.id + '">এডিট</a>'
-                    + ' <a href="receipt.php?payment_id=' + row.id + '#cpayReverse">বাতিল</a>');
+            const ops = '<a class="cpd-a-view" href="receipt.php?payment_id=' + row.id + '">দেখুন</a>'
+                + ' <a class="cpd-a-print" href="receipt.php?payment_id=' + row.id + '&amp;print=1">প্রিন্ট</a>'
+                + (row.reversed ? '' : ' <a class="cpd-a-edit" href="payment-edit.php?id=' + row.id + '">এডিট</a>'
+                    + ' <a class="cpd-a-void" href="receipt.php?payment_id=' + row.id + '#cpayReverse">বাতিল</a>');
             return '<tr>'
-                + '<td>' + (index + 1) + '</td>'
-                + '<td>' + cpdEsc(row.date) + '</td>'
-                + '<td>' + cpdEsc(row.invoice) + '</td>'
-                + '<td>' + cpdEsc(row.note || '') + '</td>'
-                + '<td class="cpd-num">' + cpdEsc(row.amount) + '</td>'
-                + '<td class="cpd-num">' + cpdEsc(row.due) + '</td>'
-                + '<td>' + (row.reversed ? 'বাতিল' : '✓') + '</td>'
-                + '<td class="cpd-ops">' + ops + '</td>'
+                + '<td data-label="#">' + (index + 1) + '</td>'
+                + '<td data-label="তারিখ">' + cpdEsc(row.date) + '</td>'
+                + '<td data-label="ইনভয়েস">' + cpdEsc(row.invoice) + '</td>'
+                + '<td data-label="নোট">' + cpdEsc(row.note || '') + '</td>'
+                + '<td class="cpd-num" data-label="টাকা">' + cpdEsc(row.amount) + '</td>'
+                + '<td class="cpd-num" data-label="বকেয়া">' + cpdEsc(row.due) + '</td>'
+                + '<td data-label="স্ট্যাটাস">' + (row.reversed ? 'বাতিল' : '✓') + '</td>'
+                + '<td class="cpd-ops" data-label="কাজ">' + ops + '</td>'
                 + '</tr>';
         }).join('');
     }
@@ -330,7 +369,7 @@ function paintPaymentDesk(data) {
         dueBody.innerHTML = '<tr><td colspan="5">নির্ধারিত পরবর্তী তারিখ নেই।</td></tr>';
     } else {
         dueBody.innerHTML = dues.map(function (row, index) {
-            return '<tr><td>' + (index + 1) + '</td><td>' + cpdEsc(row.date) + '</td><td>' + cpdEsc(row.note || '') + '</td><td class="cpd-num">' + cpdEsc(row.amount) + '</td><td>নির্ধারিত</td></tr>';
+            return '<tr><td data-label="#">' + (index + 1) + '</td><td data-label="পেমেন্ট তারিখ">' + cpdEsc(row.date) + '</td><td data-label="নোট">' + cpdEsc(row.note || '') + '</td><td class="cpd-num" data-label="টাকা">' + cpdEsc(row.amount) + '</td><td data-label="স্ট্যাটাস">নির্ধারিত</td></tr>';
         }).join('');
     }
 }
@@ -456,7 +495,10 @@ function updateSummary() {
         till.textContent = account ? bookNumber(account.balance) : '—';
     }
     const balanceBox = document.getElementById('cpdBalance');
-    if (balanceBox) balanceBox.textContent = picked ? bookNumber(picked.balance) : '0.00';
+    if (balanceBox) {
+        balanceBox.textContent = picked ? bookNumber(picked.balance) : '0.00';
+        paintBalanceTone(balanceBox, picked ? picked.balance : 0);
+    }
 
     const sumLeftLabel = document.getElementById('sumLeftLabel');
     if (newDeposit > 0) {
@@ -521,7 +563,10 @@ function fillCustomer(c) {
     document.getElementById('qaLedger').href = 'ledger.php?id=' + c.id;
     document.getElementById('qaProfile').href = 'profile.php?id=' + c.id;
     const balanceBox = document.getElementById('cpdBalance');
-    if (balanceBox) balanceBox.textContent = bookNumber(c.balance);
+    if (balanceBox) {
+        balanceBox.textContent = bookNumber(c.balance);
+        paintBalanceTone(balanceBox, c.balance);
+    }
     updateSummary();
     loadPaymentDesk(c.id);
 }
@@ -758,7 +803,10 @@ function clearPickedCustomer() {
     if (notifyState) notifyState.textContent = 'কাস্টমার বাছাই করলে নোটিফিকেশন অবস্থা দেখাবে';
     if (notifyOff) notifyOff.checked = false;
     const balanceBox = document.getElementById('cpdBalance');
-    if (balanceBox) balanceBox.textContent = '0.00';
+    if (balanceBox) {
+        balanceBox.textContent = '0.00';
+        paintBalanceTone(balanceBox, 0);
+    }
     loadPaymentDesk(0);
 }
 
