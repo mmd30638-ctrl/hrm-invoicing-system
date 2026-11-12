@@ -8,6 +8,7 @@
     var english = document.documentElement.lang === 'en';
     var dockState = null;
     var tabPress = false;
+    var keyboardUntil = 0;
     var tab = document.createElement('button');
     tab.type = 'button';
     tab.id = 'amePayDockTab';
@@ -75,8 +76,17 @@
         setStyle(pay, 'border-radius', '14px 0 0 14px');
         setStyle(pay, 'box-shadow', open ? '-16px 0 36px rgba(15, 35, 80, 0.18)' : 'none');
         if (changed) {
+            setStyle(pay, 'transition', 'transform 0.22s ease');
             setStyle(pay, 'transform', open ? 'translateX(0)' : 'translateX(110%)');
             setStyle(pay, 'pointer-events', open ? 'auto' : 'none');
+            if (open) {
+                window.setTimeout(function () {
+                    if (pay.classList.contains('is-open')) {
+                        setStyle(pay, 'transition', 'none');
+                        setStyle(pay, 'transform', 'none');
+                    }
+                }, 240);
+            }
         }
         setStyle(tab, 'position', 'fixed');
         setStyle(tab, 'z-index', '900001');
@@ -153,8 +163,71 @@
     if (grid) {
         grid.style.setProperty('grid-template-columns', 'minmax(0, 1fr)', 'important');
     }
+    function editableField(node) {
+        if (!node) {
+            return null;
+        }
+        if (node.nodeType !== 1) {
+            node = node.parentElement;
+        }
+        if (!node || !node.closest) {
+            return null;
+        }
+        if (node.closest('button, a, select, option')) {
+            return null;
+        }
+        var field = node.closest('input, textarea');
+        if (!field) {
+            var label = node.closest('label');
+            if (label && pay.contains(label)) {
+                field = label.querySelector('input, textarea');
+            }
+        }
+        if (!field || !pay.contains(field) || field.disabled || field.readOnly) {
+            return null;
+        }
+        var type = String(field.type || '').toLowerCase();
+        if (type === 'checkbox' || type === 'radio' || type === 'button' || type === 'file' || type === 'hidden' || type === 'submit' || type === 'reset') {
+            return null;
+        }
+        return field;
+    }
+
+    function openKeyboard(event) {
+        var field = editableField(event.target);
+        if (!field || !pay.classList.contains('is-open')) {
+            return;
+        }
+        setStyle(pay, 'transition', 'none');
+        setStyle(pay, 'transform', 'none');
+        keyboardUntil = Date.now() + 800;
+        if (document.activeElement === field) {
+            return;
+        }
+        try {
+            field.focus({ preventScroll: true });
+        } catch (err) {
+            field.focus();
+        }
+    }
+
+    var amounts = pay.querySelectorAll('input[type="number"]');
+    for (var n = 0; n < amounts.length; n++) {
+        if (!amounts[n].getAttribute('inputmode')) {
+            amounts[n].setAttribute('inputmode', 'decimal');
+        }
+    }
+    pay.addEventListener('touchstart', openKeyboard, true);
+    pay.addEventListener('pointerdown', openKeyboard, true);
+    pay.addEventListener('pointerup', openKeyboard);
+    pay.addEventListener('touchend', openKeyboard);
+    pay.addEventListener('click', openKeyboard);
+
     paint(false);
     window.addEventListener('resize', function () {
+        if (Date.now() < keyboardUntil || pay.contains(document.activeElement)) {
+            return;
+        }
         paint(pay.classList.contains('is-open'));
     });
 

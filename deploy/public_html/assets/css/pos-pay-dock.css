@@ -25,8 +25,16 @@ html body.ame-pos-terminal-page #main-content .ame-sale-desk #amePosPay {
 }
 
 html body.ame-pos-terminal-page #main-content .ame-sale-desk #amePosPay.is-open {
-  transform: translateX(0) !important;
+  transform: none !important;
   pointer-events: auto;
+}
+
+html body.ame-pos-terminal-page #amePosPay input:not([readonly]),
+html body.ame-pos-terminal-page #amePosPay textarea:not([readonly]) {
+  pointer-events: auto !important;
+  touch-action: manipulation !important;
+  -webkit-user-select: text !important;
+  user-select: text !important;
 }
 
 html body.ame-pos-terminal-page #amePosPay .ame-desk-box h3,
