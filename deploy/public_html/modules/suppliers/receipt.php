@@ -53,11 +53,11 @@ $waText = $shop . "\n"
     . ame_spay_t('অগ্রিম জমা', 'Advance held') . ': ৳' . number_format($ameAdvanceShow, 2) . "\n"
     . (string)($ledger['after_label'] ?? '') . ' · ' . (string)$ledger['formula'];
 $waUrl = 'https://wa.me/' . $waPhone . '?text=' . rawurlencode($waText);
-$ame_body_class = 'ame-spay-page';
+$ame_body_class = 'ame-spay-page ame-paper-a4';
 include '../../partials/header.php';
 ?>
-<link rel="stylesheet" href="/assets/css/supplier-settlement.css?v=10.98.799">
-<link rel="stylesheet" href="/assets/css/memo-clear.css?v=10.98.799">
+<link rel="stylesheet" href="/assets/css/supplier-settlement.css?v=10.98.800">
+<link rel="stylesheet" href="/assets/css/memo-clear.css?v=10.98.800">
 <div class="spay<?php echo isset($_GET['slip']) ? ' spay-slip' : ''; ?>" id="spReceipt">
     <?php if ($error !== ''): ?><div class="spay-error spay-no-print no-print"><?php echo htmlspecialchars($error, ENT_QUOTES, 'UTF-8'); ?></div><?php endif; ?>
     <nav class="inv-action-bar no-print spay-no-print" id="spayShareBar" aria-label="<?php echo ame_spay_t('পেমেন্ট রসিদ', 'Payment receipt'); ?>">
@@ -115,26 +115,30 @@ include '../../partials/header.php';
         <?php endif; ?>
         <div class="memo-summary">
             <div class="ame-paper-box memo-sum-row sabek-box" id="spayLedgerBox">
-                <div class="ame-paper-row sabek-line">
-                    <span><?php echo ame_spay_t('সাবেক বকেয়া', 'Previous due'); ?></span>
-                    <span class="spay-money-due">+৳<?php echo number_format($ameDueShow, 2); ?></span>
-                </div>
-                <div class="ame-paper-row sabek-line">
-                    <span><?php echo ame_spay_t('পরিশোধ (−)', 'Paid (−)'); ?></span>
-                    <span class="spay-money-paid">−৳<?php echo number_format($amePaidShow, 2); ?></span>
-                </div>
-                <div class="ame-paper-row sabek-line spay-total-line">
-                    <span><?php echo htmlspecialchars((string)($ledger['after_label'] ?? ''), ENT_QUOTES, 'UTF-8'); ?></span>
-                    <span class="<?php echo $ameTotalClass; ?>">৳<?php echo number_format($ameTotalShow, 2); ?></span>
-                </div>
-                <div class="ame-paper-row sabek-line">
-                    <span><?php echo ame_spay_t('মেমো শেষে অবশিষ্ট বকেয়া', 'Due left on this memo'); ?></span>
-                    <span class="spay-money-left">৳<?php echo number_format($ameRemainShow, 2); ?></span>
-                </div>
-                <div class="ame-paper-row sabek-line">
-                    <span><?php echo ame_spay_t('অগ্রিম জমা', 'Advance held'); ?></span>
-                    <span class="spay-money-adv">৳<?php echo number_format($ameAdvanceShow, 2); ?></span>
-                </div>
+                <table class="spay-ledger">
+                    <tbody>
+                    <tr class="sabek-line">
+                        <td><?php echo ame_spay_t('সাবেক বকেয়া', 'Previous due'); ?></td>
+                        <td class="num spay-money-due">+৳<?php echo number_format($ameDueShow, 2); ?></td>
+                    </tr>
+                    <tr class="sabek-line">
+                        <td><?php echo ame_spay_t('পরিশোধ (−)', 'Paid (−)'); ?></td>
+                        <td class="num spay-money-paid">−৳<?php echo number_format($amePaidShow, 2); ?></td>
+                    </tr>
+                    <tr class="sabek-line spay-total-line">
+                        <td><?php echo htmlspecialchars((string)($ledger['after_label'] ?? ''), ENT_QUOTES, 'UTF-8'); ?></td>
+                        <td class="num <?php echo $ameTotalClass; ?>">৳<?php echo number_format($ameTotalShow, 2); ?></td>
+                    </tr>
+                    <tr class="sabek-line">
+                        <td><?php echo ame_spay_t('মেমো শেষে অবশিষ্ট বকেয়া', 'Due left on this memo'); ?></td>
+                        <td class="num spay-money-left">৳<?php echo number_format($ameRemainShow, 2); ?></td>
+                    </tr>
+                    <tr class="sabek-line">
+                        <td><?php echo ame_spay_t('অগ্রিম জমা', 'Advance held'); ?></td>
+                        <td class="num spay-money-adv">৳<?php echo number_format($ameAdvanceShow, 2); ?></td>
+                    </tr>
+                    </tbody>
+                </table>
                 <div class="ame-paper-proof spay-ledger-proof"><?php echo htmlspecialchars($ledger['formula'], ENT_QUOTES, 'UTF-8'); ?></div>
             </div>
         </div>
@@ -205,8 +209,8 @@ include '../../partials/header.php';
     <?php endif; ?>
 </div>
 <?php include '../../partials/footer.php'; ?>
-<link rel="stylesheet" href="/assets/css/supplier-settlement.css?v=10.98.799" id="spayInkLock">
-<link rel="stylesheet" href="/assets/css/memo-clear.css?v=10.98.799">
+<link rel="stylesheet" href="/assets/css/supplier-settlement.css?v=10.98.800" id="spayInkLock">
+<link rel="stylesheet" href="/assets/css/memo-clear.css?v=10.98.800">
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     var fileBase = <?php echo json_encode($fileBase, JSON_UNESCAPED_UNICODE); ?>;

@@ -729,7 +729,7 @@ html body #ame-memo-capture-clone.spay-memo .ame-logo-eid {
 /* বিক্রয় মেমোর কার্ড, ব্যাজ, মেটা ও রঙিন হিসাব। টাকার অঙ্ক বদলায় না। */
 html body.ame-spay-page #main-content #spayMemo.memo-wrapper {
   width: 100%;
-  max-width: 520px;
+  max-width: 100%;
   margin: 0 auto 12px;
   padding: 24px 20px;
   background: #ffffff !important;
@@ -806,11 +806,15 @@ html body #ame-memo-capture-clone.spay-memo .memo-meta-item .val {
   font-weight: 800 !important;
   word-break: break-word !important;
 }
+html body.ame-spay-page #spayMemo.memo-wrapper,
+html body #ame-memo-capture-clone.spay-memo {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  overflow: visible !important;
+}
 html body.ame-spay-page #spayMemo .sabek-box,
 html body #ame-memo-capture-clone.spay-memo .sabek-box {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: stretch !important;
+  display: block !important;
   width: 100% !important;
   max-width: 100% !important;
   box-sizing: border-box !important;
@@ -820,32 +824,32 @@ html body #ame-memo-capture-clone.spay-memo .sabek-box {
   border-radius: 8px !important;
   padding: 8px 10px !important;
   margin-top: 6px !important;
-  gap: 4px !important;
 }
-html body.ame-spay-page #spayMemo .sabek-line,
-html body #ame-memo-capture-clone.spay-memo .sabek-line {
-  display: flex !important;
-  flex-direction: row !important;
-  justify-content: space-between !important;
-  align-items: center !important;
+html body.ame-spay-page #spayMemo .spay-ledger,
+html body #ame-memo-capture-clone.spay-memo .spay-ledger {
   width: 100% !important;
   max-width: 100% !important;
+  table-layout: fixed !important;
+  border-collapse: collapse !important;
+  background: transparent !important;
+}
+html body.ame-spay-page #spayMemo .spay-ledger td,
+html body #ame-memo-capture-clone.spay-memo .spay-ledger td {
+  width: 50% !important;
   box-sizing: border-box !important;
-  gap: 8px !important;
-  overflow: visible !important;
-  font-size: 15px !important;
+  padding: 5px 4px !important;
+  font-size: 14px !important;
   font-weight: 800 !important;
   color: #111827 !important;
+  background: transparent !important;
+  white-space: normal !important;
+  word-break: break-word !important;
+  overflow: visible !important;
+  vertical-align: top !important;
+  text-align: left !important;
 }
-html body.ame-spay-page #spayMemo .sabek-line span:first-child,
-html body #ame-memo-capture-clone.spay-memo .sabek-line span:first-child {
-  min-width: 0 !important;
-  flex: 1 1 auto !important;
-}
-html body.ame-spay-page #spayMemo .sabek-line span:last-child,
-html body #ame-memo-capture-clone.spay-memo .sabek-line span:last-child {
-  flex: 0 0 auto !important;
-  white-space: nowrap !important;
+html body.ame-spay-page #spayMemo .spay-ledger td.num,
+html body #ame-memo-capture-clone.spay-memo .spay-ledger td.num {
   text-align: right !important;
 }
 html body.ame-spay-page #spayMemo .spay-total-line,
