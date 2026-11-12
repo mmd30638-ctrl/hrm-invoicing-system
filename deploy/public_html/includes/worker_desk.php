@@ -254,14 +254,39 @@ function ame_worker_desk_statement(mysqli $db, int $empId): array
             $wk->close();
         }
     }
-    if (in_array($mode, ['percentage', 'work', 'mixed'], true) && ame_worker_table($db, 'service_commissions')) {
-        $sc = @$db->prepare('SELECT created_at, service_type, commission_amount FROM service_commissions WHERE employee_id = ? ORDER BY id ASC');
+    if (!function_exists('ame_engineer_statement_sync')) {
+        $statementPost = __DIR__ . '/engineer_statement_post.php';
+        if (is_file($statementPost)) {
+            require_once $statementPost;
+        }
+    }
+    if (function_exists('ame_engineer_statement_sync')) {
+        ame_engineer_statement_sync($db, $empId);
+    }
+    if (ame_worker_table($db, 'service_commissions')) {
+        $sc = @$db->prepare('SELECT created_at, service_type, commission_amount, service_amount FROM service_commissions WHERE employee_id = ? ORDER BY id ASC');
+        if (!$sc) {
+            $sc = @$db->prepare('SELECT created_at, service_type, commission_amount FROM service_commissions WHERE employee_id = ? ORDER BY id ASC');
+        }
         if ($sc) {
             $sc->bind_param('i', $empId);
             $sc->execute();
             $res = $sc->get_result();
             while ($r = $res->fetch_assoc()) {
-                $push(substr((string)$r['created_at'], 0, 10), 'কাজের ভাগ · ' . (string)($r['service_type'] ?? ''), 0, (float)$r['commission_amount']);
+                $serviceAmount = (float)($r['service_amount'] ?? 0);
+                $shareAmount = (float)($r['commission_amount'] ?? 0);
+                $view = function_exists('ame_engineer_statement_credit')
+                    ? ame_engineer_statement_credit($serviceAmount, $shareAmount)
+                    : ['show' => $shareAmount > 0.009, 'credit' => $shareAmount, 'label' => 'কাজের ভাগ'];
+                if (empty($view['show'])) {
+                    continue;
+                }
+                $push(
+                    substr((string)$r['created_at'], 0, 10),
+                    (string)$view['label'] . ' · ' . (string)($r['service_type'] ?? ''),
+                    0,
+                    (float)$view['credit']
+                );
             }
             $sc->close();
         }
