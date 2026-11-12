@@ -37,7 +37,11 @@ ame_cash_expect(str_contains($css, 'ame-cash-ask-head'), 'the cash message has a
 ame_cash_expect(str_contains($js, 'ame-cash-ask-mark'), 'the cash message carries a colored mark');
 ame_cash_expect(str_contains($invoice, 'memo-customer-name'), 'the memo customer name can be drawn heavier');
 $ink = (string)file_get_contents($root . '/assets/css/memo-clear.css');
+$memoJs = (string)file_get_contents($root . '/assets/js/ame-memo-file.js');
 ame_cash_expect(str_contains($ink, '#memo-container .memo-customer-name'), 'the memo customer name has its own color');
+ame_cash_expect(str_contains($ink, '#ame-memo-capture-clone .memo-customer-name'), 'the shared memo copy keeps the customer name color');
+ame_cash_expect(str_contains($memoJs, 'paintSeenColors'), 'the share image copies the colors seen on the open memo');
+ame_cash_expect(str_contains($memoJs, 'data-sales-colors'), 'the sales memo footer stays in the share image');
 ame_cash_expect(str_contains($ink, '#9F1239'), 'the customer name color is separate from the other lines');
 ame_cash_expect(str_contains($invoice, 'number_format($paid_amount, 2)'), 'the paid figure on the memo is unchanged');
 

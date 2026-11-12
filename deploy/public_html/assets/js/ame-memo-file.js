@@ -129,7 +129,7 @@
         var link = document.createElement('link');
         link.id = 'ameMemoClearCss';
         link.rel = 'stylesheet';
-        link.href = '/assets/css/memo-clear.css?v=10.98.816';
+        link.href = '/assets/css/memo-clear.css?v=10.98.817';
         (document.body || document.head || document.documentElement).appendChild(link);
     }
     ensureMemoClearCss();
@@ -643,11 +643,16 @@
             img.style.maxWidth = '280px';
             img.style.width = 'auto';
         });
-        clone.querySelectorAll('.memo-foot').forEach(function (el) {
-            if (el.parentNode) {
-                el.parentNode.removeChild(el);
-            }
-        });
+        var salesShot = node && node.id === 'memo-container';
+        if (salesShot) {
+            clone.setAttribute('data-sales-colors', '1');
+        } else {
+            clone.querySelectorAll('.memo-foot').forEach(function (el) {
+                if (el.parentNode) {
+                    el.parentNode.removeChild(el);
+                }
+            });
+        }
         clone.querySelectorAll('.memo-table, table').forEach(function (el) {
             el.style.fontSize = '16px';
         });
@@ -679,8 +684,38 @@
             el.style.paintOrder = 'normal';
             paintClearLine(el, '#9B1C1C', '18px');
         });
+        if (salesShot) {
+            paintSeenColors(node, clone);
+        }
         document.body.appendChild(clone);
         return clone;
+    }
+
+    function paintSeenColors(source, clone) {
+        var from = [source].concat(Array.prototype.slice.call(source.querySelectorAll('*')));
+        var to = [clone].concat(Array.prototype.slice.call(clone.querySelectorAll('*')));
+        var i;
+        var view;
+        var color;
+        var bg;
+        for (i = 0; i < from.length && i < to.length; i++) {
+            view = window.getComputedStyle(from[i]);
+            if (!view) {
+                continue;
+            }
+            color = view.color;
+            bg = view.backgroundColor;
+            if (color) {
+                to[i].style.setProperty('color', color, 'important');
+                to[i].style.setProperty('-webkit-text-fill-color', color, 'important');
+            }
+            if (bg && bg !== 'transparent' && bg !== 'rgba(0, 0, 0, 0)') {
+                to[i].style.setProperty('background-color', bg, 'important');
+            }
+            if (from[i].classList && from[i].classList.contains('memo-customer-name')) {
+                to[i].style.setProperty('font-weight', '900', 'important');
+            }
+        }
     }
 
     function capture(node) {
@@ -708,9 +743,14 @@
                     if (!element.classList) {
                         return false;
                     }
-                    return element.classList.contains('no-print')
-                        || element.classList.contains('no-memo-print')
-                        || element.classList.contains('memo-foot');
+                    if (element.classList.contains('no-print') || element.classList.contains('no-memo-print')) {
+                        return true;
+                    }
+                    if (!element.classList.contains('memo-foot')) {
+                        return false;
+                    }
+                    var host = element.closest ? element.closest('#ame-memo-capture-clone') : null;
+                    return !(host && host.getAttribute('data-sales-colors') === '1');
                 }
             });
         }).then(function (canvas) {
