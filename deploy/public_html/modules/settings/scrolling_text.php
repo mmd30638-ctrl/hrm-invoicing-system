@@ -191,30 +191,79 @@ $pv_text = (string)($row['message'] ?: 'এখানে আপনার চল�
   var keys = <?php echo json_encode(array_keys($pack)); ?>;
   var form = document.getElementById('tickForm');
   function val(name){ var el=form.querySelector('[name="'+name+'"]'); return el ? el.value : ''; }
+  function lock(el, prop, value){
+    if (!el || !value) return;
+    el.style.setProperty(prop, value, 'important');
+  }
   function paint(){
     var box = document.getElementById('tickPreview');
     var track = document.getElementById('pvTrack');
     var msg = val('message') || 'এখানে আপনার চলমান লেখা দেখাবে';
     var accent = val('accent_color');
+    var fg = val('text_color');
+    var bg = val('bg_color');
+    var size = (parseInt(val('font_size'), 10) || 16) + 'px';
+    var weight = val('font_weight') || '700';
     var secs = parseInt(val('speed_seconds'), 10);
     if (!secs || secs < 8) secs = 8;
     if (secs > 80) secs = 80;
-    box.style.background = val('bg_color');
-    box.style.color = val('text_color');
-    box.style.fontSize = (parseInt(val('font_size'), 10) || 16) + 'px';
-    box.style.fontWeight = val('font_weight') || '700';
+    lock(box, 'background', bg);
+    lock(box, 'color', fg);
+    lock(box, '-webkit-text-fill-color', fg);
+    lock(box, 'font-size', size);
+    lock(box, 'font-weight', weight);
     document.getElementById('pvText').textContent = msg;
     document.getElementById('pvText2').textContent = msg;
-    document.getElementById('pvSep').style.color = accent;
-    document.getElementById('pvSep2').style.color = accent;
+    lock(document.getElementById('pvText'), 'color', fg);
+    lock(document.getElementById('pvText'), '-webkit-text-fill-color', fg);
+    lock(document.getElementById('pvText2'), 'color', fg);
+    lock(document.getElementById('pvText2'), '-webkit-text-fill-color', fg);
+    lock(document.getElementById('pvSep'), 'color', accent);
+    lock(document.getElementById('pvSep'), '-webkit-text-fill-color', accent);
+    lock(document.getElementById('pvSep2'), 'color', accent);
+    lock(document.getElementById('pvSep2'), '-webkit-text-fill-color', accent);
     track.style.setProperty('--dw-speed', secs + 's');
     track.classList.toggle('is-right', val('direction') === 'right');
     var ic = document.getElementById('pvIcon');
-    ic.style.background = val('icon_bg');
-    ic.style.color = val('icon_color');
+    lock(ic, 'background', val('icon_bg'));
+    lock(ic, 'color', val('icon_color'));
+    lock(ic, '-webkit-text-fill-color', val('icon_color'));
     var key = val('icon_key');
     var idx = keys.indexOf(key);
     if (idx >= 0) ic.innerHTML = icons[idx];
+    var bar = document.getElementById('ameTickerBar');
+    if (!bar) return;
+    lock(bar, 'background', bg);
+    lock(bar, 'color', fg);
+    lock(bar, '-webkit-text-fill-color', fg);
+    lock(bar, 'font-size', size);
+    lock(bar, 'font-weight', weight);
+    bar.querySelectorAll('.ame-tbar-item').forEach(function(el){
+      el.textContent = msg;
+      lock(el, 'color', fg);
+      lock(el, '-webkit-text-fill-color', fg);
+      lock(el, 'font-size', size);
+      lock(el, 'font-weight', weight);
+    });
+    bar.querySelectorAll('.ame-tbar-sep').forEach(function(el){
+      lock(el, 'color', accent);
+      lock(el, '-webkit-text-fill-color', accent);
+    });
+    var liveIcon = bar.querySelector('.ame-tbar-icon');
+    if (liveIcon) {
+      lock(liveIcon, 'background', val('icon_bg'));
+      lock(liveIcon, 'color', val('icon_color'));
+      lock(liveIcon, '-webkit-text-fill-color', val('icon_color'));
+      if (idx >= 0) liveIcon.innerHTML = icons[idx];
+    }
+    var liveTrack = bar.querySelector('.ame-tbar-track');
+    if (liveTrack) {
+      var motion = val('direction') === 'right' ? 'ame-tick-right' : 'ame-tick-left';
+      liveTrack.style.setProperty('--ame-tick-speed', secs + 's');
+      liveTrack.classList.toggle('right', val('direction') === 'right');
+      liveTrack.classList.toggle('left', val('direction') !== 'right');
+      liveTrack.style.setProperty('animation', motion + ' ' + secs + 's linear infinite', 'important');
+    }
   }
   form.addEventListener('input', paint);
   form.addEventListener('change', paint);

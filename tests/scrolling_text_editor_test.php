@@ -20,6 +20,8 @@ foreach ([
     'is-right',
     'dw-live-left',
     'dw-live-right',
+    'ameTickerBar',
+    '-webkit-text-fill-color',
     'csrf_field()',
 ] as $needle) {
     if (!str_contains($php, $needle)) {

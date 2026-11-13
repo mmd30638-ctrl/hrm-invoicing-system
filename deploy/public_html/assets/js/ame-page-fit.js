@@ -181,10 +181,50 @@
     el.setAttribute('data-ame-seated', '1');
   }
 
+  function lockLook(el, prop, value) {
+    if (!el || !value) return;
+    el.style.setProperty(prop, value, 'important');
+  }
+
+  function ownSavedLook(bar) {
+    if (!bar) return;
+    var fg = bar.style.color;
+    var bg = bar.style.backgroundColor || bar.style.background;
+    var size = bar.style.fontSize;
+    var weight = bar.style.fontWeight;
+    lockLook(bar, 'color', fg);
+    lockLook(bar, '-webkit-text-fill-color', fg);
+    lockLook(bar, 'background', bg);
+    lockLook(bar, 'font-size', size);
+    lockLook(bar, 'font-weight', weight);
+    bar.querySelectorAll('.ame-tbar-item').forEach(function (el) {
+      lockLook(el, 'color', fg);
+      lockLook(el, '-webkit-text-fill-color', fg);
+      lockLook(el, 'font-size', size);
+      lockLook(el, 'font-weight', weight);
+    });
+    bar.querySelectorAll('.ame-tbar-sep').forEach(function (el) {
+      var accent = el.style.color || fg;
+      lockLook(el, 'color', accent);
+      lockLook(el, '-webkit-text-fill-color', accent);
+      lockLook(el, 'font-size', size);
+      lockLook(el, 'font-weight', weight);
+    });
+    var icon = bar.querySelector('.ame-tbar-icon');
+    if (icon) {
+      lockLook(icon, 'color', icon.style.color);
+      lockLook(icon, '-webkit-text-fill-color', icon.style.color);
+      lockLook(icon, 'background', icon.style.backgroundColor || icon.style.background);
+    }
+  }
+
   function keepTicker() {
     var bar = document.getElementById('ameTickerBar');
     var dock = document.getElementById('ameRunDock');
-    if (bar) seatLine(bar);
+    if (bar) {
+      ownSavedLook(bar);
+      seatLine(bar);
+    }
     var track = bar ? bar.querySelector('.ame-tbar-track') : null;
     if (track) {
       var name = window.getComputedStyle(track).animationName;

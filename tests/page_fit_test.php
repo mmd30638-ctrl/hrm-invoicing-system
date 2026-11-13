@@ -41,6 +41,9 @@ if (!str_contains($css, '--ame-tick-speed') || !str_contains($css, 'ame-tick-rig
 if (!str_contains($js, 'ame-tick-right') || !str_contains($js, '--ame-tick-speed')) {
     ame_fit_fail('the running text fallback ignores speed or direction');
 }
+if (!str_contains($js, 'ownSavedLook') || !str_contains($js, '-webkit-text-fill-color')) {
+    ame_fit_fail('a saved text color can still be forced white');
+}
 if (str_contains($header, 'hdr-i-fit') || str_contains($header, 'ameHdrMore')) {
     ame_fit_fail('the arrange switch is still in the top icon row');
 }
