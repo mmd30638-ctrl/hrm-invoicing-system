@@ -162,6 +162,7 @@
   function seatLine(el) {
     if (!el) return;
     var header = document.querySelector('.master-header-fixed');
+    if (el.getAttribute('data-ame-seated') === '1' && el.style.position === 'fixed') return;
     el.removeAttribute('data-ame-run-hid');
     el.removeAttribute('data-ame-fit');
     el.removeAttribute('data-ame-sheet');
@@ -193,6 +194,7 @@
     if (header) {
       header.style.setProperty('top', 'calc(var(--ame-run-h, 34px) + env(safe-area-inset-top, 0px))', 'important');
     }
+    el.setAttribute('data-ame-seated', '1');
   }
 
   function keepTicker() {
