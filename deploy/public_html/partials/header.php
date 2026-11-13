@@ -287,6 +287,12 @@ html body .master-header-fixed .hdr-icon-btn .hdr-badge.hdr-badge-stock{backgrou
         </button>
 
         <?php if (!empty($_SESSION['user_id'])): ?>
+        <button type="button" class="hdr-icon-btn hdr-i-fit" id="amePageFitToggle" aria-pressed="false" title="<?php echo current_lang() === 'en' ? 'Arrange this page. Press to show it in the middle. Press again to hide it.' : 'পেজ সাজান। চাপলে মাঝে দেখাবে, আবার চাপলে লুকোবে।'; ?>">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1.4" stroke="currentColor" stroke-width="2"/><rect x="13" y="4" width="7" height="4.2" rx="1.2" stroke="currentColor" stroke-width="2"/><rect x="13" y="10.4" width="7" height="9.6" rx="1.4" stroke="currentColor" stroke-width="2"/><rect x="4" y="13" width="7" height="7" rx="1.4" stroke="currentColor" stroke-width="2"/></svg>
+        </button>
+        <?php endif; ?>
+
+        <?php if (!empty($_SESSION['user_id'])): ?>
         <a href="/modules/returns/v2/create_invoice_return.php" class="hdr-icon-btn hdr-i-return" title="<?php echo current_lang() === 'en' ? 'Sale return' : 'বিক্রি ফেরত'; ?>">
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 7H4.5v2.5M17 17h2.5V14.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 8.8A7.2 7.2 0 0 1 18.4 9.2M19 15.2A7.2 7.2 0 0 1 5.6 14.8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
         </a>
