@@ -29,6 +29,9 @@ if (!str_contains($js, 'isRunningText') || !str_contains($js, 'keepTicker') || !
 if (!str_contains($css, 'height: 40px') || !str_contains($css, 'white-space: nowrap') || !str_contains($js, "'40px'")) {
     ame_fit_fail('the running text is not one straight line');
 }
+if (!str_contains($css, 'order: -10') || !str_contains($css, 'order: 2')) {
+    ame_fit_fail('the running text can still slip under the icons');
+}
 if (str_contains($header, 'hdr-i-fit') || str_contains($header, 'ameHdrMore')) {
     ame_fit_fail('the arrange switch is still in the top icon row');
 }

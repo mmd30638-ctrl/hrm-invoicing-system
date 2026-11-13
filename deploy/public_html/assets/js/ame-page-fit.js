@@ -172,6 +172,9 @@
     el.style.setProperty('max-height', '40px', 'important');
     el.style.setProperty('line-height', '40px', 'important');
     el.style.setProperty('white-space', 'nowrap', 'important');
+    el.style.setProperty('order', '-10', 'important');
+    var header = document.querySelector('.master-header-fixed');
+    if (header && el.parentNode !== header) header.insertBefore(el, header.firstChild);
     el.style.setProperty('transform', 'none', 'important');
     el.style.setProperty('margin', '0', 'important');
     el.style.setProperty('overflow', 'hidden', 'important');

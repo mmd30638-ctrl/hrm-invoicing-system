@@ -369,7 +369,7 @@
     ticker.style.setProperty('white-space', 'nowrap', 'important');
     ticker.style.setProperty('left', '0', 'important');
     ticker.style.setProperty('width', '100%', 'important');
-    ticker.style.setProperty('order', '-5', 'important');
+    ticker.style.setProperty('order', '-10', 'important');
     ticker.style.setProperty('flex', '1 0 100%', 'important');
     ticker.setAttribute('data-ame-line-lock', '1');
     return ticker;
@@ -397,7 +397,7 @@
         dock.style.setProperty('max-height', '40px', 'important');
         dock.style.setProperty('line-height', '40px', 'important');
         dock.style.setProperty('white-space', 'nowrap', 'important');
-        dock.style.setProperty('order', '-5', 'important');
+        dock.style.setProperty('order', '-10', 'important');
         dock.style.setProperty('width', '100%', 'important');
         dock.style.setProperty('flex', '1 0 100%', 'important');
         dock.setAttribute('data-ame-line-lock', '1');

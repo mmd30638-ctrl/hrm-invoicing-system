@@ -24,7 +24,7 @@ html body #ameRunDock {
   overflow: hidden !important;
   transform: none !important;
   animation: none !important;
-  order: -5 !important;
+  order: -10 !important;
   flex: 1 0 100% !important;
   z-index: 4 !important;
   box-sizing: border-box !important;
@@ -34,6 +34,15 @@ html body:has(#ameRunDock):not(:has(#ameTickerBar)) .master-header-fixed {
   top: 0 !important;
   flex-wrap: wrap !important;
   height: auto !important;
+}
+html body .master-header-fixed > #ameTickerBar,
+html body .master-header-fixed > #ameRunDock {
+  order: -10 !important;
+  flex: 1 0 100% !important;
+}
+html body .master-header-fixed:has(#ameTickerBar) > .hdr-btn-group,
+html body .master-header-fixed:has(#ameRunDock) > .hdr-btn-group {
+  order: 2 !important;
 }
 html body:has(#ameTickerBar) #ameRunDock { display: none !important; }
 html body #ameTickerBar .ame-tbar-track,

@@ -27,7 +27,7 @@
         ticker.style.setProperty('top', 'auto', 'important');
         ticker.style.setProperty('left', '0', 'important');
         ticker.style.setProperty('width', '100%', 'important');
-        ticker.style.setProperty('order', '-1', 'important');
+        ticker.style.setProperty('order', '-10', 'important');
         ticker.style.setProperty('flex', '1 0 100%', 'important');
         return ticker;
     }
@@ -49,7 +49,7 @@
             dock.style.setProperty('display', 'block', 'important');
             dock.style.setProperty('position', 'relative', 'important');
             dock.style.setProperty('top', 'auto', 'important');
-            dock.style.setProperty('order', '-1', 'important');
+            dock.style.setProperty('order', '-10', 'important');
             dock.style.setProperty('width', '100%', 'important');
             dock.style.setProperty('flex', '1 0 100%', 'important');
         }
