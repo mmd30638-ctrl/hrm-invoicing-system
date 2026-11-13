@@ -178,7 +178,7 @@
     });
   }
 
-  function save() {
+  function collect() {
     var items = [];
     blocks().forEach(function (el) {
       if (el.getAttribute('data-ame-fit') !== '1') return;
@@ -190,7 +190,45 @@
         h: parseFloat(el.style.height) || el.offsetHeight
       });
     });
+    return items;
+  }
+
+  function remember(items) {
     localStorage.setItem(KEY, JSON.stringify({ items: items }));
+  }
+
+  function applyItems(items) {
+    root.querySelectorAll('[data-ame-fit="1"]').forEach(function (el) {
+      el.removeAttribute('data-ame-fit');
+      el.style.position = '';
+      el.style.left = '';
+      el.style.top = '';
+      el.style.width = '';
+      el.style.height = '';
+      el.style.margin = '';
+      el.style.zIndex = '';
+    });
+    items.forEach(function (item) {
+      var el = lookup(item.path);
+      if (el) place(el, item);
+    });
+    grow();
+    remember(items);
+  }
+
+  function api(method, body) {
+    var cfg = window.AME_PAGE_FIT || {};
+    if (!cfg.url) return Promise.resolve(null);
+    var opt = { method: method, credentials: 'same-origin', headers: { 'Accept': 'application/json' } };
+    var url = cfg.url;
+    if (method === 'GET') url += '?path=' + encodeURIComponent(location.pathname);
+    if (body) {
+      opt.headers['Content-Type'] = 'application/json';
+      if (cfg.csrf) opt.headers['X-CSRF-Token'] = cfg.csrf;
+      opt.body = JSON.stringify(body);
+      opt.keepalive = true;
+    }
+    return fetch(url, opt).then(function (res) { return res.json(); }).catch(function () { return null; });
   }
 
   function ui() {
@@ -201,7 +239,7 @@
     var bar = document.createElement('div');
     bar.className = 'ame-fit-bar ame-fit-ui';
     bar.hidden = true;
-    bar.innerHTML = '<strong>এই পেজ সাজান</strong><span><button type="button" class="ame-fit-reset">আগের মতো</button> <button type="button" class="ame-fit-lock">লক করুন</button></span>';
+    bar.innerHTML = '<strong>এই পেজ সাজান</strong><span><button type="button" class="ame-fit-reset">আগের মতো</button> <button type="button" class="ame-fit-lock">সেভ ও লক</button></span>';
     document.body.appendChild(launch);
     document.body.appendChild(bar);
     function paint() {
@@ -221,16 +259,25 @@
       paint();
     });
     bar.querySelector('.ame-fit-lock').addEventListener('click', function () {
-      save();
-      editing = false;
-      document.body.classList.remove('ame-fit-on');
-      bar.hidden = true;
-      handles(false);
-      paint();
+      var items = collect();
+      remember(items);
+      var btn = bar.querySelector('.ame-fit-lock');
+      btn.disabled = true;
+      api('POST', { path: location.pathname, items: items }).then(function (data) {
+        btn.disabled = false;
+        editing = false;
+        document.body.classList.remove('ame-fit-on');
+        bar.hidden = true;
+        handles(false);
+        launch.title = data && data.ok ? 'এই পেজের সাইজ সেভ হয়েছে' : 'এই ফোনে সাইজ আটকানো আছে';
+        paint();
+      });
     });
     bar.querySelector('.ame-fit-reset').addEventListener('click', function () {
       localStorage.removeItem(KEY);
-      location.reload();
+      api('POST', { path: location.pathname, items: [], reset: true }).finally(function () {
+        location.reload();
+      });
     });
     paint();
   }
@@ -240,6 +287,12 @@
     if (!root) return;
     applySaved();
     ui();
+    api('GET').then(function (data) {
+      if (!data || !data.ok || !data.items || !data.items.length || editing) return;
+      applyItems(data.items);
+      var launch = document.querySelector('.ame-fit-launch');
+      if (launch) launch.classList.toggle('is-locked', data.items.length > 0);
+    });
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
