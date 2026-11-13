@@ -129,7 +129,7 @@
         var link = document.createElement('link');
         link.id = 'ameMemoClearCss';
         link.rel = 'stylesheet';
-        link.href = '/assets/css/memo-clear.css?v=10.98.831';
+        link.href = '/assets/css/memo-clear.css?v=10.98.832';
         (document.body || document.head || document.documentElement).appendChild(link);
     }
     ensureMemoClearCss();

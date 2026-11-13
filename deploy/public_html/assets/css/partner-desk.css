@@ -108,6 +108,23 @@ html body #main-content .pa-page .pa-panel h2 {
   font-size: 16px !important;
   color: #0f172a !important;
 }
+html body #main-content .pa-page details.pa-help {
+  margin: 0 0 8px;
+}
+html body #main-content .pa-page details.pa-help > summary {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: #eef4ff;
+  color: #0b3d91;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  list-style: none;
+}
+html body #main-content .pa-page details.pa-help > summary::-webkit-details-marker { display: none; }
 html body #main-content .pa-page .pa-panel .sub {
   color: #64748b !important;
   font-size: 12.5px !important;
