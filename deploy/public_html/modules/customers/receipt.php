@@ -128,7 +128,7 @@ $wa_text = $shop_name . "\n"
     . $after_label . ": " . ame_memo_paper_money($after) . "\n"
     . "ধন্যবাদ!";
 $wa_url = 'https://wa.me/' . ($wa_phone !== '' ? $wa_phone : '') . '?text=' . rawurlencode($wa_text);
-$ame_ver = defined('AME_ASSET_VERSION') ? AME_ASSET_VERSION : '10.98.830';
+$ame_ver = defined('AME_ASSET_VERSION') ? AME_ASSET_VERSION : '10.98.831';
 ?>
 <!DOCTYPE html>
 <html lang="bn">
