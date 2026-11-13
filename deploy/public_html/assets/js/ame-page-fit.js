@@ -5,6 +5,11 @@
 
   function snap(n) { return Math.round(n / 4) * 4; }
 
+  function isRunningText(el) {
+    if (!el || !el.closest) return false;
+    return !!el.closest('#ameTickerBar, #ameRunDock, .ame-tbar, .ame-tbar-track, .ame-run-dock, .ame-run-line, .master-header-fixed');
+  }
+
   function rootEl() {
     return document.getElementById('main-content') || document.body;
   }
@@ -13,6 +18,7 @@
     return Array.prototype.filter.call(node.children, function (el) {
       if (!el || el.nodeType !== 1) return false;
       if (el.classList.contains('ame-fit-ui') || el.classList.contains('ame-fit-move') || el.classList.contains('ame-fit-size') || el.classList.contains('ds-crumb')) return false;
+      if (isRunningText(el)) return false;
       var tag = el.tagName;
       if (tag === 'SCRIPT' || tag === 'STYLE' || tag === 'LINK') return false;
       var box = el.getBoundingClientRect();
@@ -137,16 +143,30 @@
 
   function loosen(el) {
     var node = el;
-    while (node && node !== document.documentElement) {
+    while (node && node !== document.body && node !== document.documentElement) {
+      if (isRunningText(node) || node.id === 'main-content') break;
       node.setAttribute('data-ame-loosen', '1');
       node.style.maxWidth = 'none';
       node.style.overflow = 'visible';
-      if (node === document.body) break;
       node = node.parentElement;
     }
   }
 
+  function releaseRunningText() {
+    document.querySelectorAll('#ameTickerBar, #ameRunDock, .ame-tbar, .ame-tbar-track, .ame-run-line, .ame-run-dock').forEach(function (el) {
+      if (el.getAttribute('data-ame-fit') === '1' || el.getAttribute('data-ame-loosen') === '1' || el.getAttribute('data-ame-sheet') === '1') {
+        wipeStyle(el);
+      }
+    });
+    if (document.body.getAttribute('data-ame-loosen') === '1') {
+      document.body.style.overflow = '';
+      document.body.style.maxWidth = '';
+      document.body.removeAttribute('data-ame-loosen');
+    }
+  }
+
   function place(el, box) {
+    if (isRunningText(el)) return;
     var parent = el.parentElement;
     if (parent && window.getComputedStyle(parent).position === 'static') parent.style.position = 'relative';
     var bit = el.getAttribute('data-ame-bit') === '1';
@@ -393,7 +413,7 @@
         var backdrop = document.getElementById('sidebarBackdrop');
         if (sidebar) sidebar.classList.remove('active');
         if (backdrop) backdrop.classList.remove('active');
-        document.body.style.overflow = '';
+        if (document.body.style.overflow === 'hidden') document.body.style.overflow = '';
       });
     } else {
       launch = document.createElement('button');
@@ -425,6 +445,7 @@
   }
 
   function boot() {
+    releaseRunningText();
     root = rootEl();
     if (!root) return;
     applySaved();
