@@ -128,7 +128,7 @@ $wa_text = $shop_name . "\n"
     . $after_label . ": " . ame_memo_paper_money($after) . "\n"
     . "ধন্যবাদ!";
 $wa_url = 'https://wa.me/' . ($wa_phone !== '' ? $wa_phone : '') . '?text=' . rawurlencode($wa_text);
-$ame_ver = defined('AME_ASSET_VERSION') ? AME_ASSET_VERSION : '10.98.820';
+$ame_ver = defined('AME_ASSET_VERSION') ? AME_ASSET_VERSION : '10.98.821';
 ?>
 <!DOCTYPE html>
 <html lang="bn">
@@ -261,6 +261,59 @@ $ame_ver = defined('AME_ASSET_VERSION') ? AME_ASSET_VERSION : '10.98.820';
     .sabek-line span:last-child, .total-due-line span:last-child, .memo-sum-row > span:last-child { text-align: right; white-space: nowrap; }
     .memo-foot { text-align: center; margin-top: 14px; padding-top: 10px; border-top: 1px dashed #CBD5E1; }
     .notify-box { max-width: <?php echo $max_width; ?>; margin: 14px auto 0; padding: 14px 16px; background: #fff; border: 1px solid #E5E7EB; border-radius: 12px; }
+    #cpayReverse { display: flex; flex-direction: column; gap: 8px; }
+    #cpayReverse > strong { color: #9F1239; font-size: 16px; }
+    #cpayReverse > p { margin: 0; color: #1D4ED8; font-weight: 800; }
+    .cpay-reason { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .cpay-reason label { margin: 0; color: #C2410C; font-weight: 800; flex: 0 0 auto; }
+    .cpay-reason input { flex: 1; min-width: 0; text-align: right; color: #9A3412; font-weight: 800; border: 1.5px solid #C2410C !important; }
+    #cpayReverse .ame-pay-sec {
+        display: grid !important;
+        grid-template-columns: minmax(0, 46%) minmax(0, 1fr) !important;
+        gap: 8px 10px !important;
+        align-items: center !important;
+        margin: 0 !important;
+    }
+    #cpayReverse .ame-pay-sec-kicker {
+        margin: 0 !important;
+        color: #7C3AED !important;
+        -webkit-text-fill-color: #7C3AED !important;
+    }
+    #cpayReverse .ame-pay-sec-code {
+        width: auto !important;
+        margin: 0 !important;
+        justify-self: stretch;
+        text-align: right !important;
+        font-size: 22px !important;
+        letter-spacing: .08em !important;
+        padding: 4px 8px !important;
+    }
+    #cpayReverse .ame-pay-sec-click-hint,
+    #cpayReverse .ame-pay-sec-hint {
+        grid-column: 1 / -1;
+        margin: 0 !important;
+    }
+    #cpayReverse .ame-pay-sec-click-hint {
+        color: #0F766E !important;
+        -webkit-text-fill-color: #0F766E !important;
+    }
+    #cpayReverse .ame-pay-sec-hint {
+        color: #0369A1 !important;
+        -webkit-text-fill-color: #0369A1 !important;
+    }
+    #cpayReverse .ame-pay-sec-lbl {
+        display: block !important;
+        margin: 0 !important;
+        color: #9F1239 !important;
+        -webkit-text-fill-color: #9F1239 !important;
+    }
+    #cpayReverse .ame-pay-sec-input {
+        width: 100% !important;
+        min-height: 42px !important;
+        margin: 0 !important;
+        text-align: right !important;
+    }
+    #cpayReverse button[type="submit"] { align-self: flex-end; width: auto; min-width: 46%; }
     .no-memo-print { display: none !important; }
     @media print {
         .no-print, .no-memo-print { display: none !important; }
@@ -466,8 +519,10 @@ $pay_reversed = function_exists('ame_customer_payment_is_reversed') && ame_custo
     <input type="hidden" name="payment_id" value="<?php echo (int)$payment_id; ?>">
     <strong>ভুল রসিদ বাতিল</strong>
     <p>একই পেমেন্ট দুবার হয়ে গেলে এখানে বাতিল করুন। টাকা অ্যাকাউন্ট থেকে কাটা হবে, কাস্টমারের বাকি ফিরবে।</p>
-    <label for="cpayReason" style="display:block;margin:10px 0 6px;font-weight:800;">বাতিলের কারণ</label>
-    <input id="cpayReason" name="reason" required maxlength="255" style="width:100%;box-sizing:border-box;min-height:42px;padding:8px 10px;border-radius:10px;border:1px solid #D1D5DB;" placeholder="যেমন: একই রসিদ দুবার হয়ে গেছে">
+    <div class="cpay-reason">
+        <label for="cpayReason">বাতিলের কারণ</label>
+        <input id="cpayReason" name="reason" required maxlength="255" style="box-sizing:border-box;min-height:42px;padding:8px 10px;border-radius:10px;" placeholder="যেমন: একই রসিদ দুবার হয়ে গেছে">
+    </div>
     <?php if (function_exists('ame_pay_sec_box')) echo ame_pay_sec_box('customer_reverse', (int)$payment_id, 'বাতিল করতে পর্দার কোড লিখুন।', 'Type the on-screen code to reverse this receipt.'); ?>
     <button type="submit" style="margin-top:10px;min-height:44px;padding:8px 16px;border:0;border-radius:10px;background:#b91c1c;color:#fff;font-weight:800;cursor:pointer;">রসিদ বাতিল করুন</button>
 </form>
