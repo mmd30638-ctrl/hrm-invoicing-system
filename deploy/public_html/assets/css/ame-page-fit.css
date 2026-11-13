@@ -14,12 +14,13 @@ html body #ameRunDock {
   top: auto !important;
   width: 100% !important;
   max-width: none !important;
-  height: 34px !important;
-  min-height: 34px !important;
-  max-height: 34px !important;
+  height: 40px !important;
+  min-height: 40px !important;
+  max-height: 40px !important;
   margin: 0 !important;
   padding: 0 10px !important;
-  line-height: 34px !important;
+  line-height: 40px !important;
+  white-space: nowrap !important;
   overflow: hidden !important;
   transform: none !important;
   animation: none !important;
@@ -36,12 +37,27 @@ html body:has(#ameRunDock):not(:has(#ameTickerBar)) .master-header-fixed {
 }
 html body:has(#ameTickerBar) #ameRunDock { display: none !important; }
 html body #ameTickerBar .ame-tbar-track,
+html body #ameTickerBar .ame-tbar-track-wrap,
+html body #ameRunDock .ame-run-host,
+html body #ameRunDock .ame-run-line,
+html body #ameRunDock .ame-run-line span,
+html body #ameTickerBar .ame-tbar-item {
+  white-space: nowrap !important;
+  line-height: 40px !important;
+}
+html body #ameTickerBar .ame-tbar-track {
+  display: inline-flex !important;
+  flex-wrap: nowrap !important;
+  width: max-content !important;
+  height: 40px !important;
+  animation: ame-tick-keep 18s linear infinite !important;
+}
 html body #ameRunDock .ame-run-line {
   display: inline-block !important;
-  height: 34px !important;
-  line-height: 34px !important;
+  width: max-content !important;
+  height: 40px !important;
   vertical-align: top !important;
-  animation: ame-tick-keep 18s linear infinite !important;
+  animation: none !important;
 }
 .ame-fit-ui { position: fixed; z-index: 80; font-family: "Noto Sans Bengali", "Segoe UI", sans-serif; }
 html body .master-header-fixed .hdr-icon-btn.hdr-i-fit {

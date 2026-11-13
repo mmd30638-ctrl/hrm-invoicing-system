@@ -167,10 +167,11 @@
     el.removeAttribute('data-ame-loosen');
     el.style.setProperty('position', 'relative', 'important');
     el.style.setProperty('top', 'auto', 'important');
-    el.style.setProperty('height', '34px', 'important');
-    el.style.setProperty('min-height', '34px', 'important');
-    el.style.setProperty('max-height', '34px', 'important');
-    el.style.setProperty('line-height', '34px', 'important');
+    el.style.setProperty('height', '40px', 'important');
+    el.style.setProperty('min-height', '40px', 'important');
+    el.style.setProperty('max-height', '40px', 'important');
+    el.style.setProperty('line-height', '40px', 'important');
+    el.style.setProperty('white-space', 'nowrap', 'important');
     el.style.setProperty('transform', 'none', 'important');
     el.style.setProperty('margin', '0', 'important');
     el.style.setProperty('overflow', 'hidden', 'important');
