@@ -64,7 +64,6 @@
         if (headerH < 1) {
             headerH = visibleHeight(header) || 60;
         }
-        document.documentElement.style.setProperty('--ame-header-h', headerH + 'px');
         var top = headerH;
         var tickerInside = ticker && header && ticker.parentNode === header;
         var dockInside = dock && header && dock.parentNode === header;
@@ -74,11 +73,19 @@
             dock.style.setProperty('top', '0px', 'important');
             top += visibleHeight(dock);
         }
+        var tickerFixed = ticker && window.getComputedStyle(ticker).position === 'fixed';
+        var dockFixed = dock && window.getComputedStyle(dock).position === 'fixed';
+        if (tickerFixed || dockFixed) {
+            top = headerH;
+        }
         var cdTop = top;
         cds.forEach(function (bar) {
-            bar.style.top = cdTop + 'px';
+            if (bar.style.top !== cdTop + 'px') bar.style.top = cdTop + 'px';
             cdTop += visibleHeight(bar);
         });
+        if (window.__ameChromeLock && Math.abs(cdTop - window.__ameChromeLock) < 8) return;
+        window.__ameChromeLock = cdTop;
+        document.documentElement.style.setProperty('--ame-header-h', headerH + 'px');
         document.documentElement.style.setProperty('--ame-chrome-h', cdTop + 'px');
         var main = document.getElementById('main-content');
         if (main) {
@@ -125,29 +132,14 @@
         setInterval(function () {
             bars.forEach(tickOne);
         }, 1000);
-        window.addEventListener('resize', setChromeOffset);
+        window.addEventListener('resize', function () {
+            window.__ameChromeLock = 0;
+            setChromeOffset();
+        });
         window.addEventListener('orientationchange', function () {
-            setTimeout(setChromeOffset, 80);
+            window.__ameChromeLock = 0;
             setTimeout(setChromeOffset, 320);
         });
-        if (window.visualViewport) {
-            window.visualViewport.addEventListener('resize', setChromeOffset);
-            window.visualViewport.addEventListener('scroll', setChromeOffset);
-        }
-        if ('ResizeObserver' in window && document.querySelector('.master-header-fixed')) {
-            var headerEl = document.querySelector('.master-header-fixed');
-            var scheduled = false;
-            new ResizeObserver(function () {
-                if (scheduled) return;
-                scheduled = true;
-                window.requestAnimationFrame(function () {
-                    scheduled = false;
-                    setChromeOffset();
-                });
-            }).observe(headerEl);
-        }
-        setTimeout(setChromeOffset, 0);
-        setTimeout(setChromeOffset, 180);
     }
 
     if (document.readyState === 'loading') {
