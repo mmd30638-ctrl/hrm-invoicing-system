@@ -26,6 +26,9 @@ if (!str_contains($menu, 'id="amePageFitToggle"') || !str_contains($menu, 'à¦ªà§
 if (!str_contains($js, 'isRunningText') || !str_contains($js, 'keepTicker') || !str_contains($css, 'ame-tick-keep')) {
     ame_fit_fail('the running text is not kept after reload');
 }
+if (!str_contains($css, '--ame-run-h') || !str_contains($js, '--ame-run-h') || !str_contains($css, 'safe-area-inset-top')) {
+    ame_fit_fail('the running text is not above the icons');
+}
 if (str_contains($header, 'hdr-i-fit') || str_contains($header, 'ameHdrMore')) {
     ame_fit_fail('the arrange switch is still in the top icon row');
 }

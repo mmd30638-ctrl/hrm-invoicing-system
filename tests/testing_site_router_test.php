@@ -16,6 +16,7 @@ function ame_ts_expect(bool $ok, string $message): void
 
 ame_ts_expect(str_contains($router, "require \$ame_home"), 'the testing site home opens from the router');
 ame_ts_expect(str_contains($router, 'href="/index.php"'), 'the missing page returns to the home file');
+ame_ts_expect(str_contains($router, 'টেবিলের সমস্যা নয়'), 'the missing page says it is not a table fault');
 ame_ts_expect(!preg_match('/\b(UPDATE|INSERT|DELETE)\b/', $router), 'the router does not write amounts');
 
 if ($fail > 0) {

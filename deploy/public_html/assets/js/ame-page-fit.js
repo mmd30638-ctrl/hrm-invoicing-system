@@ -172,20 +172,27 @@
       header.style.setProperty('height', 'auto', 'important');
       header.style.setProperty('overflow', 'visible', 'important');
     }
-    el.style.setProperty('display', el.id === 'ameRunDock' ? 'block' : 'flex', 'important');
+    el.style.setProperty('display', 'flex', 'important');
     el.style.setProperty('visibility', 'visible', 'important');
     el.style.setProperty('opacity', '1', 'important');
-    el.style.setProperty('position', 'relative', 'important');
+    el.style.setProperty('position', 'fixed', 'important');
     el.style.setProperty('left', '0', 'important');
-    el.style.setProperty('top', 'auto', 'important');
+    el.style.setProperty('right', '0', 'important');
+    el.style.setProperty('top', 'env(safe-area-inset-top, 0px)', 'important');
     el.style.setProperty('width', '100%', 'important');
-    el.style.setProperty('height', 'auto', 'important');
+    el.style.setProperty('height', 'var(--ame-run-h, 34px)', 'important');
     el.style.setProperty('min-height', '34px', 'important');
-    el.style.setProperty('max-height', 'none', 'important');
+    el.style.setProperty('max-height', '40px', 'important');
+    el.style.setProperty('margin', '0', 'important');
     el.style.setProperty('overflow', 'hidden', 'important');
-    el.style.setProperty('flex', '1 0 100%', 'important');
-    el.style.setProperty('order', '-1', 'important');
-    el.style.setProperty('z-index', '4', 'important');
+    el.style.setProperty('z-index', '1000002', 'important');
+    var barHeight = Math.ceil(el.getBoundingClientRect().height);
+    if (barHeight < 34) barHeight = 34;
+    if (barHeight > 40) barHeight = 40;
+    document.documentElement.style.setProperty('--ame-run-h', barHeight + 'px');
+    if (header) {
+      header.style.setProperty('top', 'calc(var(--ame-run-h, 34px) + env(safe-area-inset-top, 0px))', 'important');
+    }
   }
 
   function keepTicker() {
@@ -519,8 +526,8 @@
     var timer = setInterval(function () {
       ticks += 1;
       keepTicker();
-      if (ticks > 12) clearInterval(timer);
-    }, 250);
+      if (ticks > 120) clearInterval(timer);
+    }, 200);
     window.addEventListener('pageshow', keepTicker);
   }
 

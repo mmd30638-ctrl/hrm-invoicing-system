@@ -130,5 +130,5 @@ error_log('404 Not Found: ' . $missing_url);
 http_response_code(404);
 header('Content-Type: text/html; charset=UTF-8');
 echo '<!doctype html><html lang="bn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>পৃষ্ঠা পাওয়া যায়নি</title>
-</head><body style="font-family:sans-serif;text-align:center;padding:3rem"><h1>404</h1><p>পৃষ্ঠা পাওয়া যায়নি।</p><p><a href="/index.php">মূল পাতায় ফিরুন</a></p></body></html>';
+</head><body style="font-family:sans-serif;text-align:center;padding:3rem"><h1>404</h1><p>পৃষ্ঠা পাওয়া যায়নি।</p><p>এটি টেবিলের সমস্যা নয়। এই ঠিকানায় কোনো পাতা নেই।</p><p><a href="/index.php">মূল পাতায় ফিরুন</a></p></body></html>';
 exit();
