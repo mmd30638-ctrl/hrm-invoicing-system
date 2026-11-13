@@ -29,8 +29,11 @@ if (!str_contains($js, 'isRunningText') || !str_contains($js, 'keepTicker') || !
 if (!str_contains($css, 'height: 40px') || !str_contains($css, 'white-space: nowrap') || !str_contains($js, "'40px'")) {
     ame_fit_fail('the running text is not one straight line');
 }
-if (!str_contains($css, 'order: -10') || !str_contains($css, 'order: 2')) {
+if (!str_contains($css, 'order: -10') || !str_contains($css, '.hdr-brand-box')) {
     ame_fit_fail('the running text can still slip under the icons');
+}
+if (str_contains($css, '.hdr-btn-group') && str_contains($css, 'order: 2')) {
+    ame_fit_fail('the icons were pushed to the right of the logo');
 }
 if (!str_contains($css, '--ame-tick-speed') || !str_contains($css, 'ame-tick-right') || str_contains($css, 'ame-tick-keep 18s')) {
     ame_fit_fail('the running text ignores speed or direction');

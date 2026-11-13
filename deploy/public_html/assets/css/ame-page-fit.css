@@ -47,9 +47,8 @@ html body .master-header-fixed > #ameRunDock {
   order: -10 !important;
   flex: 1 0 100% !important;
 }
-html body .master-header-fixed:has(#ameTickerBar) > .hdr-btn-group,
-html body .master-header-fixed:has(#ameRunDock) > .hdr-btn-group {
-  order: 2 !important;
+html body .master-header-fixed > .hdr-brand-box {
+  margin-left: auto !important;
 }
 html body:has(#ameTickerBar) #ameRunDock { display: none !important; }
 html body #ameTickerBar .ame-tbar-track,
