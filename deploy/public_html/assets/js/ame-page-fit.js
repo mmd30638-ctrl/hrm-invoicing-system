@@ -188,7 +188,11 @@
     var track = bar ? bar.querySelector('.ame-tbar-track') : null;
     if (track) {
       var name = window.getComputedStyle(track).animationName;
-      if (!name || name === 'none') track.style.animation = 'ame-tick-keep 18s linear infinite';
+      if (!name || name === 'none') {
+        var speed = track.style.getPropertyValue('--ame-tick-speed') || '22s';
+        var motion = track.classList.contains('right') ? 'ame-tick-right' : 'ame-tick-left';
+        track.style.animation = motion + ' ' + speed + ' linear infinite';
+      }
     }
     if (dock && !tickerShown(bar)) {
       seatLine(dock);

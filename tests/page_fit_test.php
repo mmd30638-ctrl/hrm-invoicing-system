@@ -32,6 +32,12 @@ if (!str_contains($css, 'height: 40px') || !str_contains($css, 'white-space: now
 if (!str_contains($css, 'order: -10') || !str_contains($css, 'order: 2')) {
     ame_fit_fail('the running text can still slip under the icons');
 }
+if (!str_contains($css, '--ame-tick-speed') || !str_contains($css, 'ame-tick-right') || str_contains($css, 'ame-tick-keep 18s')) {
+    ame_fit_fail('the running text ignores speed or direction');
+}
+if (!str_contains($js, 'ame-tick-right') || !str_contains($js, '--ame-tick-speed')) {
+    ame_fit_fail('the running text fallback ignores speed or direction');
+}
 if (str_contains($header, 'hdr-i-fit') || str_contains($header, 'ameHdrMore')) {
     ame_fit_fail('the arrange switch is still in the top icon row');
 }

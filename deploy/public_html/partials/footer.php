@@ -12,22 +12,22 @@
 <link rel="stylesheet" href="/assets/css/ame-account-select.css?v=<?php echo htmlspecialchars($sys_version ?? '1.0', ENT_QUOTES, 'UTF-8'); ?>">
 <link rel="stylesheet" href="/assets/css/responsive-fix.css?v=<?php echo $sys_version ?? '1.0'; ?>">
 <link rel="stylesheet" href="/assets/css/invoice-print-fix.css?v=<?php echo htmlspecialchars($sys_version ?? '1.0', ENT_QUOTES, 'UTF-8'); ?>">
-<link rel="stylesheet" href="/assets/css/memo-clear.css?v=10.98.840">
-<link rel="stylesheet" href="/assets/css/pos-pay-dock.css?v=10.98.840">
+<link rel="stylesheet" href="/assets/css/memo-clear.css?v=10.98.841">
+<link rel="stylesheet" href="/assets/css/pos-pay-dock.css?v=10.98.841">
 <link rel="stylesheet" href="/assets/css/design-system.css?v=<?php echo htmlspecialchars($sys_version ?? '1.0', ENT_QUOTES, 'UTF-8'); ?>">
 <link rel="stylesheet" href="/assets/css/line-hover.630.css?v=<?php echo htmlspecialchars($sys_version ?? '1.0', ENT_QUOTES, 'UTF-8'); ?>">
 <script src="/assets/js/line-hover.630.js?v=<?php echo htmlspecialchars($sys_version ?? '1.0', ENT_QUOTES, 'UTF-8'); ?>" defer></script>
 <script src="/assets/js/ame-account-select.js?v=<?php echo htmlspecialchars($sys_version ?? '1.0', ENT_QUOTES, 'UTF-8'); ?>" defer></script>
 <script src="/assets/js/responsive-fix.js?v=<?php echo $sys_version ?? '1.0'; ?>" defer></script>
 <script src="/assets/js/design-system.js?v=<?php echo htmlspecialchars($sys_version ?? '1.0', ENT_QUOTES, 'UTF-8'); ?>" defer></script>
-<script src="/assets/js/ame-idle-lock.js?v=10.98.840" defer></script>
-<script src="/assets/js/pos-pay-dock.js?v=10.98.840" defer></script>
+<script src="/assets/js/ame-idle-lock.js?v=10.98.841" defer></script>
+<script src="/assets/js/pos-pay-dock.js?v=10.98.841" defer></script>
 <script src="/assets/js/error-boundary.js?v=<?php echo htmlspecialchars($sys_version ?? '1.0', ENT_QUOTES, 'UTF-8'); ?>" defer></script>
 <script src="/assets/js/qa-api-log.js?v=<?php echo htmlspecialchars($sys_version ?? '1.0', ENT_QUOTES, 'UTF-8'); ?>" defer></script>
 <?php include __DIR__ . '/page_fit.php'; ?>
 <?php if (str_contains((string)($_SERVER['SCRIPT_NAME'] ?? ''), '/modules/accounts/partner_')): ?>
-<link rel="stylesheet" href="/assets/css/partner-desk.css?v=10.98.840">
-<script src="/assets/js/partner-desk.js?v=10.98.840" defer></script>
+<link rel="stylesheet" href="/assets/css/partner-desk.css?v=10.98.841">
+<script src="/assets/js/partner-desk.js?v=10.98.841" defer></script>
 <?php endif; ?>
 
 
@@ -138,7 +138,7 @@ if ($ame_is_pos) {
 <script src="/assets/js/pay-security-autofill.js?v=<?php echo htmlspecialchars($sys_version ?? '1.0', ENT_QUOTES, 'UTF-8'); ?>" defer></script>
 <script src="/assets/js/module-navigation.js?v=<?php echo htmlspecialchars($sys_version ?? '1.0', ENT_QUOTES, 'UTF-8'); ?>" defer></script>
 <script src="/assets/js/ame-keep-warm.js?v=<?php echo htmlspecialchars($sys_version ?? '1.0', ENT_QUOTES, 'UTF-8'); ?>" defer></script>
-<script src="/assets/js/ame-memo-file.js?v=10.98.840" defer></script>
+<script src="/assets/js/ame-memo-file.js?v=10.98.841" defer></script>
 <?php if (!empty($ame_is_pos)): ?>
 <script src="/assets/js/sell-without-stock.js?v=<?php echo htmlspecialchars($sys_version ?? '1.0', ENT_QUOTES, 'UTF-8'); ?>" defer></script>
 <script src="/assets/js/pos-cash-paid.js?v=<?php echo htmlspecialchars($sys_version ?? '1.0', ENT_QUOTES, 'UTF-8'); ?>" defer></script>

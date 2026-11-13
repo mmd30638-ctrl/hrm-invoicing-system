@@ -29,6 +29,13 @@ html body #ameRunDock {
   z-index: 4 !important;
   box-sizing: border-box !important;
 }
+html body #ameTickerBar,
+html body #ameTickerBar[data-ame-run-hid] {
+  display: flex !important;
+  align-items: center !important;
+  flex-wrap: nowrap !important;
+  gap: 0 !important;
+}
 html body:has(#ameTickerBar) .master-header-fixed,
 html body:has(#ameRunDock):not(:has(#ameTickerBar)) .master-header-fixed {
   top: 0 !important;
@@ -54,12 +61,40 @@ html body #ameTickerBar .ame-tbar-item {
   white-space: nowrap !important;
   line-height: 40px !important;
 }
+html body #ameTickerBar .ame-tbar-icon {
+  flex: 0 0 26px !important;
+  width: 26px !important;
+  height: 26px !important;
+  margin: 0 8px 0 0 !important;
+  line-height: 0 !important;
+}
+html body #ameTickerBar .ame-tbar-track-wrap {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  height: 40px !important;
+  overflow: hidden !important;
+}
 html body #ameTickerBar .ame-tbar-track {
   display: inline-flex !important;
   flex-wrap: nowrap !important;
+  align-items: center !important;
   width: max-content !important;
   height: 40px !important;
-  animation: ame-tick-keep 18s linear infinite !important;
+}
+html body #ameTickerBar .ame-tbar-track.left,
+html body #ameTickerBar .ame-tbar-track:not(.right) {
+  animation: ame-tick-left var(--ame-tick-speed, 22s) linear infinite !important;
+}
+html body #ameTickerBar .ame-tbar-track.right {
+  animation: ame-tick-right var(--ame-tick-speed, 22s) linear infinite !important;
+}
+@keyframes ame-tick-left {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+@keyframes ame-tick-right {
+  from { transform: translate3d(-50%, 0, 0); }
+  to { transform: translate3d(0, 0, 0); }
 }
 html body #ameRunDock .ame-run-line {
   display: inline-block !important;
