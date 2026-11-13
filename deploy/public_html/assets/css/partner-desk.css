@@ -79,10 +79,53 @@ html body #main-content .pa-page .pa-extra-note {
   font-size: 13px !important;
   line-height: 1.45 !important;
 }
+html body #main-content .pa-page .pa-extra-picks {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 8px !important;
+  margin: 0 0 10px !important;
+}
+html body #main-content .pa-page .pa-extra-pick {
+  display: flex !important;
+  align-items: center !important;
+  width: 100% !important;
+  min-height: 52px !important;
+  margin: 0 !important;
+  padding: 10px 14px !important;
+  border: 1.5px solid #dbe3ef !important;
+  border-radius: 14px !important;
+  background: #fff !important;
+  color: #0f172a !important;
+  -webkit-text-fill-color: #0f172a !important;
+  font-size: 15px !important;
+  font-weight: 800 !important;
+  line-height: 1.35 !important;
+  text-align: left !important;
+  white-space: normal !important;
+}
+html body #main-content .pa-page .pa-extra-pick.is-on {
+  border-color: #047857 !important;
+  background: #ecfdf5 !important;
+  color: #065f46 !important;
+  -webkit-text-fill-color: #065f46 !important;
+  box-shadow: inset 4px 0 0 #047857 !important;
+}
+html body #main-content .pa-page .pa-extra-native {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
 html body #main-content .pa-page .pa-extra-form {
   display: grid !important;
   grid-template-columns: 1fr !important;
   gap: 8px !important;
+  position: relative !important;
 }
 html body #main-content .pa-page .pa-extra-form select,
 html body #main-content .pa-page .pa-extra-form input {
@@ -104,10 +147,16 @@ html body #main-content .pa-page .pa-extra-form .pa-btn {
   -webkit-text-fill-color: #fff !important;
   font-weight: 800 !important;
 }
-@media (min-width: 720px) {
+@media (min-width: 900px) {
+  html body #main-content .pa-page .pa-extra-picks {
+    grid-template-columns: 1fr 1fr !important;
+  }
   html body #main-content .pa-page .pa-extra-form {
-    grid-template-columns: 1.2fr .8fr .9fr 1fr auto !important;
+    grid-template-columns: 1fr 1fr 1fr auto !important;
     align-items: center !important;
+  }
+  html body #main-content .pa-page .pa-extra-picks {
+    grid-column: 1 / -1 !important;
   }
 }
 html body #main-content .pa-page .pa-cards {

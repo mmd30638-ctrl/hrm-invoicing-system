@@ -22,6 +22,33 @@
   var start = page.querySelector('.pa-start');
   if (start && start.parentNode === page) page.appendChild(start);
 
+  function tidyName(text) {
+    return String(text || '').replace(/\s+/g, ' ').trim();
+  }
+  function keepName(name) {
+    return name.length > 1 && name !== 'লেজার' && name !== 'এডিট';
+  }
+  var people = {};
+  function remember(id, name) {
+    id = String(id || '').replace(/[^\d]/g, '');
+    name = tidyName(name);
+    if (!id || id === '0' || !keepName(name) || people[id]) return;
+    people[id] = name;
+  }
+  page.querySelectorAll('a[href*="edit="]').forEach(function (link) {
+    var found = String(link.getAttribute('href') || '').match(/[?&]edit=(\d+)/);
+    if (found) remember(found[1], link.textContent);
+  });
+  page.querySelectorAll('input[name="partner_id"]').forEach(function (input) {
+    if (String(input.getAttribute('type') || '') !== 'radio') return;
+    var label = input.closest('label');
+    var title = label ? label.querySelector('b') : null;
+    remember(input.getAttribute('value'), title ? title.textContent : '');
+  });
+  page.querySelectorAll('select[name="partner_id"] option').forEach(function (opt) {
+    remember(opt.getAttribute('value'), opt.textContent);
+  });
+
   var extraForm = null;
   page.querySelectorAll('form').forEach(function (node) {
     var action = node.querySelector('input[name="action"]');
@@ -31,19 +58,70 @@
     }
   });
   if (extraForm && !page.querySelector('.pa-extra')) {
+    var partner = extraForm.querySelector('select[name="partner_id"]');
+    if (partner) {
+      Object.keys(people).forEach(function (id) {
+        var exists = false;
+        Array.prototype.forEach.call(partner.options, function (opt) {
+          if (opt.getAttribute('value') === id) exists = true;
+        });
+        if (exists) return;
+        var opt = document.createElement('option');
+        opt.setAttribute('value', id);
+        opt.textContent = people[id];
+        partner.appendChild(opt);
+      });
+      var picks = document.createElement('div');
+      picks.className = 'pa-extra-picks';
+      picks.setAttribute('role', 'listbox');
+      picks.setAttribute('aria-label', 'পার্টনার');
+      function mark(id) {
+        Array.prototype.forEach.call(partner.options, function (opt) {
+          opt.selected = opt.getAttribute('value') === id;
+        });
+        picks.querySelectorAll('.pa-extra-pick').forEach(function (btn) {
+          var on = btn.getAttribute('data-partner') === id;
+          btn.classList.toggle('is-on', on);
+          btn.setAttribute('aria-selected', on ? 'true' : 'false');
+        });
+      }
+      Array.prototype.forEach.call(partner.options, function (opt) {
+        var id = opt.getAttribute('value');
+        if (!id || id === '0') return;
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'pa-extra-pick';
+        btn.setAttribute('data-partner', id);
+        btn.setAttribute('role', 'option');
+        var name = document.createElement('span');
+        name.textContent = tidyName(opt.textContent);
+        btn.appendChild(name);
+        btn.addEventListener('click', function () {
+          mark(id);
+        });
+        picks.appendChild(btn);
+      });
+      var chosen = '';
+      Array.prototype.forEach.call(partner.options, function (opt) {
+        if (!chosen && opt.selected) chosen = opt.getAttribute('value') || '';
+      });
+      if (!chosen && partner.options.length) chosen = partner.options[0].getAttribute('value') || '';
+      partner.classList.add('pa-extra-native');
+      partner.setAttribute('aria-hidden', 'true');
+      mark(chosen);
+      extraForm.insertBefore(picks, partner);
+    }
     var card = document.createElement('section');
     card.className = 'pa-extra pa-panel';
     var title = document.createElement('h2');
     title.textContent = 'অতিরিক্ত টাকা';
     var note = document.createElement('p');
     note.className = 'pa-extra-note';
-    note.textContent = 'পার্টনার বাছুন, তারিখ দিন, টাকা লিখুন। গ্রাহক বা সাপ্লায়ারের হিসাব বদলায় না।';
-    var partner = extraForm.querySelector('select[name="partner_id"]');
+    note.textContent = 'যে পার্টনারে টাকা যোগ হবে তাকে চাপুন, তারপর তারিখ ও টাকা দিন। গ্রাহক বা সাপ্লায়ারের হিসাব বদলায় না।';
     var amount = extraForm.querySelector('input[name="amount"]');
     var when = extraForm.querySelector('input[name="transaction_date"]');
     var memo = extraForm.querySelector('input[name="note"]');
     var button = extraForm.querySelector('button[type="submit"]');
-    if (partner) partner.setAttribute('aria-label', 'পার্টনার');
     if (amount) {
       amount.placeholder = 'টাকার পরিমাণ';
       amount.setAttribute('aria-label', 'টাকার পরিমাণ');
@@ -55,8 +133,8 @@
     card.appendChild(title);
     card.appendChild(note);
     card.appendChild(extraForm);
-    var hero = page.querySelector('.pa-hero');
-    if (hero && hero.parentNode === page) hero.insertAdjacentElement('afterend', card);
+    var heroBox = page.querySelector('.pa-hero');
+    if (heroBox && heroBox.parentNode === page) heroBox.insertAdjacentElement('afterend', card);
     else page.insertBefore(card, page.firstChild);
   }
 })();

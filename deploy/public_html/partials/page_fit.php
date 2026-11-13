@@ -1,5 +1,5 @@
 <?php
-$ame_fit_v = defined('AME_ASSET_VERSION') ? AME_ASSET_VERSION : '10.98.845';
+$ame_fit_v = defined('AME_ASSET_VERSION') ? AME_ASSET_VERSION : '10.98.846';
 ?>
 <link rel="stylesheet" href="/assets/css/ame-page-fit.css?v=<?php echo htmlspecialchars($ame_fit_v, ENT_QUOTES, 'UTF-8'); ?>">
 <script>
