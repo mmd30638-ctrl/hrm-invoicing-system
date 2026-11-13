@@ -50,6 +50,16 @@ html body .master-header-fixed > #ameRunDock {
 html body .master-header-fixed > .hdr-brand-box {
   margin-left: auto !important;
 }
+html body.ame-home-gallery #vdLaunch,
+html body.ame-home-gallery .vd-launch,
+html body.ame-home-gallery #ameLayoutFab,
+html body.ame-home-gallery .ame-layout-fab,
+html body[data-vd-page="home"] #vdLaunch,
+html body[data-vd-page="home"] .vd-launch,
+html body[data-vd-page="home"] #ameLayoutFab,
+html body[data-vd-page="home"] .ame-layout-fab {
+  display: none !important;
+}
 html body:has(#ameTickerBar) #ameRunDock { display: none !important; }
 html body #ameTickerBar .ame-tbar-track,
 html body #ameTickerBar .ame-tbar-track-wrap,

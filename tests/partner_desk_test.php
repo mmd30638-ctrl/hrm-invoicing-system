@@ -23,6 +23,7 @@ ame_pd_expect(str_contains($css, '.pa-cards') && str_contains($css, '.pa-sale-li
 ame_pd_expect(!preg_match('/\b(UPDATE|INSERT|DELETE|pa_taka)\b/', $css), 'the style sheet does not rewrite amounts');
 ame_pd_expect(str_contains($footer, 'partner-desk.js'), 'the simpler partnership flow is linked');
 ame_pd_expect(str_contains($js, 'insertAdjacentElement') && str_contains($js, '.pa-cards') && str_contains($js, '.pa-start'), 'numbers come first and the start date moves down');
+ame_pd_expect(str_contains($js, 'save_capital') && str_contains($js, 'transaction_date') && str_contains($css, '.pa-extra'), 'extra partner money sits in one dated card');
 ame_pd_expect(!preg_match('/\.val|pa_taka|innerHTML/', $js), 'the simpler flow does not rewrite any amount text');
 
 if ($fail > 0) {
