@@ -101,6 +101,45 @@ body.ame-fit-on [data-ame-fit="1"] {
   color: #fff;
   cursor: nwse-resize;
 }
+.ame-fit-edge {
+  top: 50%;
+  bottom: auto;
+  width: 22px;
+  height: 48px;
+  transform: translateY(-50%);
+  background: #0F172A;
+  cursor: ew-resize;
+  z-index: 45;
+}
+.ame-fit-edge-e { right: -10px; left: auto; }
+.ame-fit-edge-w { left: -10px; right: auto; }
+.ame-more-wrap { position: relative; display: inline-flex; }
+.ame-more-menu {
+  position: fixed;
+  z-index: 200;
+  min-width: 168px;
+  padding: 6px;
+  background: #fff;
+  border: 1px solid #DBEAFE;
+  border-radius: 12px;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, .2);
+}
+.ame-more-menu[hidden] { display: none !important; }
+.ame-more-menu button {
+  width: 100%;
+  min-height: 42px;
+  border: 0;
+  border-radius: 10px;
+  background: #0B3D91;
+  color: #fff;
+  font-weight: 800;
+}
+.ame-more-menu button.is-on { background: #047857; }
+html body .master-header-fixed .hdr-icon-btn.hdr-i-more {
+  background: linear-gradient(145deg, #334155, #0f172a) !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
 @media print {
   .ame-fit-ui, .ame-fit-move, .ame-fit-size { display: none !important; }
   [data-ame-fit="1"] {

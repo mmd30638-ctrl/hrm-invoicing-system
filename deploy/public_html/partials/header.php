@@ -282,15 +282,20 @@ html body .master-header-fixed .hdr-icon-btn .hdr-badge.hdr-badge-stock{backgrou
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4.2" y="5.6" width="15.6" height="2.6" rx="1.3" fill="currentColor"/><rect x="4.2" y="10.7" width="10.4" height="2.6" rx="1.3" fill="currentColor"/><rect x="4.2" y="15.8" width="13.2" height="2.6" rx="1.3" fill="currentColor"/></svg>
         </button>
 
+        <?php if (!empty($_SESSION['user_id'])): ?>
+        <span class="ame-more-wrap">
+            <button type="button" class="hdr-icon-btn hdr-i-more" id="ameHdrMore" aria-expanded="false" aria-controls="ameHdrMoreMenu" title="<?php echo current_lang() === 'en' ? 'More' : 'আরও'; ?>">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5.2" r="1.7" fill="currentColor"/><circle cx="12" cy="12" r="1.7" fill="currentColor"/><circle cx="12" cy="18.8" r="1.7" fill="currentColor"/></svg>
+            </button>
+            <div id="ameHdrMoreMenu" class="ame-more-menu" hidden>
+                <button type="button" id="amePageFitToggle" aria-pressed="false"><?php echo current_lang() === 'en' ? 'Arrange this page' : 'পেজ সাজান'; ?></button>
+            </div>
+        </span>
+        <?php endif; ?>
+
         <button type="button" class="hdr-icon-btn hdr-i-home" onclick="window.location.href='/index.php'" title="<?php echo te('go_home'); ?>">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3.2 3.6 10.4h2.2V20h5.1v-5.4h2.2V20h5.1v-9.6h2.2L12 3.2z"/></svg>
         </button>
-
-        <?php if (!empty($_SESSION['user_id'])): ?>
-        <button type="button" class="hdr-icon-btn hdr-i-fit" id="amePageFitToggle" aria-pressed="false" title="<?php echo current_lang() === 'en' ? 'Arrange this page. Press to show it in the middle. Press again to hide it.' : 'পেজ সাজান। চাপলে মাঝে দেখাবে, আবার চাপলে লুকোবে।'; ?>">
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1.4" stroke="currentColor" stroke-width="2"/><rect x="13" y="4" width="7" height="4.2" rx="1.2" stroke="currentColor" stroke-width="2"/><rect x="13" y="10.4" width="7" height="9.6" rx="1.4" stroke="currentColor" stroke-width="2"/><rect x="4" y="13" width="7" height="7" rx="1.4" stroke="currentColor" stroke-width="2"/></svg>
-        </button>
-        <?php endif; ?>
 
         <?php if (!empty($_SESSION['user_id'])): ?>
         <a href="/modules/returns/v2/create_invoice_return.php" class="hdr-icon-btn hdr-i-return" title="<?php echo current_lang() === 'en' ? 'Sale return' : 'বিক্রি ফেরত'; ?>">

@@ -19,8 +19,11 @@ if (!str_contains($footer, 'page_fit.php') || !str_contains($partial, 'ame-page-
 if (!str_contains($partial, 'page_layout.php')) {
     ame_fit_fail('the page does not call the layout store');
 }
-if (!str_contains($header, 'id="amePageFitToggle"')) {
-    ame_fit_fail('the menu bar has no arrange switch');
+if (!str_contains($header, 'id="ameHdrMore"') || !str_contains($header, 'id="amePageFitToggle"') || !str_contains($header, 'ameHdrMoreMenu')) {
+    ame_fit_fail('the arrange switch is not inside the three-dot menu');
+}
+if (str_contains($header, 'hdr-i-fit')) {
+    ame_fit_fail('the arrange switch is still a separate header icon');
 }
 foreach (['localStorage.setItem', 'সেভ ও লক', 'amePageFitToggle', 'ame-page-fit:', 'AME_PAGE_FIT', 'bar.hidden = true'] as $needle) {
     if (!str_contains($js, $needle)) {
@@ -30,8 +33,11 @@ foreach (['localStorage.setItem', 'সেভ ও লক', 'amePageFitToggle', 'a
 if (!str_contains($css, 'translate(-50%, -50%)') || !str_contains($css, '.ame-fit-bar[hidden]')) {
     ame_fit_fail('the arrange panel is not centered or cannot hide');
 }
-if (!str_contains($js, 'সাদা অংশ') || !str_contains($js, 'data-ame-sheet')) {
-    ame_fit_fail('the white background layout has no move handle');
+if (!str_contains($js, 'সাদা অংশ') || !str_contains($js, 'data-ame-sheet') || !str_contains($js, "mode === 'w'") || !str_contains($js, "maxWidth = 'none'")) {
+    ame_fit_fail('the white background cannot be resized sideways');
+}
+if (!str_contains($js, 'restoreOriginal') || !str_contains($js, 'data-ame-bit')) {
+    ame_fit_fail('reset or overflowing text is missing');
 }
 if (preg_match('/process_payment|customer_payments|receivable_balance|UPDATE\s+|INSERT\s+/i', $js)) {
     ame_fit_fail('the fit tool writes business data');
