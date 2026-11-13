@@ -39,6 +39,6 @@ ame_dock_expect(str_contains($footer, 'pos-pay-dock.js'), 'the dock control load
 ame_dock_expect(str_contains($pos, "getElementById('deskPayArrow')"), 'the second-account arrow stays in place');
 
 $version = trim((string)file_get_contents($root . '/VERSION.txt'));
-ame_dock_expect($version === '10.98.834', 'the update version is 10.98.834');
+ame_dock_expect($version === '10.98.835', 'the update version is 10.98.835');
 
 echo "OK pos payment dock\n";
