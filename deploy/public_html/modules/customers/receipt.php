@@ -128,7 +128,7 @@ $wa_text = $shop_name . "\n"
     . $after_label . ": " . ame_memo_paper_money($after) . "\n"
     . "ধন্যবাদ!";
 $wa_url = 'https://wa.me/' . ($wa_phone !== '' ? $wa_phone : '') . '?text=' . rawurlencode($wa_text);
-$ame_ver = defined('AME_ASSET_VERSION') ? AME_ASSET_VERSION : '10.98.821';
+$ame_ver = defined('AME_ASSET_VERSION') ? AME_ASSET_VERSION : '10.98.822';
 ?>
 <!DOCTYPE html>
 <html lang="bn">
@@ -260,8 +260,17 @@ $ame_ver = defined('AME_ASSET_VERSION') ? AME_ASSET_VERSION : '10.98.821';
     .sabek-line, .total-due-line { display: flex; justify-content: space-between; gap: 12px; width: 100%; }
     .sabek-line span:last-child, .total-due-line span:last-child, .memo-sum-row > span:last-child { text-align: right; white-space: nowrap; }
     .memo-foot { text-align: center; margin-top: 14px; padding-top: 10px; border-top: 1px dashed #CBD5E1; }
-    .notify-box { max-width: <?php echo $max_width; ?>; margin: 14px auto 0; padding: 14px 16px; background: #fff; border: 1px solid #E5E7EB; border-radius: 12px; }
-    #cpayReverse { display: flex; flex-direction: column; gap: 8px; }
+    .cpay-sheet { width: 100%; max-width: <?php echo $max_width; ?>; margin: 0 auto; }
+    .cpay-sheet .memo-wrapper,
+    .cpay-sheet .notify-box {
+        width: 100%;
+        max-width: none;
+        margin-left: 0;
+        margin-right: 0;
+        box-sizing: border-box;
+    }
+    .notify-box { margin: 14px 0 0; padding: 16px 20px; background: #fff; border: 1px solid #E5E7EB; border-radius: 12px; }
+    #cpayReverse { display: flex; flex-direction: column; gap: 8px; align-items: stretch; width: 100%; }
     #cpayReverse > strong { color: #9F1239; font-size: 16px; }
     #cpayReverse > p { margin: 0; color: #1D4ED8; font-weight: 800; }
     .cpay-reason { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
@@ -273,6 +282,8 @@ $ame_ver = defined('AME_ASSET_VERSION') ? AME_ASSET_VERSION : '10.98.821';
         gap: 8px 10px !important;
         align-items: center !important;
         margin: 0 !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
     }
     #cpayReverse .ame-pay-sec-kicker {
         margin: 0 !important;
@@ -313,7 +324,7 @@ $ame_ver = defined('AME_ASSET_VERSION') ? AME_ASSET_VERSION : '10.98.821';
         margin: 0 !important;
         text-align: right !important;
     }
-    #cpayReverse button[type="submit"] { align-self: flex-end; width: auto; min-width: 46%; }
+    #cpayReverse button[type="submit"] { align-self: stretch; width: 100%; box-sizing: border-box; }
     .no-memo-print { display: none !important; }
     @media print {
         .no-print, .no-memo-print { display: none !important; }
@@ -334,6 +345,7 @@ $ame_ver = defined('AME_ASSET_VERSION') ? AME_ASSET_VERSION : '10.98.821';
 </nav>
 <p class="pay-share-hint no-print">শেয়ার চাপলে মেমোর ছবি যাবে।</p>
 
+<div class="cpay-sheet">
 <div id="memo-container" class="memo-wrapper" data-ame-capture="clone">
     <div class="memo-head">
         <?php echo function_exists('shop_print_logo_tag') ? shop_print_logo_tag(72) : ''; ?>
@@ -534,6 +546,7 @@ $pay_reversed = function_exists('ame_customer_payment_is_reversed') && ame_custo
     <p>বাকি থাকলে এই পেমেন্টের ৮ দিন পর মূল ঘণ্টায় আবার আসবে। নোটিফিকেশন পেজ থেকে পরবর্তী তারিখ দিলে সেই তারিখে আসবে।</p>
 </div>
 <?php endif; ?>
+</div>
 
 <script src="/assets/js/double-submit-guard.js?v=<?php echo htmlspecialchars($ame_ver, ENT_QUOTES, 'UTF-8'); ?>"></script>
 <script src="/assets/js/enter-submit.js?v=<?php echo htmlspecialchars($ame_ver, ENT_QUOTES, 'UTF-8'); ?>"></script>

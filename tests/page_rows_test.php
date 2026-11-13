@@ -14,6 +14,9 @@ $report = (string) file_get_contents($root . '/modules/returns/return_report.php
 if (!str_contains($receipt, 'grid-template-columns: 1fr;') || !str_contains($receipt, 'data-k="টাকা"')) {
     ame_rows_fail('customer receipt lines are not stacked left to right');
 }
+if (!str_contains($receipt, 'class="cpay-sheet"') || !str_contains($receipt, '.cpay-sheet .notify-box')) {
+    ame_rows_fail('the lower box is not locked to the memo width');
+}
 if (!str_contains($receipt, 'class="cpay-reason"') || !str_contains($receipt, '#cpayReverse .ame-pay-sec') || !str_contains($receipt, 'actions/process_payment_reverse.php')) {
     ame_rows_fail('the marked cancel box is not a left-right row');
 }

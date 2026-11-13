@@ -203,7 +203,7 @@ $tg_url = 'https://t.me/share/url?url=' . rawurlencode($ame_public_memo) . '&tex
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title><?php echo ame_ui('ইনভয়েস', 'Invoice'); ?> #<?php echo htmlspecialchars($inv_no, ENT_QUOTES, 'UTF-8'); ?> - <?php echo htmlspecialchars($shop['shop_name'] ?? 'Aponshop', ENT_QUOTES, 'UTF-8'); ?></title>
     <link rel="stylesheet" href="/assets/css/ame-front-colors.css">
-    <link rel="stylesheet" href="/assets/css/memo-clear.css?v=10.98.821">
+    <link rel="stylesheet" href="/assets/css/memo-clear.css?v=10.98.822">
     <style>
         * { box-sizing: border-box; }
         body {
@@ -721,7 +721,7 @@ $tg_url = 'https://t.me/share/url?url=' . rawurlencode($ame_public_memo) . '&tex
     </div>
 
     <!-- স্ক্রিপ্ট লোডার -->
-    <script src="/assets/js/ame-memo-file.js?v=10.98.821"></script>
+    <script src="/assets/js/ame-memo-file.js?v=10.98.822"></script>
     <script>
     (function () {
         var saleId = <?php echo (int)$sale_id; ?>;
