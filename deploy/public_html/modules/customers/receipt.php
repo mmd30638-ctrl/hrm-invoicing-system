@@ -128,7 +128,7 @@ $wa_text = $shop_name . "\n"
     . $after_label . ": " . ame_memo_paper_money($after) . "\n"
     . "ধন্যবাদ!";
 $wa_url = 'https://wa.me/' . ($wa_phone !== '' ? $wa_phone : '') . '?text=' . rawurlencode($wa_text);
-$ame_ver = defined('AME_ASSET_VERSION') ? AME_ASSET_VERSION : '10.98.819';
+$ame_ver = defined('AME_ASSET_VERSION') ? AME_ASSET_VERSION : '10.98.820';
 ?>
 <!DOCTYPE html>
 <html lang="bn">
@@ -206,24 +206,59 @@ $ame_ver = defined('AME_ASSET_VERSION') ? AME_ASSET_VERSION : '10.98.819';
     .memo-badge { display: inline-block; margin-top: 8px; padding: 3px 14px; border-radius: 20px; font-size: 12px; font-weight: 800; }
     .memo-meta-grid {
         display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 4px 10px;
+        grid-template-columns: 1fr;
+        gap: 4px;
         background: #F8FAFC;
         border: 1px solid #E2E8F0;
         border-radius: 8px;
         padding: 8px 10px;
         margin-bottom: 10px;
     }
-    .memo-meta-item { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; }
-    .memo-table { width: 100%; border-collapse: collapse; margin-bottom: 12px; }
-    .memo-table th, .memo-table td { padding: 7px 6px; }
-    .memo-table .tc { text-align: center; }
-    .memo-table .tr { text-align: right; }
-    .sku-text { display: block; font-size: 12px; font-weight: 700; }
+    .memo-meta-item { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
+    .memo-meta-item .lbl { flex: 0 0 auto; }
+    .memo-meta-item .val { text-align: right; min-width: 0; }
+    #memo-container .memo-table,
+    #ame-memo-capture-clone .memo-table,
+    #memo-container .memo-table tbody,
+    #ame-memo-capture-clone .memo-table tbody,
+    #memo-container .memo-table tr,
+    #ame-memo-capture-clone .memo-table tr { display: block; width: 100%; }
+    #memo-container .memo-table thead,
+    #ame-memo-capture-clone .memo-table thead { display: none; }
+    #memo-container .memo-table tr,
+    #ame-memo-capture-clone .memo-table tr { padding: 4px 0 8px; border-bottom: 1px solid #E2E8F0; }
+    #memo-container .memo-table td,
+    #ame-memo-capture-clone .memo-table td {
+        display: flex !important;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 12px;
+        width: 100%;
+        padding: 3px 0;
+        text-align: right !important;
+    }
+    #memo-container .memo-table td::before,
+    #ame-memo-capture-clone .memo-table td::before {
+        content: attr(data-k);
+        font-weight: 800;
+        text-align: left;
+        flex: 0 0 auto;
+    }
+    #memo-container .memo-table td:nth-child(1)::before,
+    #ame-memo-capture-clone .memo-table td:nth-child(1)::before { color: #1D4ED8 !important; -webkit-text-fill-color: #1D4ED8 !important; }
+    #memo-container .memo-table td:nth-child(2)::before,
+    #ame-memo-capture-clone .memo-table td:nth-child(2)::before { color: #0F766E !important; -webkit-text-fill-color: #0F766E !important; }
+    #memo-container .memo-table td:nth-child(3)::before,
+    #ame-memo-capture-clone .memo-table td:nth-child(3)::before { color: #C2410C !important; -webkit-text-fill-color: #C2410C !important; }
+    #memo-container .memo-table td:nth-child(4)::before,
+    #ame-memo-capture-clone .memo-table td:nth-child(4)::before { color: #6D28D9 !important; -webkit-text-fill-color: #6D28D9 !important; }
+    .cpay-val { text-align: right; min-width: 0; }
+    .sku-text { display: block; font-size: 12px; font-weight: 700; color: #0369A1; }
     .memo-summary { border-top: 1px solid #CBD5E1; padding-top: 8px; }
-    .memo-sum-row { display: flex; justify-content: space-between; gap: 8px; padding: 3px 0; }
+    .memo-sum-row { display: flex; justify-content: space-between; gap: 12px; padding: 3px 0; }
     .memo-sum-row.sabek-box { flex-direction: column; align-items: stretch; background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 8px; padding: 8px 10px; margin-top: 6px; }
-    .sabek-line, .total-due-line { display: flex; justify-content: space-between; gap: 8px; width: 100%; }
+    .sabek-line, .total-due-line { display: flex; justify-content: space-between; gap: 12px; width: 100%; }
+    .sabek-line span:last-child, .total-due-line span:last-child, .memo-sum-row > span:last-child { text-align: right; white-space: nowrap; }
     .memo-foot { text-align: center; margin-top: 14px; padding-top: 10px; border-top: 1px dashed #CBD5E1; }
     .notify-box { max-width: <?php echo $max_width; ?>; margin: 14px auto 0; padding: 14px 16px; background: #fff; border: 1px solid #E5E7EB; border-radius: 12px; }
     .no-memo-print { display: none !important; }
@@ -298,8 +333,8 @@ $ame_ver = defined('AME_ASSET_VERSION') ? AME_ASSET_VERSION : '10.98.819';
         </thead>
         <tbody>
             <tr>
-                <td class="tc">1</td>
-                <td>
+                <td class="tc" data-k="নং"><span class="cpay-val">1</span></td>
+                <td data-k="বিবরণ"><span class="cpay-val">
                     <span style="font-weight:600;">পেমেন্ট গ্রহণ</span>
                     <?php if ($pay_note !== ''): ?>
                     <span class="sku-text"><?php echo htmlspecialchars($pay_note, ENT_QUOTES, 'UTF-8'); ?></span>
@@ -307,16 +342,16 @@ $ame_ver = defined('AME_ASSET_VERSION') ? AME_ASSET_VERSION : '10.98.819';
                     <?php if ($account_name !== ''): ?>
                     <span class="sku-text">অ্যাকাউন্ট: <?php echo htmlspecialchars($account_name, ENT_QUOTES, 'UTF-8'); ?></span>
                     <?php endif; ?>
-                </td>
-                <td><?php echo htmlspecialchars($method_text, ENT_QUOTES, 'UTF-8'); ?></td>
-                <td class="tr" style="font-weight:700;"><?php echo number_format($pay_amount, 2); ?></td>
+                </span></td>
+                <td data-k="মাধ্যম"><span class="cpay-val"><?php echo htmlspecialchars($method_text, ENT_QUOTES, 'UTF-8'); ?></span></td>
+                <td class="tr" data-k="টাকা"><span class="cpay-val" style="font-weight:700;"><?php echo number_format($pay_amount, 2); ?></span></td>
             </tr>
             <?php if ($pay_discount > 0.009): ?>
             <tr>
-                <td class="tc">2</td>
-                <td><span style="font-weight:600;">ডিসকাউন্ট</span></td>
-                <td>—</td>
-                <td class="tr" style="font-weight:700;"><?php echo number_format($pay_discount, 2); ?></td>
+                <td class="tc" data-k="নং"><span class="cpay-val">2</span></td>
+                <td data-k="বিবরণ"><span class="cpay-val"><span style="font-weight:600;">ডিসকাউন্ট</span></span></td>
+                <td data-k="মাধ্যম"><span class="cpay-val">—</span></td>
+                <td class="tr" data-k="টাকা"><span class="cpay-val" style="font-weight:700;"><?php echo number_format($pay_discount, 2); ?></span></td>
             </tr>
             <?php endif; ?>
         </tbody>
