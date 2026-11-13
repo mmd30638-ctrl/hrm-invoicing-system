@@ -57,8 +57,8 @@ $waUrl = 'https://wa.me/' . $waPhone . '?text=' . rawurlencode($waText);
 $ame_body_class = 'ame-spay-page ame-paper-a4';
 include '../../partials/header.php';
 ?>
-<link rel="stylesheet" href="/assets/css/supplier-settlement.css?v=10.98.806">
-<link rel="stylesheet" href="/assets/css/memo-clear.css?v=10.98.806">
+<link rel="stylesheet" href="/assets/css/supplier-settlement.css?v=10.98.847">
+<link rel="stylesheet" href="/assets/css/memo-clear.css?v=10.98.847">
 <div class="spay<?php echo isset($_GET['slip']) ? ' spay-slip' : ''; ?>" id="spReceipt">
     <?php if ($error !== ''): ?><div class="spay-error spay-no-print no-print"><?php echo htmlspecialchars($error, ENT_QUOTES, 'UTF-8'); ?></div><?php endif; ?>
     <nav class="inv-action-bar no-print spay-no-print" id="spayShareBar" aria-label="<?php echo ame_spay_t('পেমেন্ট রসিদ', 'Payment receipt'); ?>">
@@ -87,7 +87,7 @@ include '../../partials/header.php';
             <div class="memo-meta-item spay-c-blue"><span class="lbl"><?php echo te('spay_mobile'); ?></span><span class="val"><?php echo htmlspecialchars((string)($row['phone'] ?: '—'), ENT_QUOTES, 'UTF-8'); ?></span></div>
             <div class="memo-meta-item spay-c-green"><span class="lbl"><?php echo te('spay_method'); ?></span><span class="val"><?php echo htmlspecialchars($methods[$row['method']] ?? $row['method'], ENT_QUOTES, 'UTF-8'); ?></span></div>
             <div class="memo-meta-item spay-c-navy"><span class="lbl"><?php echo te('spay_account'); ?></span><span class="val"><?php echo htmlspecialchars((string)($row['account_name'] ?: '—'), ENT_QUOTES, 'UTF-8'); ?></span></div>
-            <div class="memo-meta-item spay-c-red"><span class="lbl"><?php echo ame_spay_t('সাপ্লায়ারের নাম', 'Supplier name'); ?></span><span class="val"><?php echo htmlspecialchars((string)($row['supplier_name'] ?: '—'), ENT_QUOTES, 'UTF-8'); ?></span></div>
+            <div class="memo-meta-item spay-c-red"><span class="lbl"><?php echo ame_spay_t('সাপ্লায়ারের নাম', 'Supplier name'); ?></span><span class="val memo-customer-name"><?php echo htmlspecialchars((string)($row['supplier_name'] ?: '—'), ENT_QUOTES, 'UTF-8'); ?></span></div>
             <div class="memo-meta-item spay-c-ink"><span class="lbl"><?php echo te('spay_ref'); ?></span><span class="val"><?php echo htmlspecialchars((string)($row['reference_no'] ?: '—'), ENT_QUOTES, 'UTF-8'); ?></span></div>
             <div class="memo-meta-item spay-c-blue"><span class="lbl"><?php echo te('spay_cheque'); ?></span><span class="val"><?php echo htmlspecialchars((string)($row['cheque_no'] ?: '—'), ENT_QUOTES, 'UTF-8'); ?></span></div>
             <div class="memo-meta-item spay-c-navy"><span class="lbl"><?php echo te('spay_by'); ?></span><span class="val"><?php echo htmlspecialchars((string)($row['created_name'] ?: '—'), ENT_QUOTES, 'UTF-8'); ?></span></div>
@@ -210,8 +210,8 @@ include '../../partials/header.php';
     <?php endif; ?>
 </div>
 <?php include '../../partials/footer.php'; ?>
-<link rel="stylesheet" href="/assets/css/supplier-settlement.css?v=10.98.806" id="spayInkLock">
-<link rel="stylesheet" href="/assets/css/memo-clear.css?v=10.98.806">
+<link rel="stylesheet" href="/assets/css/supplier-settlement.css?v=10.98.847" id="spayInkLock">
+<link rel="stylesheet" href="/assets/css/memo-clear.css?v=10.98.847">
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     var fileBase = <?php echo json_encode($fileBase, JSON_UNESCAPED_UNICODE); ?>;
