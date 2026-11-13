@@ -26,6 +26,12 @@ $englishAtlas = function_exists('current_lang') && current_lang() === 'en';
     <?php echo ame_sb_icon('home'); ?> <?php echo te('nav_home'); ?>
 </a>
 <?php if (!empty($_SESSION['user_id'])): ?>
+<button type="button" class="direct-link" id="amePageFitToggle" aria-pressed="false">
+    <?php echo function_exists('ame_sb_icon') ? ame_sb_icon('appearance') : ''; ?>
+    <span class="ame-fit-label"><?php echo $englishAtlas ? 'Arrange this page' : 'পেজ সাজান'; ?></span>
+</button>
+<?php endif; ?>
+<?php if (!empty($_SESSION['user_id'])): ?>
 <a href="/modules/clipboard/index.php" class="direct-link <?php echo str_contains($script_now, '/modules/clipboard/') ? 'active' : ''; ?>">
     <?php echo ame_sb_icon('transactions'); ?> কপি-পোস্ট
 </a>

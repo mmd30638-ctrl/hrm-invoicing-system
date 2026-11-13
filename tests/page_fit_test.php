@@ -11,6 +11,7 @@ $js = (string) file_get_contents($root . '/assets/js/ame-page-fit.js');
 $footer = (string) file_get_contents($root . '/partials/footer.php');
 $partial = (string) file_get_contents($root . '/partials/page_fit.php');
 $header = (string) file_get_contents($root . '/partials/header.php');
+$menu = (string) file_get_contents($root . '/partials/sidebar-menu.php');
 $css = (string) file_get_contents($root . '/assets/css/ame-page-fit.css');
 
 if (!str_contains($footer, 'page_fit.php') || !str_contains($partial, 'ame-page-fit.js')) {
@@ -19,11 +20,11 @@ if (!str_contains($footer, 'page_fit.php') || !str_contains($partial, 'ame-page-
 if (!str_contains($partial, 'page_layout.php')) {
     ame_fit_fail('the page does not call the layout store');
 }
-if (!str_contains($header, 'id="ameHdrMore"') || !str_contains($header, 'id="amePageFitToggle"') || !str_contains($header, 'ameHdrMoreMenu')) {
-    ame_fit_fail('the arrange switch is not inside the three-dot menu');
+if (!str_contains($menu, 'id="amePageFitToggle"') || !str_contains($menu, 'পেজ সাজান')) {
+    ame_fit_fail('the arrange switch is not in the left menu');
 }
-if (str_contains($header, 'hdr-i-fit')) {
-    ame_fit_fail('the arrange switch is still a separate header icon');
+if (str_contains($header, 'hdr-i-fit') || str_contains($header, 'ameHdrMore')) {
+    ame_fit_fail('the arrange switch is still in the top icon row');
 }
 foreach (['localStorage.setItem', 'সেভ ও লক', 'amePageFitToggle', 'ame-page-fit:', 'AME_PAGE_FIT', 'bar.hidden = true'] as $needle) {
     if (!str_contains($js, $needle)) {

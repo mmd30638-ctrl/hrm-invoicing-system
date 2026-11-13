@@ -368,6 +368,11 @@
       if (toggle) {
         toggle.classList.toggle('is-on', on);
         toggle.setAttribute('aria-pressed', on ? 'true' : 'false');
+        var label = toggle.querySelector('.ame-fit-label');
+        if (label) {
+          var en = /[A-Za-z]/.test(label.textContent || '');
+          label.textContent = on ? (en ? 'Arrange on' : 'সাজানো চালু') : (en ? 'Arrange this page' : 'পেজ সাজান');
+        }
       }
       if (launch) launch.textContent = on ? 'বন্ধ' : 'সাজাও';
       editing = on;
@@ -381,31 +386,14 @@
       }
     }
     var toggle = document.getElementById('amePageFitToggle');
-    var more = document.getElementById('ameHdrMore');
-    var menu = document.getElementById('ameHdrMoreMenu');
-    if (more && menu) {
-      more.addEventListener('click', function (ev) {
-        ev.stopPropagation();
-        var open = menu.hidden;
-        menu.hidden = !open;
-        more.setAttribute('aria-expanded', open ? 'true' : 'false');
-        if (open) {
-          var rect = more.getBoundingClientRect();
-          menu.style.position = 'fixed';
-          menu.style.top = (rect.bottom + 6) + 'px';
-          menu.style.left = Math.max(8, Math.min(rect.left, window.innerWidth - 180)) + 'px';
-        }
-      });
-      document.addEventListener('click', function () {
-        menu.hidden = true;
-        more.setAttribute('aria-expanded', 'false');
-      });
-      menu.addEventListener('click', function (ev) { ev.stopPropagation(); });
-    }
     if (toggle) {
       toggle.addEventListener('click', function () {
         setTool(!toolOn());
-        if (menu) menu.hidden = true;
+        var sidebar = document.getElementById('mySidebar');
+        var backdrop = document.getElementById('sidebarBackdrop');
+        if (sidebar) sidebar.classList.remove('active');
+        if (backdrop) backdrop.classList.remove('active');
+        document.body.style.overflow = '';
       });
     } else {
       launch = document.createElement('button');

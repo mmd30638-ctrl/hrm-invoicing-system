@@ -135,8 +135,21 @@ body.ame-fit-on [data-ame-fit="1"] {
   font-weight: 800;
 }
 .ame-more-menu button.is-on { background: #047857; }
-html body .master-header-fixed .hdr-icon-btn.hdr-i-more {
-  background: linear-gradient(145deg, #334155, #0f172a) !important;
+html body .custom-sidebar button#amePageFitToggle.direct-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  font-weight: 800;
+  text-align: left;
+  cursor: pointer;
+}
+html body .custom-sidebar button#amePageFitToggle.direct-link.is-on,
+html body .custom-sidebar button#amePageFitToggle.direct-link.is-on .ame-fit-label {
+  background: #047857 !important;
   color: #fff !important;
   -webkit-text-fill-color: #fff !important;
 }
