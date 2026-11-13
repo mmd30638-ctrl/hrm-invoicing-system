@@ -50,6 +50,7 @@
   });
 
   var extraForm = null;
+  var picks = null;
   page.querySelectorAll('form').forEach(function (node) {
     var action = node.querySelector('input[name="action"]');
     var type = node.querySelector('input[name="type"]');
@@ -71,7 +72,7 @@
         opt.textContent = people[id];
         partner.appendChild(opt);
       });
-      var picks = document.createElement('div');
+      picks = document.createElement('div');
       picks.className = 'pa-extra-picks';
       picks.setAttribute('role', 'listbox');
       picks.setAttribute('aria-label', 'পার্টনার');
@@ -117,18 +118,53 @@
     title.textContent = 'অতিরিক্ত টাকা';
     var note = document.createElement('p');
     note.className = 'pa-extra-note';
-    note.textContent = 'যে পার্টনারে টাকা যোগ হবে তাকে চাপুন, তারপর তারিখ ও টাকা দিন। গ্রাহক বা সাপ্লায়ারের হিসাব বদলায় না।';
+    note.textContent = 'ক্রেডিটে ব্যবসা টাকা নেয়, ডেবিটে ব্যবসা টাকা দেয়। পার্টনার বাছুন, তারিখ ও টাকা দিন। গ্রাহক বা সাপ্লায়ারের হিসাব বদলায় না।';
     var amount = extraForm.querySelector('input[name="amount"]');
     var when = extraForm.querySelector('input[name="transaction_date"]');
     var memo = extraForm.querySelector('input[name="note"]');
     var button = extraForm.querySelector('button[type="submit"]');
+    var typeInput = extraForm.querySelector('input[name="type"]');
+    var ways = document.createElement('div');
+    ways.className = 'pa-extra-ways';
+    ways.setAttribute('role', 'group');
+    ways.setAttribute('aria-label', 'টাকা দেওয়া বা নেওয়া');
+    function setWay(kind) {
+      if (typeInput) typeInput.setAttribute('value', kind === 'debit' ? 'capital_withdrawal' : 'investment');
+      ways.querySelectorAll('.pa-extra-way').forEach(function (node) {
+        var on = node.getAttribute('data-way') === kind;
+        node.classList.toggle('is-on', on);
+        node.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+      if (button) {
+        button.textContent = kind === 'debit' ? 'এই তারিখে টাকা দিন' : 'এই তারিখে টাকা নিন';
+        button.classList.toggle('is-debit', kind === 'debit');
+      }
+    }
+    function addWay(kind, label, hint) {
+      var node = document.createElement('button');
+      node.type = 'button';
+      node.className = 'pa-extra-way';
+      node.setAttribute('data-way', kind);
+      var strong = document.createElement('strong');
+      strong.textContent = label;
+      var small = document.createElement('small');
+      small.textContent = hint;
+      node.appendChild(strong);
+      node.appendChild(small);
+      node.addEventListener('click', function () { setWay(kind); });
+      ways.appendChild(node);
+    }
+    addWay('credit', '＋ ক্রেডিট · নেওয়া', 'ব্যবসা পার্টনারের কাছ থেকে টাকা নিচ্ছে');
+    addWay('debit', '− ডেবিট · দেওয়া', 'ব্যবসা পার্টনারকে টাকা দিচ্ছে');
+    if (picks && picks.parentNode === extraForm) extraForm.insertBefore(ways, picks);
+    else extraForm.insertBefore(ways, extraForm.firstChild);
+    setWay('credit');
     if (amount) {
       amount.placeholder = 'টাকার পরিমাণ';
       amount.setAttribute('aria-label', 'টাকার পরিমাণ');
     }
     if (when) when.setAttribute('aria-label', 'তারিখ');
     if (memo) memo.placeholder = 'কারণ, ঐচ্ছিক';
-    if (button) button.textContent = 'এই তারিখে টাকা যোগ করুন';
     extraForm.classList.add('pa-extra-form');
     card.appendChild(title);
     card.appendChild(note);

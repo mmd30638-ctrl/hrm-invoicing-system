@@ -25,6 +25,7 @@ ame_pd_expect(str_contains($footer, 'partner-desk.js'), 'the simpler partnership
 ame_pd_expect(str_contains($js, 'insertAdjacentElement') && str_contains($js, '.pa-cards') && str_contains($js, '.pa-start'), 'numbers come first and the start date moves down');
 ame_pd_expect(str_contains($js, 'save_capital') && str_contains($js, 'transaction_date') && str_contains($css, '.pa-extra'), 'extra partner money sits in one dated card');
 ame_pd_expect(str_contains($js, 'edit=') && str_contains($js, 'pa-extra-pick') && str_contains($css, '.pa-extra-pick'), 'every partner printed on the page can receive extra money');
+ame_pd_expect(str_contains($js, 'capital_withdrawal') && str_contains($js, 'data-way') && str_contains($css, '.pa-extra-way'), 'extra money can be given or taken as debit or credit');
 ame_pd_expect(!preg_match('/\.val|pa_taka|innerHTML/', $js), 'the simpler flow does not rewrite any amount text');
 
 if ($fail > 0) {

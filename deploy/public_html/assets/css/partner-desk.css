@@ -79,6 +79,65 @@ html body #main-content .pa-page .pa-extra-note {
   font-size: 13px !important;
   line-height: 1.45 !important;
 }
+html body #main-content .pa-page .pa-extra-ways {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 8px !important;
+  margin: 0 0 10px !important;
+  grid-column: 1 / -1 !important;
+}
+html body #main-content .pa-page .pa-extra-way {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 2px !important;
+  min-height: 64px !important;
+  margin: 0 !important;
+  padding: 10px 12px !important;
+  border: 1.5px solid #dbe3ef !important;
+  border-radius: 14px !important;
+  background: #fff !important;
+  color: #0f172a !important;
+  -webkit-text-fill-color: #0f172a !important;
+  text-align: left !important;
+}
+html body #main-content .pa-page .pa-extra-way strong {
+  font-size: 15px !important;
+  font-weight: 800 !important;
+  line-height: 1.3 !important;
+}
+html body #main-content .pa-page .pa-extra-way small {
+  color: #64748b !important;
+  -webkit-text-fill-color: #64748b !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  line-height: 1.35 !important;
+  white-space: normal !important;
+}
+html body #main-content .pa-page .pa-extra-way[data-way="credit"].is-on {
+  border-color: #047857 !important;
+  background: #ecfdf5 !important;
+  box-shadow: inset 4px 0 0 #047857 !important;
+}
+html body #main-content .pa-page .pa-extra-way[data-way="credit"].is-on strong {
+  color: #065f46 !important;
+  -webkit-text-fill-color: #065f46 !important;
+}
+html body #main-content .pa-page .pa-extra-way[data-way="debit"].is-on {
+  border-color: #b91c1c !important;
+  background: #fef2f2 !important;
+  box-shadow: inset 4px 0 0 #b91c1c !important;
+}
+html body #main-content .pa-page .pa-extra-way[data-way="debit"].is-on strong {
+  color: #991b1b !important;
+  -webkit-text-fill-color: #991b1b !important;
+}
+html body #main-content .pa-page .pa-extra-form .pa-btn.is-debit {
+  background: #b91c1c !important;
+}
+html body #main-content .pa-page .pa-extra-form input[type="hidden"] {
+  display: none !important;
+}
 html body #main-content .pa-page .pa-extra-picks {
   display: grid !important;
   grid-template-columns: 1fr !important;
@@ -155,6 +214,7 @@ html body #main-content .pa-page .pa-extra-form .pa-btn {
     grid-template-columns: 1fr 1fr 1fr auto !important;
     align-items: center !important;
   }
+  html body #main-content .pa-page .pa-extra-ways,
   html body #main-content .pa-page .pa-extra-picks {
     grid-column: 1 / -1 !important;
   }
