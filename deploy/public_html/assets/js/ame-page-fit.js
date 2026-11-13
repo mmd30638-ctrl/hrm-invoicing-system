@@ -152,17 +152,76 @@
     }
   }
 
+  function tickerShown(el) {
+    if (!el) return false;
+    var style = window.getComputedStyle(el);
+    if (style.display === 'none' || style.visibility === 'hidden') return false;
+    return el.getBoundingClientRect().height >= 8;
+  }
+
+  function seatLine(el) {
+    if (!el) return;
+    var header = document.querySelector('.master-header-fixed');
+    el.removeAttribute('data-ame-run-hid');
+    el.removeAttribute('data-ame-fit');
+    el.removeAttribute('data-ame-sheet');
+    el.removeAttribute('data-ame-loosen');
+    if (header && el.parentNode !== header) header.insertBefore(el, header.firstChild);
+    if (header) {
+      header.style.setProperty('flex-wrap', 'wrap', 'important');
+      header.style.setProperty('height', 'auto', 'important');
+      header.style.setProperty('overflow', 'visible', 'important');
+    }
+    el.style.setProperty('display', el.id === 'ameRunDock' ? 'block' : 'flex', 'important');
+    el.style.setProperty('visibility', 'visible', 'important');
+    el.style.setProperty('opacity', '1', 'important');
+    el.style.setProperty('position', 'relative', 'important');
+    el.style.setProperty('left', '0', 'important');
+    el.style.setProperty('top', 'auto', 'important');
+    el.style.setProperty('width', '100%', 'important');
+    el.style.setProperty('height', 'auto', 'important');
+    el.style.setProperty('min-height', '34px', 'important');
+    el.style.setProperty('max-height', 'none', 'important');
+    el.style.setProperty('overflow', 'hidden', 'important');
+    el.style.setProperty('flex', '1 0 100%', 'important');
+    el.style.setProperty('order', '-1', 'important');
+    el.style.setProperty('z-index', '4', 'important');
+  }
+
+  function keepTicker() {
+    var bar = document.getElementById('ameTickerBar');
+    var dock = document.getElementById('ameRunDock');
+    if (bar) seatLine(bar);
+    var track = bar ? bar.querySelector('.ame-tbar-track') : null;
+    if (track) {
+      var name = window.getComputedStyle(track).animationName;
+      if (!name || name === 'none') track.style.animation = 'ame-tick-keep 18s linear infinite';
+    }
+    if (dock && !tickerShown(bar)) {
+      seatLine(dock);
+      var line = dock.querySelector('.ame-run-line');
+      if (line && window.getComputedStyle(line).animationName === 'none' && !line.style.transform) {
+        line.style.animation = 'ame-tick-keep 18s linear infinite';
+      }
+    } else if (dock && bar) {
+      dock.style.removeProperty('display');
+    }
+  }
+
   function releaseRunningText() {
     document.querySelectorAll('#ameTickerBar, #ameRunDock, .ame-tbar, .ame-tbar-track, .ame-run-line, .ame-run-dock').forEach(function (el) {
-      if (el.getAttribute('data-ame-fit') === '1' || el.getAttribute('data-ame-loosen') === '1' || el.getAttribute('data-ame-sheet') === '1') {
-        wipeStyle(el);
-      }
+      el.removeAttribute('data-ame-fit');
+      el.removeAttribute('data-ame-sheet');
+      el.removeAttribute('data-ame-bit');
+      el.removeAttribute('data-ame-loosen');
+      el.removeAttribute('data-ame-run-hid');
     });
     if (document.body.getAttribute('data-ame-loosen') === '1') {
       document.body.style.overflow = '';
       document.body.style.maxWidth = '';
       document.body.removeAttribute('data-ame-loosen');
     }
+    keepTicker();
   }
 
   function place(el, box) {
@@ -452,9 +511,17 @@
     var setTool = ui();
     if (toolOn()) setTool(true);
     api('GET').then(function (data) {
-      if (!data || !data.ok || !data.items || !data.items.length || editing) return;
-      applyItems(data.items);
+      if (data && data.ok && data.items && data.items.length && !editing) applyItems(data.items);
+      keepTicker();
     });
+    keepTicker();
+    var ticks = 0;
+    var timer = setInterval(function () {
+      ticks += 1;
+      keepTicker();
+      if (ticks > 12) clearInterval(timer);
+    }, 250);
+    window.addEventListener('pageshow', keepTicker);
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);

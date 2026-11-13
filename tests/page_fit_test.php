@@ -23,8 +23,8 @@ if (!str_contains($partial, 'page_layout.php')) {
 if (!str_contains($menu, 'id="amePageFitToggle"') || !str_contains($menu, 'পেজ সাজান') || !str_contains($menu, 'sb-quick')) {
     ame_fit_fail('the arrange switch is not in the left icon list');
 }
-if (!str_contains($js, 'isRunningText') || !str_contains($js, 'ameTickerBar')) {
-    ame_fit_fail('the running text can be frozen by arrange');
+if (!str_contains($js, 'isRunningText') || !str_contains($js, 'keepTicker') || !str_contains($css, 'ame-tick-keep')) {
+    ame_fit_fail('the running text is not kept after reload');
 }
 if (str_contains($header, 'hdr-i-fit') || str_contains($header, 'ameHdrMore')) {
     ame_fit_fail('the arrange switch is still in the top icon row');
