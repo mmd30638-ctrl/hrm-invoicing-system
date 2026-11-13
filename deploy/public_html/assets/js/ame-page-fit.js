@@ -165,21 +165,15 @@
     el.removeAttribute('data-ame-fit');
     el.removeAttribute('data-ame-sheet');
     el.removeAttribute('data-ame-loosen');
-    el.style.setProperty('display', 'flex', 'important');
-    el.style.setProperty('visibility', 'visible', 'important');
-    el.style.setProperty('opacity', '1', 'important');
-    el.style.setProperty('position', 'fixed', 'important');
-    el.style.setProperty('left', '0', 'important');
-    el.style.setProperty('right', '0', 'important');
-    el.style.setProperty('top', 'env(safe-area-inset-top, 0px)', 'important');
-    el.style.setProperty('width', '100%', 'important');
+    el.style.setProperty('position', 'relative', 'important');
+    el.style.setProperty('top', 'auto', 'important');
     el.style.setProperty('height', '34px', 'important');
     el.style.setProperty('min-height', '34px', 'important');
     el.style.setProperty('max-height', '34px', 'important');
+    el.style.setProperty('line-height', '34px', 'important');
+    el.style.setProperty('transform', 'none', 'important');
     el.style.setProperty('margin', '0', 'important');
     el.style.setProperty('overflow', 'hidden', 'important');
-    el.style.setProperty('z-index', '1000002', 'important');
-    document.documentElement.style.setProperty('--ame-run-h', '34px');
     el.setAttribute('data-ame-seated', '1');
   }
 
